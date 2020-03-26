@@ -1,0 +1,48 @@
+{% load static %}
+<footer class="sticky-footer">
+    <div class="container text-center p-3">
+      <p>Em caso de problemas com a ferramenta, entre em contato com Liniker Oliveira ou Pedro Melo / RH - Salto</p>
+    </div>
+  </footer>
+
+    <script src="{% static 'assets/bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script defer src="{% static 'assets/font-awesome/js/all.js' %}"></script>
+    <script src="{% static 'assets/custom/js/scripts.js' %}"></script>
+    <script src="{% static 'assets/jquery/jquery.js' %}"></script>
+
+    <script>
+    var message_ele = document.getElementById("message_container");
+
+      setTimeout(function(){ 
+        message_ele.style.display = "none"; 
+        }, 1000);
+    </script>
+
+    <script>
+      $("#id_funcionario").change(function () {
+        let re_func = $(this).val();
+        let url = "/pegar_funcionario/" + re_func + "/";
+        console.log(url)
+        $.ajax({
+          url: url,
+          type: 'GET',
+          data: {
+            re_func: re_func
+          },
+          beforeSend: function (xhr) {
+            // body...
+          },
+          success: function (response) {
+            $("#id_nome").val(response.nome);
+            console.log(response.nome);
+          },
+          error: function (xhr) {
+            // body... xhr.statusText + xhr.responseText
+          },
+          complete: function () {
+            // body...
+          }
+        })
+      });
+    </script>

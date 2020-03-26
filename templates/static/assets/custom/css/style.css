@@ -1,0 +1,88 @@
+body {
+    background-color: #f0f5f5;
+}
+
+#nav-bar-main {
+    text-shadow: black 0.1em 0.1em 0.1em;
+}
+
+#logo {
+    height: 20%;
+}
+
+.sticky-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 7%;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    z-index: 1;
+}
+
+
+tr.thead {
+    background-color: #adadad;
+}
+
+p.lead {
+    font-size: 25px;
+    font-weight: bolder;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.jumbotron.jumbotron-fluid {
+    border-radius: 1%;  
+    background-color: #cbd3db;
+}
+
+#container-login {
+    background-color: #cbd3db;
+    border-color: #343A40;
+    border-radius: 1%;  
+    padding: 25px;
+}
+
+textarea#texto-azul {
+    height: 150px;
+    border-color: #6ba0e5;
+}
+
+#username-title {
+    color: white;
+}
+
+#username-data {
+    font-size: 20px;
+    font-weight: 300;
+}
+
+ul.paginator {
+    z-index: 0;
+}
+
+.page-link {
+    z-index: 0;
+}
+
+@media(max-width: 1090px) {
+    .jumbotron.jumbotron-fluid.p-2 {
+        width: 100%;
+        position: static;
+    }
+}
+
+#ticket-aberto {
+    color: red;
+    text-align: center;
+}
+
+#ticket-fechado {
+    color: green;
+    text-align: center;
+}
+
+.asteriskField { display: none; }
+

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block titulo %} Atualizar Chamado {% endblock %}
+
+{% block conteudo %}
+<div class="row pl-5">
+<div class="col-md-6 mb-0 mt-2">
+<p class="lead"> Atualizar chamado de <code>{{ ticket.nome }}</code></p>
+</div>
+</div>
+<div class="container w-75">
+<div class="col-md-12">
+<div class="jumbotron jumbotron-fluid p-0 mb-5">
+
+<div class="p-5">
+<form method="POST" enctype="multipart/form-data" action="{% url 'chamados:atualizar_chamado' ticket.id %}">
+{% csrf_token %}
+<div class="form-row">
+  <div class="form-group  col-md-6">
+    <label for="re"><strong>Nome do Funcionário : </strong></label>
+    <input type="text" class="form-control" id="unidade-2" name="unidade-2" placeholder="Digite um RE válido." value="{{ ticket.funcionario.unidade }}" readonly>
+  </div>
+  <div class="form-group col-md-6">
+    <label for="categoria"><strong>Categoria : </strong></label>
+    <select class="form-control" name="categoria" id=categoria value="{{ ticket.categoria }}" readonly>
+      <option id="categoria" value="{{ ticket.categoria }}">{{ ticket.categoria }} </option>
+    </select>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="re"><strong>RE : </strong></label>
+    <input type="number" class="form-control" id="funcionario" name="funcionario" maxlength="5" minlength="4"
+      value="{{ ticket.funcionario.re_funcionario }}" readonly>
+  </div>
+  <div class="form-group col-md-8">
+    <label for="re"><strong>Nome do Funcionário : </strong></label>
+    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite um RE válido."
+      value="{{ ticket.funcionario.nome }}" readonly>
+  </div>
+  <div class="form-group col-md-12">
+    <label for="texto"><strong>Descrição do Chamado :</strong></label>
+    <textarea class="form-control" id="texto-atualizar" name="texto" rows="5" col="15"
+      readonly>{{ ticket.texto }}</textarea>
+  </div>
+  <div class="form-group col-md-12">
+    <label for="resposta"><strong>Resposta : </strong></label>
+    <textarea class="form-control" id="texto-azul" name="resposta" rows="5" col="15" value="{{ ticket.resposta }}"
+      required>{{ ticket.resposta }}</textarea>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="ramal"><strong>Ramal : </strong></label>
+    <input type="number" class="form-control" id="ramal" name="ramal" value="{{ ticket.funcionario.ramal }}" readonly>
+  </div>
+  <div class="form-group col-md-8">
+    <label for="email"><strong>Email Funcionário : </strong></label>
+    <input type="email" class="form-control" id="email" name="email" value="{{ ticket.funcionario.email }}" readonly>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="finalizado"><small><strong>Chamado foi finalizado ?</strong></small> </label>
+    <select class="form-control" id="finalizado" name="finalizado" value="{{ ticket.finalizado }}" required>
+      <option id="finalizado" value="False">Não</option>
+      <option id="finalizado" value="True">Sim</option>
+    </select>
+  </div>
+  <div class="form-group offset-md-8 col-md-4 mb-0 pb-0">
+    <button type="submit" class="btn btn-success float-right">Atualizar o Chamado</button>
+  </div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+  

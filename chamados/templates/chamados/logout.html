@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+
+
+{% block titulo %} Logout {% endblock %}
+
+
+{% block conteudo %}
+<div class="row pl-5">
+<div class="col-md-6 mb-0 mt-2">
+<h2> Você fez logout </h2>  
+</div>
+</div>
+<div class=" offset-md-4 col-md-4 mt-5">
+<div id="container-login" class="container">
+<div class="row pl-3">
+<p>Você já está deslogado.</p>
+</div>
+<small class="text-muted">
+<hr/>
+<a href="{% url 'chamados:login' %}"> Fazer Login novamente </a>
+</small>
+</div>
+</div>
+
+{% endblock %}

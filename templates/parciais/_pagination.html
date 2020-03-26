@@ -1,0 +1,41 @@
+
+<div class="col mt-3 mb-3">
+<div class="row">
+
+<div class="pagination" >
+    <ul class="pagination">
+        {% if tickets.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1">Início</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ tickets.previous_page_number }}">Anterior</a>
+        </li>
+        {% endif %}
+
+        {% for page in tickets.paginator.page_range %}
+
+        {% if tickets.number == page %}
+        <li class="page-item active">
+            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+        </li>
+        {% elif page > tickets.number|add:'-3' and page < tickets.number|add:'3' %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+        </li>
+        {% endif %}
+
+        {% endfor %}
+
+        {% if tickets.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ tickets.next_page_number }}">Próximo</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ tickets.paginator.num_pages }}">Último</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+</div>
+</div>

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+{% load crispy_forms_tags %}
+
+{% block titulo %} Login {% endblock %}
+
+
+{% block conteudo %}
+
+{% if not user.is_authenticated %}
+<div class="row pl-5">
+<div class="col-md-6 mb-0 mt-2">
+<p class="lead">Fazer login RH </p>
+</div>
+</div>
+<div class=" offset-md-4 col-md-4 mt-5">
+<div class="jumbotron jumbotron-fluid p-4">
+<form method="POST">
+{% csrf_token %} {{form|bootstrap}}
+<div class="col-md-12">
+  <button type="reset"  class="btn btn-warning float-right ml-2" value="Reset">Limpar</button>
+  <button type="submit" class="btn btn-success float-right">Entrar</button>
+    <p><a href="#">Esqueci minha senha </a> </p>
+ </div>
+</form>
+</div>
+</div>
+{% else %}
+<div class="row pl-5">
+<div class="col-md-6 mb-0 mt-2">
+<p class="lead">Você já está logado como : {{ request.user.username }}</p>
+</div>
+</div>
+{% endif %}
+
+
+{% endblock %}
