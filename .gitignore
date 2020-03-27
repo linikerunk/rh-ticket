@@ -17,4 +17,6 @@ venv.bak/
 .vscode/
 .settings.py
 settings.py
-./settings.py
+*/settings.py
+.RHTicket/
+.RHTicket
