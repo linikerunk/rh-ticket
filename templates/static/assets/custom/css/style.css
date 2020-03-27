@@ -1,5 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Thambi+2:400,600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
 body {
-    background-color: #f0f5f5;
+    font: 400 14px 'Baloo Thambi 2', sans-serif;
+    font-family: 'Baloo Thambi 2', cursive;
+    background: #F7F8FC;
+    -webkit-font-smoothing: antialiased;
 }
 
 #nav-bar-main {
@@ -27,6 +39,15 @@ tr.thead {
     background-color: #adadad;
 }
 
+td {
+    transition: filter 0.1s;
+}
+
+td:hover{
+    opacity: 0.7;
+    filter: brightness(90%);
+}
+
 p.lead {
     font-size: 25px;
     font-weight: bolder;
@@ -35,19 +56,43 @@ p.lead {
 
 .jumbotron.jumbotron-fluid {
     border-radius: 1%;  
-    background-color: #cbd3db;
+    background: #cbd5e0;
+    margin-top: -5px;
 }
 
 #container-login {
-    background-color: #cbd3db;
+    background: #cbd5e0;
     border-color: #343A40;
     border-radius: 1%;  
     padding: 25px;
 }
 
+form textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 140px;
+    height: 60px;
+    color: #333;
+    border: 1px solid #dcdce6;
+    padding: 16px 24px;
+    line-height: 24px;
+}
+
+label {
+    color: #41414d;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: 550;
+    font-weight: bold;
+}
+
 textarea#texto-azul {
     height: 150px;
     border-color: #6ba0e5;
+}
+
+.btn.btn-success.float-right{
+    color: #111;
 }
 
 #username-title {
