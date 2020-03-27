@@ -24,8 +24,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '=t4!uovv7x0x58lt4ng59qierd)pb6-2_hoiz)orhuw2vg*!()'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = False
+#DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['10.218.24.22', 'rhticket.gs.conti', 'rhticket', 'sltm202x']
 
