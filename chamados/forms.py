@@ -60,7 +60,7 @@ class TicketUpdateForm(forms.ModelForm):
     class Meta:
         model = Ticket
         fields = ['categoria', 'funcionario', 'nome', 'texto',
-                  'resposta', 'finalizado']
+                  'resposta', 'data_finalizada', 'finalizado']
         labels = {
             'nome': 'Digite o nome do funcionário : ',
             'categoria': 'Categoria : ',

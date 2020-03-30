@@ -41,20 +41,22 @@ def enviar(request):
 def atualizar_chamado(request, id):
     unidade = request.user.perfil.unidade
     ticket = get_object_or_404(Ticket, pk=id, funcionario__unidade=unidade)
-    print(ticket.funcionario.unidade)
     initial_data = {
         'unidade': unidade
     }
-    if ticket.finalizado:
-        messages.error(request, 'Ticket Ja Finalizado!')
-        return redirect('chamados:listar')
-
     if request.method == 'POST':
         form = TicketUpdateForm(request.POST, instance=ticket, initial=initial_data)
-        print(form)
-        if form.is_valid():
+        print(form.data)
+        print(ticket.data_finalizada)
+        if form.is_valid() and ticket.finalizado == True and ticket.data_finalizada == None:
             form.save()
-            return redirect('chamados:listar') 
+            return redirect('chamados:listar')
+        elif ticket.finalizado and ticket.data_finalizada != None:
+            messages.warning(request, 'Ticket já finalizado!')
+            return redirect('chamados:listar')
+        elif form.is_valid() and ticket.finalizado == False:
+            messages.warning(request, 'Ticket não foi finalizado')
+            return redirect('chamados:listar')
     else:
         form = TicketUpdateForm()
 
