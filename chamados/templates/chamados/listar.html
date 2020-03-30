@@ -1,64 +1,130 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load crispy_forms_tags %}
 
-{% block titulo %} Listagem de Tickets {% endblock %}
+{% block titulo %} Atualizar Chamado {% endblock %}
 
 {% block conteudo %}
 <div class="row pl-5">
 <div class="col-md-6 mb-0 mt-2">
-<p class="lead"> Tickets Enviados </p>
+<p class="lead"> Atualizar chamado de <code>{{ ticket.nome }}</code></p>
 </div>
 </div>
-<div class="row p-5">
+<div class="container w-75">
 <div class="col-md-12">
-<div class="offset-md-1 col-md-10">
-<div class="row">
-<div class="col-md-4 mb-2   ">
-<input type="text" class="form-control" id="pesquisar" name="pesquisar" value="" placeholder="Digite a categoria ou Nome">
-</div>
-<div class="col-md-6 mb-2">
-<button type="button" class="btn btn-primary">Pesquisar</button>
-</div>
+<div class="jumbotron jumbotron-fluid p-0 mb-5">
 
+{% if ticket.finalizado == False %}
+<div class="p-5">
+<form method="POST" enctype="multipart/form-data" action="{% url 'chamados:atualizar_chamado' ticket.id %}">
+{% csrf_token %}
+<div class="form-row">
+  <div class="form-group  col-md-6">
+    <label for="re"><strong>Nome do Funcionário : </strong></label>
+    <input type="text" class="form-control" id="unidade-2" name="unidade-2" placeholder="Digite um RE válido." value="{{ ticket.funcionario.unidade }}" readonly>
+  </div>
+  <div class="form-group col-md-6">
+    <label for="categoria"><strong>Categoria : </strong></label>
+    <select class="form-control" name="categoria" id=categoria value="{{ ticket.categoria }}" readonly>
+      <option id="categoria" value="{{ ticket.categoria }}">{{ ticket.categoria }} </option>
+    </select>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="re"><strong>RE : </strong></label>
+    <input type="number" class="form-control" id="funcionario" name="funcionario" maxlength="5" minlength="4"
+      value="{{ ticket.funcionario.re_funcionario }}" readonly>
+  </div>
+  <div class="form-group col-md-8">
+    <label for="re"><strong>Nome do Funcionário : </strong></label>
+    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite um RE válido."
+      value="{{ ticket.funcionario.nome }}" readonly>
+  </div>
+  <div class="form-group col-md-12">
+    <label for="texto"><strong>Descrição do Chamado :</strong></label>
+    <textarea class="form-control" id="texto-atualizar" name="texto" rows="5" col="15"
+      readonly>{{ ticket.texto }}</textarea>
+  </div>
+  <div class="form-group col-md-12">
+    <label for="resposta"><strong>Resposta : </strong></label>
+    <textarea class="form-control" id="texto-azul" name="resposta" rows="5" col="15" value="{{ ticket.resposta }}"
+      required>{{ ticket.resposta }}</textarea>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="ramal"><strong>Ramal : </strong></label>
+    <input type="number" class="form-control" id="ramal" name="ramal" value="{{ ticket.funcionario.ramal }}" readonly>
+  </div>
+  <div class="form-group col-md-8">
+    <label for="email"><strong>Email Funcionário : </strong></label>
+    <input type="email" class="form-control" id="email" name="email" value="{{ ticket.funcionario.email }}" readonly>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="finalizado"><small><strong>Chamado foi finalizado ?</strong></small> </label>
+    <select class="form-control" id="finalizado" name="finalizado" value="{{ ticket.finalizado }}" required>
+      <option id="finalizado" value="False">Não</option>
+      <option id="finalizado" value="True">Sim</option>
+    </select>
+  </div>
+  <div class="form-group offset-md-8 col-md-4 mb-0 pb-0">
+    <button type="submit" class="btn btn-success float-right">Atualizar o Chamado</button>
+  </div>
+    </form>
+  </div>
+{% else %}
+  <div class="p-5">
+      <div class="form-row">
+        <div class="form-group  col-md-6">
+          <label for="re"><strong>Nome do Funcionário : </strong></label>
+          <input type="text" class="form-control" id="unidade-2" name="unidade-2" placeholder="Digite um RE válido."
+            value="{{ ticket.funcionario.unidade }}" readonly>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="categoria"><strong>Categoria : </strong></label>
+          <select class="form-control" name="categoria" id=categoria value="{{ ticket.categoria }}" readonly>
+            <option id="categoria" value="{{ ticket.categoria }}">{{ ticket.categoria }} </option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="re"><strong>RE : </strong></label>
+          <input type="number" class="form-control" id="funcionario" name="funcionario" maxlength="5" minlength="4"
+            value="{{ ticket.funcionario.re_funcionario }}" readonly>
+        </div>
+        <div class="form-group col-md-8">
+          <label for="re"><strong>Nome do Funcionário : </strong></label>
+          <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite um RE válido."
+            value="{{ ticket.funcionario.nome }}" readonly>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="texto"><strong>Descrição do Chamado :</strong></label>
+          <textarea class="form-control" id="texto-atualizar" name="texto" rows="5" col="15"
+            readonly>{{ ticket.texto }}</textarea>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="resposta"><strong>Resposta : </strong></label>
+          <textarea class="form-control" id="texto-azul" name="resposta" rows="5" col="15" value="{{ ticket.resposta }}"
+            readonly>{{ ticket.resposta }}</textarea>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="ramal"><strong>Ramal : </strong></label>
+          <input type="number" class="form-control" id="ramal" name="ramal" value="{{ ticket.funcionario.ramal }}"
+            readonly>
+        </div>
+        <div class="form-group col-md-8">
+          <label for="email"><strong>Email Funcionário : </strong></label>
+          <input type="email" class="form-control" id="email" name="email" value="{{ ticket.funcionario.email }}"
+            readonly>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="finalizado"><small><strong>Chamado foi finalizado ?</strong></small> </label>
+          <select class="form-control" id="finalizado" name="finalizado" value="{{ ticket.finalizado }}" readonly>
+            <option id="finalizado" value="True">Sim</option>
+          </select>
+        </div>
+        <div class="form-group offset-md-8 col-md-4 mb-0 pb-0">
+          <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning pr-5 pl-5">&nbsp;&nbsp;&nbsp; Voltar &nbsp;&nbsp;&nbsp;</a>
+        </div>
+      </div>
+{% endif %}
 </div>
-<table class="table table-striped">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col" style="width: 10%; text-align : center;">Data</th>
-      <th scope="col" style="width: 7%; text-align : center;">RE</th>
-      <th scope="col" style="width: 18%; text-align : left;">Nome</th>
-      <th scope="col" style="width: 12%; text-align : left;">Categoria</th>
-      <th scope="col" style="width: 5%; text-align : center;">Unidade</th>
-      <th scope="col" style="width: 17%; text-align : center;">Dias</th>
-      <th scope="col" style="width: 5%; text-align : left;">Finalizado</th>
-    </tr>
-  </thead>
-  <tbody>   
-    <tr>
-    {% for ticket in tickets %}
-      <td style="text-align : center;">{{ ticket.data|date:"d/m/Y  H:i" }}</td>
-      <td scope="row" style="text-align : center;">{{ ticket.funcionario.re_funcionario }}</th>
-      <td style="text-align : left;"><h6><a href="{% url 'chamados:atualizar_chamado' ticket.id %}"> {{ ticket.funcionario.nome }}</a></h6></td>
-      <td style="text-align : left;">{{ ticket.categoria }}</td>
-      <td style="text-align : center;">{{ ticket.funcionario.unidade }}</td>
-      {% if ticket.finalizado is False %}
-      <td id="ticket-aberto">{{ ticket.tempo_aberto }} </td>
-      {% else %}
-      <td id="ticket-fechado">{{ ticket.tempo_finalizado }}</td>
-      {% endif %}
-      {% if ticket.finalizado is True %}
-      <td style="text-align : center;"><img src="{% static 'assets\icons\tick.png' %}"></td>
-      {% else %}
-      <td style="text-align : center;"><img src="{% static 'assets\icons\cancel.png' %}"></td>
-      {% endif %}
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<tfoot>
-{% include 'parciais/_pagination.html'%}
-    </tfoot>
-</div> <!-- ./after table -->
+</div>
 </div>
 </div>
 {% endblock %}
