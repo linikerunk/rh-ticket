@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views import View
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User # Chamados
 from django.core.mail import send_mail
@@ -49,20 +50,12 @@ def atualizar_chamado(request, id):
     resposta = request.POST.get('resposta')
     texto = request.POST.get('texto')
 
-    print(email)
-    print(mensagem)
-
     if request.method == 'POST':
         form = TicketUpdateForm(request.POST, instance=ticket, initial=initial_data)
         if form.is_valid() and ticket.finalizado == True and ticket.data_finalizada == None:
-            if not email or not mensagem:
+            if not email or not resposta:
                 messages.error(request, 'Nenhum campo pode estar vazio.')
                 return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
-            try:
-                validate_email(email)
-            except:
-                messages.error(request, 'E-mail Inválido.')
-                return render(request, 'pedido/suporte.html')
             form.save()
             save_it = form.save()
             save_it.save()
@@ -71,7 +64,7 @@ def atualizar_chamado(request, id):
             from_email = settings.EMAIL_HOST_USER
             to_list = [email, settings.EMAIL_HOST_USER]
 
-            send_mail(subject, message, from_email, to_list, fail_silently=True)
+            send_mail(subject, resposta, from_email, to_list, fail_silently=True)
             messages.success(request, f' E-mail enviado com sucesso para {email}')
             return redirect('chamados:listar')
             
