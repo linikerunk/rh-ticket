@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views import View
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User # Chamados
+from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -44,13 +46,28 @@ def atualizar_chamado(request, id):
     initial_data = {
         'unidade': unidade
     }
+    email = request.POST.get('email')
+    resposta = request.POST.get('resposta')
+    texto = request.POST.get('texto')
+
     if request.method == 'POST':
         form = TicketUpdateForm(request.POST, instance=ticket, initial=initial_data)
-        print(form.data)
-        print(ticket.data_finalizada)
         if form.is_valid() and ticket.finalizado == True and ticket.data_finalizada == None:
+            if not email or not resposta:
+                messages.error(request, 'Nenhum campo pode estar vazio.')
+                return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
             form.save()
+            save_it = form.save()
+            save_it.save()
+            subject = texto
+            message = resposta
+            from_email = settings.EMAIL_HOST_USER
+            to_list = [email, settings.EMAIL_HOST_USER]
+
+            send_mail(subject, resposta, from_email, to_list, fail_silently=True)
+            messages.success(request, f' E-mail enviado com sucesso para {email}')
             return redirect('chamados:listar')
+            
         elif ticket.finalizado and ticket.data_finalizada != None:
             messages.warning(request, 'Ticket já finalizado!')
             return redirect('chamados:listar')
