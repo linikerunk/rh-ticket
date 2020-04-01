@@ -42,10 +42,14 @@ def enviar(request):
             message = texto
             from_email = email
             to_list = [settings.EMAIL_HOST_USER, email]
-
-            send_mail(subject, message, from_email, to_list, fail_silently=True)
-            messages.success(request, 'Ticket enviado com sucesso!')
-            return redirect('chamados:enviar')
+            if not email:
+                send_mail(subject, message, to_list, to_list, fail_silently=True)
+                messages.success(request, 'Ticket enviado com sucesso!')
+                return redirect('chamados:enviar')
+            else:
+                send_mail(subject, message, from_email, to_list, fail_silently=True)
+                messages.success(request, 'Ticket enviado com sucesso!')
+                return redirect('chamados:enviar')
     else:
         form = TicketForm()
     return render(request, 'chamados/enviar.html', {'form': form})
