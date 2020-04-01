@@ -43,7 +43,7 @@ def enviar(request):
             from_email = email
             to_list = [settings.EMAIL_HOST_USER, email]
 
-            send_mail(subject, resposta, from_email, to_list, fail_silently=True)
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
     else:
