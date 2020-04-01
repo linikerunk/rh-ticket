@@ -47,13 +47,13 @@ def atualizar_chamado(request, id):
         'unidade': unidade
     }
     email = request.POST.get('email')
-    resposta = request.POST.get('resposta')
+    categoria = request.POST.get('categoria')
     texto = request.POST.get('texto')
 
     if request.method == 'POST':
         form = TicketUpdateForm(request.POST, instance=ticket, initial=initial_data)
         if form.is_valid() and ticket.finalizado == True and ticket.data_finalizada == None:
-            if not email or not resposta:
+            if not email or not categoria:
                 messages.error(request, 'Nenhum campo pode estar vazio.')
                 return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
             # try:
@@ -67,7 +67,7 @@ def atualizar_chamado(request, id):
             save_it = form.save()
             save_it.save()
             subject = texto
-            message = resposta
+            message = categoria
             from_email = settings.EMAIL_HOST_USER
             to_list = [email, settings.EMAIL_HOST_USER]
 
