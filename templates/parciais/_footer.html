@@ -23,7 +23,7 @@
       $("#id_funcionario").change(function () {
         let re_func = $(this).val();
         let url = "/pegar_funcionario/" + re_func + "/";
-        console.log(url)
+        // console.log(url)
         $.ajax({
           url: url,
           type: 'GET',
@@ -35,7 +35,9 @@
           },
           success: function (response) {
             $("#id_nome").val(response.nome);
-            console.log(response.nome);
+            $("#email").val(response.email)
+            // console.log(response.nome);
+            // console.log(response.email);
           },
           error: function (xhr) {
             // body... xhr.statusText + xhr.responseText

@@ -24,15 +24,26 @@ def funcionario_ajax(request, id):
     funcionario  = Funcionario.objects.filter(re_funcionario=re_func).first()
     response = {}
     if funcionario:
-        response = {"nome": funcionario.nome}
+        response = {"nome": funcionario.nome, 'email': funcionario.email}
     return JsonResponse(response)
         
 
 def enviar(request):
     if request.method == 'POST':
         form = TicketForm(request.POST)
+        email = request.POST.get('email')
+        texto = request.POST.get('texto')
+        categoria = request.POST.get('categoria')
         if form.is_valid():
             form.save()
+            save_it = form.save()
+            save_it.save()
+            subject = categoria
+            message = texto
+            from_email = email
+            to_list = [settings.EMAIL_HOST_USER, email]
+
+            send_mail(subject, resposta, from_email, to_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
     else:
