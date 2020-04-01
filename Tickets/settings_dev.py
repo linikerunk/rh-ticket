@@ -26,9 +26,9 @@ SECRET_KEY = '=t4!uovv7x0x58lt4ng59qierd)pb6-2_hoiz)orhuw2vg*!()'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['10.218.24.22', 'rhticket.gs.conti', 'rhticket', 'sltm202x']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Email information
 
@@ -93,15 +93,8 @@ WSGI_APPLICATION = 'Tickets.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'RHTicket',
-        'USER': 'RHTicket',
-        'PASSWORD': 'Vitesco1*',
-        'HOST': '10.218.24.114',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': 'SET innodb_strict_mode=1',
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 
