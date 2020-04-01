@@ -56,6 +56,13 @@ def atualizar_chamado(request, id):
             if not email or not resposta:
                 messages.error(request, 'Nenhum campo pode estar vazio.')
                 return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
+            # try:
+            #     print(email)
+            #     print(resposta)
+            #     validate_email(email)
+            # except:
+            #     messages.error(request, 'E-mail Inválido.')
+            #     return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
             form.save()
             save_it = form.save()
             save_it.save()
