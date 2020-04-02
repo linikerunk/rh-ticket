@@ -4,7 +4,7 @@ from django.views import View
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User # Chamados
-from django.core.mail import send_mail
+from django.core.mail import send_mail, send_mass_mail
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -43,8 +43,7 @@ def enviar(request):
             from_email = settings.EMAIL_HOST_USER
             recipient_list = ['pedro.melo@continental.com', 
             'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
-            email_body = (subject, message, from_email, recipient_list)
-            send_mass_mail(email_body, fail_silently=True)
+            send_mail(subject, resposta, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
     else:
