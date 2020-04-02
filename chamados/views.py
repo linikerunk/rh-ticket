@@ -43,7 +43,7 @@ def enviar(request):
             from_email = settings.EMAIL_HOST_USER
             recipient_list = ['pedro.melo@continental.com', 
             'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
-            send_mail(subject, resposta, from_email, recipient_list, fail_silently=True)
+            send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
     else:
@@ -82,7 +82,7 @@ def atualizar_chamado(request, id):
             from_email = settings.EMAIL_HOST_USER
             to_list = [email, settings.EMAIL_HOST_USER]
 
-            send_mail(subject, resposta, from_email, to_list, fail_silently=True)
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
             messages.success(request, f' E-mail enviado com sucesso para {email}')
             return redirect('chamados:listar')
             
