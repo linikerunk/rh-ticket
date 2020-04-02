@@ -40,16 +40,13 @@ def enviar(request):
             save_it.save()
             subject = categoria
             message = texto
-            from_email = email
-            to_list = [settings.EMAIL_HOST_USER, email]
-            if not email:
-                send_mail(subject, message, to_list[0], to_list, fail_silently=True)
-                messages.success(request, 'Ticket enviado com sucesso!')
-                return redirect('chamados:enviar')
-            else:
-                send_mail(subject, message, from_email, to_list, fail_silently=True)
-                messages.success(request, 'Ticket enviado com sucesso!')
-                return redirect('chamados:enviar')
+            from_email = settings.EMAIL_HOST_USER
+            recipient_list = ['pedro.melo@continental.com', 
+            'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
+            email_body = (subject, message, from_email, recipient_list)
+            send_mass_mail(email_body, fail_silently=True)
+            messages.success(request, 'Ticket enviado com sucesso!')
+            return redirect('chamados:enviar')
     else:
         form = TicketForm()
     return render(request, 'chamados/enviar.html', {'form': form})

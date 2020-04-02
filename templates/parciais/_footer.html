@@ -20,6 +20,10 @@
     </script>
 
     <script>
+      $('#id_unidade option:selected').text(" ");
+    </script>
+
+    <script>
       $("#id_funcionario").change(function () {
         let re_func = $(this).val();
         let url = "/pegar_funcionario/" + re_func + "/";
