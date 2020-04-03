@@ -77,7 +77,7 @@ def atualizar_chamado(request, id):
             form.save()
             save_it = form.save()
             save_it.save()
-            subject = categoria56
+            subject = categoria
             message = resposta
             from_email = settings.EMAIL_HOST_USER
             to_list = [email, settings.EMAIL_HOST_USER]
