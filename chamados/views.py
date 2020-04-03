@@ -59,7 +59,7 @@ def atualizar_chamado(request, id):
     }
     email = request.POST.get('email')
     categoria = request.POST.get('categoria')
-    texto = request.POST.get('texto')
+    resposta = request.POST.get('resposta')
 
     if request.method == 'POST':
         form = TicketUpdateForm(request.POST, instance=ticket, initial=initial_data)
@@ -77,7 +77,7 @@ def atualizar_chamado(request, id):
             form.save()
             save_it = form.save()
             save_it.save()
-            subject = categoria
+            subject = categoria56
             message = resposta
             from_email = settings.EMAIL_HOST_USER
             to_list = [email, settings.EMAIL_HOST_USER]
