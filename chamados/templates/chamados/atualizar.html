@@ -63,6 +63,13 @@
       <option id="finalizado" value="True">Sim</option>
     </select>
   </div>
+  {% if ticket.upload_arquivo %}
+  <div class="form-group col-md-5">
+    <label><strong>Arquivo : </strong></label>
+    <p class="mt-2"><a href="{{ ticket.upload_arquivo.url }}">{{ ticket.upload_arquivo }}</a></p>
+  </div>
+  {% else %}
+  {% endif %}
   <div class="form-group offset-md-8 col-md-4 mb-0 pb-0">
     <button type="submit" class="btn btn-success float-right">Atualizar o Chamado</button>
   </div>
@@ -118,6 +125,13 @@
             <option id="finalizado" value="True">Sim</option>
           </select>
         </div>
+        {% if ticket.upload_arquivo %}
+        <div class="form-group col-md-5">
+          <label><strong>Arquivo : </strong></label>
+          <p class="mt-2"><a href="{{ ticket.upload_arquivo.url }}">{{ ticket.upload_arquivo }}</a></p>
+        </div>
+        {% else %}
+        {% endif %}
         <div class="form-group offset-md-8 col-md-4 mb-0 pb-0">
           <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning pr-5 pl-5">&nbsp;&nbsp;&nbsp; Voltar &nbsp;&nbsp;&nbsp;</a>
         </div>

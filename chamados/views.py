@@ -30,10 +30,11 @@ def funcionario_ajax(request, id):
 
 def enviar(request):
     if request.method == 'POST':
-        form = TicketForm(request.POST)
+        form = TicketForm(request.POST,  request.FILES or None)
         email = request.POST.get('email')
         texto = request.POST.get('texto')
         categoria = request.POST.get('categoria')
+        # files = request.FILES.getlist('upload_arquivo')
         if form.is_valid():
             form.save()
             save_it = form.save()
@@ -62,7 +63,7 @@ def atualizar_chamado(request, id):
     resposta = request.POST.get('resposta')
 
     if request.method == 'POST':
-        form = TicketUpdateForm(request.POST, instance=ticket, initial=initial_data)
+        form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
         if form.is_valid() and ticket.finalizado == True and ticket.data_finalizada == None:
             if not email or not categoria:
                 messages.error(request, 'Nenhum campo pode estar vazio.')

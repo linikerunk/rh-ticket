@@ -60,6 +60,7 @@ class Ticket(models.Model):
     data_finalizada = models.DateTimeField(null=True, blank=True, verbose_name="Data Finalizada ")
     finalizado = models.BooleanField(default=False, choices=BOOL_CHOICES)
     funcionario = models.ForeignKey(Funcionario, related_name="tickets", on_delete=models.PROTECT)
+    upload_arquivo = models.FileField(blank=True, upload_to='documents/%Y/%m/%d')
     
     def save(self, *args, **kwargs):
         if self.finalizado:
