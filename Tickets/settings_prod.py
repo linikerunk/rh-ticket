@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chamados.apps.ChamadosConfig',
+    'perfil.apps.PerfilConfig',
     'bootstrapform',
     'crispy_forms',
     'import_export',

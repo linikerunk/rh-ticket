@@ -1,5 +1,6 @@
 from django.forms import ModelForm, RadioSelect
-from .models import Ticket, Funcionario, Unidade
+from .models import Ticket
+from perfil.models import Funcionario, Unidade
 
 from django import forms
 
@@ -13,10 +14,6 @@ CATEGORIA = (
 
 BOOL_CHOICES = ((True, 'Sim'), (False, 'Não'))
 
-class FuncionarioForm(forms.ModelForm):
-    class Meta:
-        model = Funcionario
-        fields = '__all__'
 
 class TicketForm(forms.ModelForm):
     unidade = forms.ModelChoiceField(
@@ -47,7 +44,7 @@ class TicketForm(forms.ModelForm):
         funcionario = self.cleaned_data['funcionario']
 
 
-        if funcionario.unidade != unidade:
+        if funcionario.perfil.unidade != unidade:
             raise forms.ValidationError('Funcionário não está vinculado à essa unidade')
             
         return funcionario

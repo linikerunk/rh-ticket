@@ -21,6 +21,12 @@ body {
     height: 20%;
 }
 
+#user-profile {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+
 .sticky-footer {
     position: fixed;
     left: 0;

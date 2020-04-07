@@ -9,16 +9,13 @@ from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
-from .models import Ticket, Funcionario
+from .models import Ticket
+from perfil.models import Funcionario
 from .forms import TicketForm, TicketUpdateForm, FuncionarioForm
 
 # Create your views here.
 
-def selecionar_unidade(request):
-    context = {}
-    return render(request, 'chamados/selecionar-unidade.html', context)
-    
-
+@login_required 
 def funcionario_ajax(request, id):
     re_func = request.GET.get('re_func')
     funcionario  = Funcionario.objects.filter(re_funcionario=re_func).first()
@@ -27,7 +24,7 @@ def funcionario_ajax(request, id):
         response = {"nome": funcionario.nome, 'email': funcionario.email}
     return JsonResponse(response)
         
-
+@login_required
 def enviar(request):
     if request.method == 'POST':
         form = TicketForm(request.POST,  request.FILES or None)
@@ -54,7 +51,7 @@ def enviar(request):
 @login_required
 def atualizar_chamado(request, id):
     unidade = request.user.perfil.unidade
-    ticket = get_object_or_404(Ticket, pk=id, funcionario__unidade=unidade)
+    ticket = get_object_or_404(Ticket, pk=id, funcionario__perfil__unidade=unidade)
     initial_data = {
         'unidade': unidade
     }
@@ -101,7 +98,7 @@ def atualizar_chamado(request, id):
 @login_required
 def listar(request):
     unidade = request.user.perfil.unidade
-    tickets = Ticket.objects.filter(funcionario__unidade=unidade).order_by('-data')
+    tickets = Ticket.objects.filter(funcionario__perfil__unidade=unidade).order_by('-data')
     
     paginator = Paginator(tickets, 10)
     page = request.GET.get('page', 1)

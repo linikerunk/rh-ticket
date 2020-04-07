@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block titulo %} Perfil de usuário {% endblock %}
+
+{% block conteudo %}
+
+<div class="row pl-5">
+    <div class="col-md-6 mb-0 mt-2">
+        <h3 class="mb-3">Perfil do usuário <code id="user-profile">{{ user|title }}</code></h3>
+    </div>
+</div>
+
+<div class="container w-75">
+    <div class="col-md-12"></div>
+    <div class="jumbotron jumbotron-fluid p-5 mb-5 w-100">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group offset-md-1 col-md-3 mb-0">
+                    {{ form.unidade|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-7 mb-0">
+                    {{ form.categoria|as_crispy_field }}
+                </div>
+                <div class="form-group offset-md-1 col-md-3 mb-0">
+                    {{ form.funcionario|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-7 mb-0">
+                    {{ form.nome|as_crispy_field }}
+                </div>
+            </div>
+        </form>
+
+{% endblock %}
