@@ -11,7 +11,9 @@ from django.contrib import messages
 
 from .models import Ticket
 from perfil.models import Funcionario
-from .forms import TicketForm, TicketUpdateForm, FuncionarioForm
+from .forms import TicketForm, TicketUpdateForm
+from perfil.forms import FuncionarioForm
+
 
 # Create your views here.
 
@@ -24,6 +26,7 @@ def funcionario_ajax(request, id):
         response = {"nome": funcionario.nome, 'email': funcionario.email}
     return JsonResponse(response)
         
+
 @login_required
 def enviar(request):
     if request.method == 'POST':
@@ -47,6 +50,7 @@ def enviar(request):
     else:
         form = TicketForm()
     return render(request, 'chamados/enviar.html', {'form': form})
+
 
 @login_required
 def atualizar_chamado(request, id):
@@ -95,6 +99,7 @@ def atualizar_chamado(request, id):
 
     return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
 
+
 @login_required
 def listar(request):
     unidade = request.user.perfil.unidade
@@ -106,9 +111,11 @@ def listar(request):
     
     return render(request, 'chamados/listar.html', {'tickets': tickets})       
 
+
 def login(request):
     context = {}
     return render(request, 'home/login.html', context)
+
 
 @login_required
 def meu_logout(request):

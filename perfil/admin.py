@@ -6,7 +6,7 @@ from .models import Unidade, Funcionario, Perfil
 
 @admin.register(Perfil)
 class PerfilAdmin(admin.ModelAdmin):
-    list_display = ['usuario', 'unidade']
+    list_display = ['usuario', 'unidade', 'funcionario']
     list_filter = ['usuario']
 
 @admin.register(Unidade)
@@ -17,5 +17,5 @@ class UnidadeAdmin(admin.ModelAdmin):
 
 @admin.register(Funcionario)
 class FuncionarioAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'nome', 'perfil']
-    list_filter = ['perfil__unidade']  
+    list_display = ['id', 'nome', 're_funcionario']
+    list_filter = ['funcionario__unidade']  

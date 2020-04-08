@@ -4,11 +4,16 @@ from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from perfil.forms import FuncionarioForm, PerfilForm, UnidadeForm
+from .models import Funcionario, Perfil, Unidade
 
 # Create your views here.
 
 @login_required
-def perfil(request):
-    form = FuncionarioForm(request.POST)
-    
-    return render(request, 'perfil/perfil.html', {})
+def perfil(request):   
+    if request.user.perfil.funcionario != None:
+        print("é funcionario")
+    else:
+        print("Não é funcionario")
+
+    return render(request, 'perfil/perfil.html', {})    
