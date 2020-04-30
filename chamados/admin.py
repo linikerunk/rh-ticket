@@ -7,4 +7,4 @@ from perfil.models import Perfil, Funcionario
 @admin.register(Ticket)
 class TicketAdmin(ImportExportModelAdmin):
     list_display = ['id', 'funcionario', 'texto', 'data', 'finalizado']
-    list_filter = ['funcionario__funcionario__unidade']
+    list_filter = ['funcionario__perfil__unidade']

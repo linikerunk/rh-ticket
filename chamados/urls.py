@@ -12,6 +12,7 @@ app_name = "chamados"
 
 urlpatterns = [
     path("", enviar, name="enviar"),
+    path("chamados/enviar/", enviar, name="enviar"),
     path("chamados/listar/", listar, name="listar"),
     path("chamados/pegar_funcionario/<int:id>/", funcionario_ajax, name="funcionario_ajax"),
     path("chamados/atualizar_chamado/<int:id>/", atualizar_chamado, name="atualizar_chamado"),

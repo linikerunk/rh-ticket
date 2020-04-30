@@ -18,8 +18,9 @@ class Funcionario(models.Model):
     re_funcionario = models.CharField(max_length=5, verbose_name="RE")
     nome = models.CharField(max_length=55, verbose_name="Nome do Funcionário")
     centro_de_custo = models.CharField(max_length=10)
-    ramal = models.CharField(max_length=4, null=True)
-    email = models.EmailField(max_length=254, blank=True, null=True, verbose_name="Email Funcionário")
+    ramal = models.CharField(max_length=9, null=True, verbose_name="Telefone / Ramal")
+    email_corporativo = models.EmailField(max_length=254, blank=True, null=True, verbose_name="Email Corporativo")
+    email = models.EmailField(max_length=254, blank=True, null=True, verbose_name="Email Pessoal")
 
     class Meta:
         unique_together = ['re_funcionario']
@@ -33,8 +34,8 @@ class Funcionario(models.Model):
 
 class Perfil(models.Model):
     unidade = models.ForeignKey(Unidade, related_name="+", on_delete=models.PROTECT)
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="perfil", on_delete=models.CASCADE)
-    funcionario = models.ForeignKey(Funcionario, related_name="funcionario", null=True, on_delete=models.PROTECT)
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="perfil_usuario", on_delete=models.CASCADE)
+    funcionario = models.OneToOneField(Funcionario, related_name="perfil", null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'usuário : {self.usuario} da unidade : {self.unidade}'

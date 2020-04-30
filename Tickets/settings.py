@@ -158,7 +158,7 @@ MESSAGE_TAGS = {
 
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = '/perfil/'
+LOGIN_REDIRECT_URL = '/chamados/enviar/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

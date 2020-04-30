@@ -28,7 +28,6 @@
       <th scope="col" style="width: 7%; text-align : center;">RE</th>
       <th scope="col" style="width: 18%; text-align : left;">Nome</th>
       <th scope="col" style="width: 12%; text-align : left;">Categoria</th>
-      <th scope="col" style="width: 5%; text-align : center;">Unidade</th>
       <th scope="col" style="width: 17%; text-align : center;">Dias</th>
       <th scope="col" style="width: 5%; text-align : left;">Finalizado</th>
     </tr>
@@ -40,7 +39,6 @@
       <td scope="row" style="text-align : center;">{{ ticket.funcionario.re_funcionario }}</th>
       <td style="text-align : left;"><h6><a href="{% url 'chamados:atualizar_chamado' ticket.id %}"> {{ ticket.funcionario.nome }}</a></h6></td>
       <td style="text-align : left;">{{ ticket.categoria }}</td>
-      <td style="text-align : center;">{{ ticket.funcionario.unidade }}</td>
       {% if ticket.finalizado is False %}
       <td id="ticket-aberto">{{ ticket.tempo_aberto }} </td>
       {% else %}

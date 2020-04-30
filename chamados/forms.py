@@ -38,16 +38,16 @@ class TicketForm(forms.ModelForm):
         }
 
 
-    def clean_funcionario(self):
-        print(self.cleaned_data)
-        unidade = self.cleaned_data['unidade']
-        funcionario = self.cleaned_data['funcionario']
+    # def clean_funcionario(self):
+    #     print(self.cleaned_data)
+    #     unidade = self.cleaned_data['unidade']
+    #     funcionario = self.cleaned_data['funcionario']
 
 
-        if funcionario.perfil.unidade != unidade:
-            raise forms.ValidationError('Funcionário não está vinculado à essa unidade')
+    #     if funcionario.perfil.unidade != unidade:
+    #         raise forms.ValidationError('Funcionário não está vinculado à essa unidade')
             
-        return funcionario
+    #     return funcionario
 
 
 class TicketUpdateForm(forms.ModelForm):

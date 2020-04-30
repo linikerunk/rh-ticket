@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 from .models import Ticket
-from perfil.models import Funcionario
+from perfil.models import Funcionario, Perfil, Unidade
 from .forms import TicketForm, TicketUpdateForm
 from perfil.forms import FuncionarioForm
 
@@ -54,7 +54,7 @@ def enviar(request):
 
 @login_required
 def atualizar_chamado(request, id):
-    unidade = request.user.perfil.unidade
+    unidade = request.user.perfil_usuario.unidade
     ticket = get_object_or_404(Ticket, pk=id, funcionario__perfil__unidade=unidade)
     initial_data = {
         'unidade': unidade
@@ -102,7 +102,7 @@ def atualizar_chamado(request, id):
 
 @login_required
 def listar(request):
-    unidade = request.user.perfil.unidade
+    unidade = request.user.perfil_usuario.unidade
     tickets = Ticket.objects.filter(funcionario__perfil__unidade=unidade).order_by('-data')
     
     paginator = Paginator(tickets, 10)

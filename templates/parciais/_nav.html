@@ -17,23 +17,29 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'chamados:listar' %}">Tickets</a>
           </li>
-          {% if not user.is_authenticated %}
+          {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'chamados:login' %}">Login</a>
+            <a class="nav-link" href="{% url 'chamados:meu_logout' %}">Sair</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'chamados:meu_logout' %}">Sair</a>
+            <a class="nav-link" href="{% url 'chamados:login' %}">Login</a>
           </li>
           {% endif %}
         </ul>
         {% if  user.is_authenticated %}
         <ul class="nav navbar-nav ml-auto">
          <li> 
-          <p id="username-title" >Usuário : &nbsp;&nbsp;&nbsp;<span id="username-data">{{ request.user.username }}</span> </p>
+          <p id="username-title">Usuário : &nbsp;&nbsp;&nbsp;<span id="username-data">{{ request.user.username }}</span> </p>
           </li> 
         </ul>
         {% else %}
+        <ul class="nav navbar-nav ml-auto">
+          <li>
+            <p id="username-title">Não authenticado.. </p>
+          </li>
+        </ul>
+        
         {% endif %}
         </nav>
       </div>

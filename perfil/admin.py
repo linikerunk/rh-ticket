@@ -18,4 +18,4 @@ class UnidadeAdmin(admin.ModelAdmin):
 @admin.register(Funcionario)
 class FuncionarioAdmin(ImportExportModelAdmin):
     list_display = ['id', 'nome', 're_funcionario']
-    list_filter = ['funcionario__unidade']  
+    list_filter = ['perfil__unidade']  
