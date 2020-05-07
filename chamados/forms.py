@@ -26,6 +26,8 @@ class TicketForm(forms.ModelForm):
         widget=forms.TextInput())
     upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
 
+
+
     class Meta:
         model = Ticket
         fields = ['unidade', 'funcionario', 'categoria', 'texto', 'nome',
@@ -36,18 +38,24 @@ class TicketForm(forms.ModelForm):
             'texto': 'Descrição : ',
             'upload_arquivo': "Enviar arquivos"
         }
+        
+        widgets={
+            'texto': forms.Textarea(
+                attrs={'placeholder': 'Informe um telefone e/ou e-mail para retorno do chamado',
+                       'rows': 5})
+        }
 
 
-    # def clean_funcionario(self):
-    #     print(self.cleaned_data)
-    #     unidade = self.cleaned_data['unidade']
-    #     funcionario = self.cleaned_data['funcionario']
+    def clean_funcionario(self):
+        print(self.cleaned_data)
+        unidade = self.cleaned_data['unidade']
+        funcionario = self.cleaned_data['funcionario']
 
 
-    #     if funcionario.perfil.unidade != unidade:
-    #         raise forms.ValidationError('Funcionário não está vinculado à essa unidade')
+        if funcionario.perfil.unidade != unidade:
+            raise forms.ValidationError('Funcionário não está vinculado à essa unidade')
             
-    #     return funcionario
+        return funcionario
 
 
 class TicketUpdateForm(forms.ModelForm):

@@ -21,9 +21,10 @@ class Funcionario(models.Model):
     ramal = models.CharField(max_length=9, null=True, verbose_name="Telefone / Ramal")
     email_corporativo = models.EmailField(max_length=254, blank=True, null=True, verbose_name="Email Corporativo")
     email = models.EmailField(max_length=254, blank=True, null=True, verbose_name="Email Pessoal")
+    unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
 
     class Meta:
-        unique_together = ['re_funcionario']
+        unique_together = ['re_funcionario', 'unidade']
     
     def __str__(self):
         return f'Funcionário : {self.re_funcionario} '

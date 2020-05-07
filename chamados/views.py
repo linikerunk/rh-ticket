@@ -17,7 +17,7 @@ from perfil.forms import FuncionarioForm
 
 # Create your views here.
 
-@login_required 
+
 def funcionario_ajax(request, id):
     re_func = request.GET.get('re_func')
     funcionario  = Funcionario.objects.filter(re_funcionario=re_func).first()
@@ -27,8 +27,17 @@ def funcionario_ajax(request, id):
     return JsonResponse(response)
         
 
-@login_required
 def enviar(request):
+    if str(request.user) == 'AnonymousUser':
+        user =  request.POST.get('unidade')
+        if user == '1':
+            user = 'Salto'
+        elif user == '2':
+            user = 'Camaçari'
+        elif user == '3':
+            user = 'Ponta Grossa'
+    else:
+        user = request.user.perfil_usuario.unidade
     if request.method == 'POST':
         form = TicketForm(request.POST,  request.FILES or None)
         email = request.POST.get('email')
@@ -42,8 +51,13 @@ def enviar(request):
             subject = categoria
             message = texto
             from_email = settings.EMAIL_HOST_USER
-            recipient_list = ['pedro.melo@continental.com', 
-            'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
+            if str(user) == 'Salto':
+                recipient_list = ['pedro.melo@continental.com', 
+                'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
+            elif str(user) == 'Camaçari':
+                recipient_list = ['rayssa.santos@continental.com']
+            elif str(user) == 'Ponta Grossa':
+                recipient_list = ['']
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
@@ -55,7 +69,7 @@ def enviar(request):
 @login_required
 def atualizar_chamado(request, id):
     unidade = request.user.perfil_usuario.unidade
-    ticket = get_object_or_404(Ticket, pk=id, funcionario__perfil__unidade=unidade)
+    ticket = get_object_or_404(Ticket, pk=id, funcionario__unidade=unidade)
     initial_data = {
         'unidade': unidade
     }
@@ -98,12 +112,12 @@ def atualizar_chamado(request, id):
         form = TicketUpdateForm()
 
     return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
-
+    
 
 @login_required
 def listar(request):
     unidade = request.user.perfil_usuario.unidade
-    tickets = Ticket.objects.filter(funcionario__perfil__unidade=unidade).order_by('-data')
+    tickets = Ticket.objects.filter(funcionario__unidade=unidade).order_by('-data')
     
     paginator = Paginator(tickets, 10)
     page = request.GET.get('page', 1)

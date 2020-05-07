@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'Tickets.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'NAME': 'db.sqlite2',
     }
 }
 
@@ -158,7 +158,7 @@ MESSAGE_TAGS = {
 
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = '/chamados/enviar/'
+LOGIN_REDIRECT_URL = '/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -4,16 +4,16 @@
     {% include 'parciais/_head.html' %}
     <title>Ticket | {% block titulo %}{% endblock %}</title>
 </head>
-
 <body>
-    {% include 'parciais/_nav.html' %}
+{% include 'parciais/_nav.html' %}
 
-<main>
 
 {% include 'parciais/_messages.html' %}
+<main role="main" class="container border rounded p-5 bg-light shadow mb-5">
 {% block conteudo %} {% endblock %}
-
 </main>
+
 {% include 'parciais/_footer.html' %}
+
 </body>
 </html>
