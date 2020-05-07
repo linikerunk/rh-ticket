@@ -95,7 +95,6 @@ WSGI_APPLICATION = 'Tickets.wsgi.application'
 
 DATABASES = {
     'default': {
-<<<<<<< HEAD
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'RHTicket',
         'USER': 'RHTicket',
@@ -105,13 +104,8 @@ DATABASES = {
         'OPTIONS': {
             'init_command': 'SET innodb_strict_mode=1',
         }
-=======
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite2',
->>>>>>> 98a1b3aa6daf77d859bbbfcb5668389976131266
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
