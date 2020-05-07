@@ -55,7 +55,7 @@ def enviar(request):
                 recipient_list = ['pedro.melo@continental.com', 
                 'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
             elif str(user) == 'Camaçari':
-                recipient_list = ['rayssa.santos@continental.com']
+                recipient_list = ['Ila.Cerqueira@conti.com.br']
             elif str(user) == 'Ponta Grossa':
                 recipient_list = ['']
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
