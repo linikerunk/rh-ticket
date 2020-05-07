@@ -1,44 +1,21 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 * {
     margin: 0;
     padding: 0;
     outline: 0;
-    box-sizing: border-box;
 }
 
-body {
-    font: 400 14px 'Roboto', sans-serif;
-    font-family: 'Roboto', cursive;
-    background: #F7F8FC;
-    -webkit-font-smoothing: antialiased;
-}
-
-#nav-bar-main {
-    text-shadow: black 0.1em 0.1em 0.1em;
-}
-
-#logo {
-    height: 20%;
-}
-
-.sticky-footer {
+#footer {
     position: fixed;
-    left: 0;
     bottom: 0;
-    height: 7%;
-    width: 100%;
-    background-color: black;
-    color: white;
-    text-align: center;
-    z-index: 1;
+    z-index: 1055;
 }
 
-tr.thead {
-    background-color: #adadad;
+ul.paginator {
+    z-index: 1050;
 }
 
-td {
-    transition: filter 0.1s;
+.page-link {
+    z-index: 1050;
 }
 
 td:hover {
@@ -46,73 +23,12 @@ td:hover {
     filter: brightness(90%);
 }
 
-p.lead {
-    font-size: 25px;
-    font-weight: bolder;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+tbody {
+    background-color: #f2f2f2;
 }
 
-.jumbotron.jumbotron-fluid {
-    border-radius: 1%;
-    background: #cbd5e0;
-    margin-top: -5px;
-}
-
-#container-login {
-    background: #cbd5e0;
-    border-color: #343A40;
-    border-radius: 1%;
-    padding: 25px;
-}
-
-form textarea {
-    width: 100%;
-    resize: vertical;
-    min-height: 140px;
-    height: 60px;
-    color: #333;
-    border: 1px solid #dcdce6;
-    padding: 16px 24px;
-    line-height: 24px;
-}
-
-label {
-    color: #41414d;
-    font-size: 18px;
-    text-decoration: none;
-}
-
-textarea#texto-azul {
-    height: 150px;
-    border-color: #6ba0e5;
-}
-
-.btn.btn-success.float-right {
-    color: #111;
-}
-
-#username-title {
-    color: white;
-}
-
-#username-data {
-    font-size: 20px;
-    font-weight: 300;
-}
-
-ul.paginator {
-    z-index: 0;
-}
-
-.page-link {
-    z-index: 0;
-}
-
-@media(max-width: 1090px) {
-    .jumbotron.jumbotron-fluid.p-2 {
-        width: 100%;
-        position: static;
-    }
+td {
+    transition: filter 0.1s;
 }
 
 #ticket-aberto {
@@ -128,3 +44,5 @@ ul.paginator {
 .asteriskField {
     display: none;
 }
+
+

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from django.contrib.messages import constants
+
 from .email import EMAIL_HOST, EMAIL_USE_TLS, EMAIL_PORT, EMAIL_HOST_USER
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -28,7 +29,7 @@ SECRET_KEY = '=t4!uovv7x0x58lt4ng59qierd)pb6-2_hoiz)orhuw2vg*!()'
 #DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ['10.218.24.22', 'rhticket.gs.conti', 'rhticket', 'sltm202x']
+ALLOWED_HOSTS = ['10.218.24.22', 'centralrh.conti.de', 'rhticket', 'sltm202x']
 
 # Email information
 
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chamados.apps.ChamadosConfig',
+    'perfil.apps.PerfilConfig',
     'bootstrapform',
     'crispy_forms',
     'import_export',
@@ -93,6 +95,7 @@ WSGI_APPLICATION = 'Tickets.wsgi.application'
 
 DATABASES = {
     'default': {
+<<<<<<< HEAD
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'RHTicket',
         'USER': 'RHTicket',
@@ -102,6 +105,10 @@ DATABASES = {
         'OPTIONS': {
             'init_command': 'SET innodb_strict_mode=1',
         }
+=======
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite2',
+>>>>>>> 98a1b3aa6daf77d859bbbfcb5668389976131266
     }
 }
 
@@ -163,7 +170,7 @@ MESSAGE_TAGS = {
 
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = '/listar/'
+LOGIN_REDIRECT_URL = '/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

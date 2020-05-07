@@ -4,15 +4,10 @@
 {% block titulo %} Abrir um novo chamado {% endblock %}
 
 {% block conteudo %}
-<div class="row pl-5">
-<div class="col-md-6 mb-0 mt-2">
-<h3 class="mb-3">Abrir um chamado </h3>
-</div>
-</div>
-<div class="container w-75">
-<div class="col-md-12"></div>
-<div class="jumbotron jumbotron-fluid p-5 mb-5 w-100">
-
+<div class="row">
+  <div class="col-12">
+      <h3 class="">Abrir um chamado</h3>
+      <hr>
 <form method="POST" enctype="multipart/form-data">
 {% csrf_token %}
 <div class="form-row">
@@ -34,15 +29,18 @@
   <div class="form-group offset-md-1 col-md-10 mb-0">
     {{ form.texto|as_crispy_field }}
   </div>
+  <div class="form-group offset-md-1 col-md-10 mb-0">
+    {{ form.upload_arquivo|as_crispy_field }}
+  </div>
 </div>
-<div class="mr-5">
-  <button type="submit" class="btn btn-success float-right">Enviar</button>
-  <button type="reset" class="btn btn-warning mr-1 float-right">Limpar</button>
+<div class="row">
+<div class="col-md-12">
+  <button type="reset" class="btn btn-warning float-right w-25">Limpar</button>
+   <button type="submit" class="btn btn-success mr-2 float-right w-50">Enviar</button>
 </div>
-
+</div>
 </form>
 </div>
-</div>
-</div>
-</div>
+</div> 
+
 {% endblock %}

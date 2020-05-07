@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chamados.apps.ChamadosConfig',
+    'perfil.apps.PerfilConfig',
     'bootstrapform',
     'crispy_forms',
     'import_export',
@@ -156,7 +157,7 @@ MESSAGE_TAGS = {
 
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = '/listar/'
+LOGIN_REDIRECT_URL = '/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

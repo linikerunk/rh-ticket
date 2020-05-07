@@ -9,15 +9,14 @@ from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
-from .models import Ticket, Funcionario
-from .forms import TicketForm, TicketUpdateForm, FuncionarioForm
+from .models import Ticket
+from perfil.models import Funcionario, Perfil, Unidade
+from .forms import TicketForm, TicketUpdateForm
+from perfil.forms import FuncionarioForm
+
 
 # Create your views here.
 
-def selecionar_unidade(request):
-    context = {}
-    return render(request, 'chamados/selecionar-unidade.html', context)
-    
 
 def funcionario_ajax(request, id):
     re_func = request.GET.get('re_func')
@@ -29,11 +28,22 @@ def funcionario_ajax(request, id):
         
 
 def enviar(request):
+    if str(request.user) == 'AnonymousUser':
+        user =  request.POST.get('unidade')
+        if user == '1':
+            user = 'Salto'
+        elif user == '2':
+            user = 'Camaçari'
+        elif user == '3':
+            user = 'Ponta Grossa'
+    else:
+        user = request.user.perfil_usuario.unidade
     if request.method == 'POST':
-        form = TicketForm(request.POST)
+        form = TicketForm(request.POST,  request.FILES or None)
         email = request.POST.get('email')
         texto = request.POST.get('texto')
         categoria = request.POST.get('categoria')
+        # files = request.FILES.getlist('upload_arquivo')
         if form.is_valid():
             form.save()
             save_it = form.save()
@@ -41,8 +51,13 @@ def enviar(request):
             subject = categoria
             message = texto
             from_email = settings.EMAIL_HOST_USER
-            recipient_list = ['pedro.melo@continental.com', 
-            'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
+            if str(user) == 'Salto':
+                recipient_list = ['pedro.melo@continental.com', 
+                'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
+            elif str(user) == 'Camaçari':
+                recipient_list = ['rayssa.santos@continental.com']
+            elif str(user) == 'Ponta Grossa':
+                recipient_list = ['']
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
@@ -50,9 +65,10 @@ def enviar(request):
         form = TicketForm()
     return render(request, 'chamados/enviar.html', {'form': form})
 
+
 @login_required
 def atualizar_chamado(request, id):
-    unidade = request.user.perfil.unidade
+    unidade = request.user.perfil_usuario.unidade
     ticket = get_object_or_404(Ticket, pk=id, funcionario__unidade=unidade)
     initial_data = {
         'unidade': unidade
@@ -62,7 +78,7 @@ def atualizar_chamado(request, id):
     resposta = request.POST.get('resposta')
 
     if request.method == 'POST':
-        form = TicketUpdateForm(request.POST, instance=ticket, initial=initial_data)
+        form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
         if form.is_valid() and ticket.finalizado == True and ticket.data_finalizada == None:
             if not email or not categoria:
                 messages.error(request, 'Nenhum campo pode estar vazio.')
@@ -96,10 +112,11 @@ def atualizar_chamado(request, id):
         form = TicketUpdateForm()
 
     return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
+    
 
 @login_required
 def listar(request):
-    unidade = request.user.perfil.unidade
+    unidade = request.user.perfil_usuario.unidade
     tickets = Ticket.objects.filter(funcionario__unidade=unidade).order_by('-data')
     
     paginator = Paginator(tickets, 10)
@@ -108,9 +125,11 @@ def listar(request):
     
     return render(request, 'chamados/listar.html', {'tickets': tickets})       
 
+
 def login(request):
     context = {}
     return render(request, 'home/login.html', context)
+
 
 @login_required
 def meu_logout(request):
