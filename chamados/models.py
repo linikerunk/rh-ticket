@@ -28,7 +28,7 @@ class Ticket(models.Model):
     nome = models.CharField(max_length=55, verbose_name="Nome do Funcionário")
     texto = models.TextField(blank=False, verbose_name="Descrição")
     resposta = models.TextField(blank=True, null=True)
-    data = models.DateTimeField(auto_now_add=False)
+    data = models.DateTimeField(auto_now_add=True)
     data_finalizada = models.DateTimeField(null=True, blank=True, verbose_name="Data Finalizada ")
     finalizado = models.BooleanField(default=False, choices=BOOL_CHOICES)
     upload_arquivo = models.FileField(blank=True, upload_to='documents/%Y/%m/%d')

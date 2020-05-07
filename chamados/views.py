@@ -40,6 +40,7 @@ def enviar(request):
         user = request.user.perfil_usuario.unidade
     if request.method == 'POST':
         form = TicketForm(request.POST,  request.FILES or None)
+        print(form.errors)
         email = request.POST.get('email')
         texto = request.POST.get('texto')
         categoria = request.POST.get('categoria')

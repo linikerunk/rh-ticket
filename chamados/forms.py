@@ -20,7 +20,7 @@ class TicketForm(forms.ModelForm):
         label="Unidade : ",
         queryset=Unidade.objects.all())
     funcionario = forms.ModelChoiceField(
-        label="Digite seu RE : ",
+        label="RE : ",
         queryset=Funcionario.objects.all(),
         to_field_name="re_funcionario", 
         widget=forms.TextInput())
@@ -33,7 +33,7 @@ class TicketForm(forms.ModelForm):
         fields = ['unidade', 'funcionario', 'categoria', 'texto', 'nome',
         'upload_arquivo']
         labels = {
-            'nome': 'Digite o nome do funcionário : ',
+            'nome': 'Nome do funcionário : ',
             'categoria': 'Categoria : ',
             'texto': 'Descrição : ',
             'upload_arquivo': "Enviar arquivos"
@@ -52,7 +52,7 @@ class TicketForm(forms.ModelForm):
         funcionario = self.cleaned_data['funcionario']
 
 
-        if funcionario.perfil.unidade != unidade:
+        if funcionario.unidade != unidade:
             raise forms.ValidationError('Funcionário não está vinculado à essa unidade')
             
         return funcionario
