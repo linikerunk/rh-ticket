@@ -42,13 +42,14 @@ class Ticket(models.Model):
         return super(Ticket, self).save(*args, **kwargs)
     
     def tempo_aberto(self):
-        tempo = self.data - timezone.now()
+        tempo = timezone.now() - self.data
         tempo = tempo.days
-        return abs(tempo)
+        return tempo
     
     def tempo_finalizado(self):
+        print(self.data_finalizada)
         if self.data_finalizada:
-            tempo_finalizado =  timezone.now() - self.data_finalizada 
+            tempo_finalizado =  self.data_finalizada - self.data
             if abs(tempo_finalizado.days) == 0:
                 tempo_finalizada = 1
                 return abs(tempo_finalizada)

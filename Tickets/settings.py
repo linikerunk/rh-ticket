@@ -27,7 +27,7 @@ SECRET_KEY = '=t4!uovv7x0x58lt4ng59qierd)pb6-2_hoiz)orhuw2vg*!()'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['10.218.24.22', 'centralrh.conti.de', 'rhticket', 'sltm202x']
 
