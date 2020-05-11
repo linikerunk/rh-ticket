@@ -44,6 +44,9 @@ class Ticket(models.Model):
     def tempo_aberto(self):
         tempo = timezone.now() - self.data
         tempo = tempo.days
+        if tempo == 0:
+            tempo = 1
+        print(tempo)
         return tempo
     
     def tempo_finalizado(self):
