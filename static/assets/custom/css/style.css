@@ -1,0 +1,49 @@
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    padding-bottom: 80px;
+    z-index: 1055;
+}
+
+ul.paginator {
+    z-index: 1050;
+}
+
+.page-link {
+    z-index: 1050;
+}
+
+td:hover {
+    opacity: 0.7;
+    filter: brightness(90%);
+}
+
+tbody {
+    background-color: #f2f2f2;
+}
+
+td {
+    transition: filter 0.1s;
+}
+
+#ticket-aberto {
+    color: red;
+    text-align: center;
+}
+
+#ticket-fechado {
+    color: green;
+    text-align: center;
+}
+
+.asteriskField {
+    display: none;
+}
+
+
