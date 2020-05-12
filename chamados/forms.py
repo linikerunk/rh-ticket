@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.forms import ModelForm, RadioSelect
 from .models import Ticket
 from perfil.models import Funcionario, Unidade

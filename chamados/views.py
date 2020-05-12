@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views import View
@@ -40,7 +42,6 @@ def enviar(request):
         user = request.user.perfil_usuario.unidade
     if request.method == 'POST':
         form = TicketForm(request.POST,  request.FILES or None)
-        print(form.errors)
         email = request.POST.get('email')
         texto = request.POST.get('texto')
         categoria = request.POST.get('categoria')
