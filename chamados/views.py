@@ -45,7 +45,12 @@ def enviar(request):
         email = request.POST.get('email')
         texto = request.POST.get('texto')
         categoria = request.POST.get('categoria')
-        # files = request.FILES.getlist('upload_arquivo')
+        files = request.FILES.getlist('upload_arquivo')
+        files = str(files)
+        print(type(files))
+        print("\nArquivo separado : ", files)
+        print("\ncampos : ", form.fields)
+        print("\ndatas : ", form.data)
         if form.is_valid():
             form.save()
             save_it = form.save()
