@@ -48,6 +48,7 @@ def enviar(request):
         print("\nArquivo separado : ", files)
         print("\ncampos : ", form.fields)
         print("\ndatas : ", form.data)
+        print("\ndatas : ", form.errors)
         if form.is_valid():
             form.save()
             save_it = form.save()
