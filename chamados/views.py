@@ -45,7 +45,7 @@ def enviar(request):
         files = request.FILES.get('upload_arquivo')
         print("Antes do UTF-8 : ", files)
         print(type(files))
-        files.decode('UTF-8', 'ignore')
+        # files.decode('UTF-8', 'ignore')
         print(type(files))
         print("\nArquivo separado : ", files)
         print("\ncampos : ", form.fields)
