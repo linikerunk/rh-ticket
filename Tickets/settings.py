@@ -10,8 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+import sys
+reload(sys)
+sys.setdefaultencoding('UTF-8')
+
 import os
+
 from django.contrib.messages import constants
+
 from .email import EMAIL_HOST, EMAIL_USE_TLS, EMAIL_PORT, EMAIL_HOST_USER
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -28,7 +34,7 @@ SECRET_KEY = '=t4!uovv7x0x58lt4ng59qierd)pb6-2_hoiz)orhuw2vg*!()'
 #DEBUG = True
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['10.218.24.22', 'centralrh.conti.de', 'rhticket', 'sltm202x']
 
 # Email information
 
@@ -96,16 +102,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'RHTicket',
-        'USER': 'root',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
+        'USER': 'RHTicket',
+        'PASSWORD': 'Vitesco1*',
+        'HOST': '10.218.24.114',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': 'SET innodb_strict_mode=1',
         }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -131,7 +136,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'America/Sao_Paulo'
+TIME_ZONE = 'America/Recife'
 
 USE_I18N = True
 
@@ -165,5 +170,6 @@ MESSAGE_TAGS = {
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/'
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
