@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.utils.encoding import smart_unicode
 from datetime import datetime
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -38,6 +39,7 @@ class Ticket(models.Model):
     
     
     def save(self, *args, **kwargs):
+        smart_unicode(self.upload_arquivo)
         if self.finalizado:
             if not self.data_finalizada:
                 self.data_finalizada = timezone.now()
