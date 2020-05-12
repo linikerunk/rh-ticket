@@ -20,5 +20,5 @@ venv.bak/
 # */settings.py
 .RHTicket/
 .RHTicket
+media/
 media
-static
