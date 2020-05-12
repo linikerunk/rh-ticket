@@ -17,9 +17,6 @@ from .forms import TicketForm, TicketUpdateForm
 from perfil.forms import FuncionarioForm
 
 
-# Create your views here.
-
-
 def funcionario_ajax(request, id):
     re_func = request.GET.get('re_func')
     funcionario  = Funcionario.objects.filter(re_funcionario=re_func).first()
