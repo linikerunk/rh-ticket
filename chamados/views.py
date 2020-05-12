@@ -42,7 +42,7 @@ def enviar(request):
         email = request.POST.get('email')
         texto = request.POST.get('texto')
         categoria = request.POST.get('categoria')
-        files = request.FILES.getlist('upload_arquivo')
+        files = request.FILES.get('upload_arquivo')
         print("Antes do UTF-8 : ", files)
         print(type(files))
         files.decode('UTF-8', 'ignore')
