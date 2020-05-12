@@ -76,8 +76,6 @@ post==2019.4.13
 postgres==2.2.2
 progressbar2==3.51.3
 prompt-toolkit==3.0.4
-psycopg2==2.8.3
-psycopg2-binary==2.8.3
 public==2019.4.13
 py==1.8.1
 pyaes==1.6.1
