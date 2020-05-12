@@ -43,7 +43,7 @@ def enviar(request):
         texto = request.POST.get('texto')
         categoria = request.POST.get('categoria')
         files = request.FILES.getlist('upload_arquivo')
-        files = str(files)
+        files = str(files).encode("UTF-8")
         print(type(files))
         print("\nArquivo separado : ", files)
         print("\ncampos : ", form.fields)
