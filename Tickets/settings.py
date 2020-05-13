@@ -30,7 +30,7 @@ SECRET_KEY = '=t4!uovv7x0x58lt4ng59qierd)pb6-2_hoiz)orhuw2vg*!()'
 #DEBUG = True
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.218.24.22', 'centralrh.conti.de', 'rhticket', 'sltm202x']
+ALLOWED_HOSTS = ['10.218.24.22', '10.218.23.31', 'centralrh.conti.de', 'rhticket', 'sltm202x']
 
 # Email information
 
