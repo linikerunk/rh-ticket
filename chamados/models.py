@@ -13,7 +13,7 @@ from perfil.models import Funcionario
 
 # Create your models here.
 def update_filename(instance, filename):
-    path=f'documents/{instance.funcionario.unidade}/{instance.funcionario.re_funcionario}'
+    path=f'documents/{instance.funcionario.unidade}/{instance.funcionario.re_funcionario}/'
     #instance.funcionario.perfil.unidade
     output = ""
     for i in range(len(filename)):
