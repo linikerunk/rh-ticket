@@ -50,8 +50,6 @@ class Ticket(models.Model):
     funcionario = models.ForeignKey(Funcionario, related_name="tickets", on_delete=models.PROTECT)
     
     
-
-    
     def save(self, *args, **kwargs):
         if self.finalizado:
             if not self.data_finalizada:
