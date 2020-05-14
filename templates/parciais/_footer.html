@@ -78,27 +78,3 @@
         })
       });
     </script>
-
-<script type="text/javascript">
-  $(function () {
-    $("input:file").change(function () {
-      var fileName = $(this).val();
-      var output = "";
-      for (var i=0; i<fileName.length; i++){
-        if (fileName.charCodeAt(i) <= 127 ){
-          output += fileName.charAt(i); 
-        }
-      }
-      console.log(output)
-      $('input[type="file"]').val() = output
-      console.log($('input[type="file"]').val())
-    });
-  });
-</script>
-
-    <!-- <script>
-      jQuery("id_upload_arquivo").trigger(function (){
-        file = jQuery("id_upload_arquivo");
-        console.log("to aqui ?",file)
-      })
-    </script> -->

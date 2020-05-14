@@ -1,14 +1,27 @@
 # -*- coding: utf-8 -*-
+import os 
+from datetime import datetime
 
 from django.db import models
-from datetime import datetime
+
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
 
+
 from perfil.models import Funcionario
 
 # Create your models here.
+def update_filename(instance, filename):
+    path=f'documents/{instance.funcionario.unidade}/{instance.funcionario.re_funcionario}'
+    #instance.funcionario.perfil.unidade
+    output = ""
+    for i in range(len(filename)):
+        if ord(filename[i]) < 127:
+            output += (filename[i])
+    filename = output
+    return os.path.join(path, filename)
+
 
 BOOL_CHOICES = ((True, 'Sim'), (False, 'Não'))
 CATEGORIA = (
@@ -33,9 +46,11 @@ class Ticket(models.Model):
     data = models.DateTimeField(auto_now_add=True)
     data_finalizada = models.DateTimeField(null=True, blank=True, verbose_name="Data Finalizada ")
     finalizado = models.BooleanField(default=False, choices=BOOL_CHOICES)
-    upload_arquivo = models.FileField(blank=True, upload_to='documents/%Y/%m/%d')
+    upload_arquivo = models.FileField(blank=True, upload_to=update_filename)
     funcionario = models.ForeignKey(Funcionario, related_name="tickets", on_delete=models.PROTECT)
     
+    
+
     
     def save(self, *args, **kwargs):
         if self.finalizado:
