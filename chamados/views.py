@@ -128,3 +128,6 @@ def login(request):
 def meu_logout(request):
     logout(request)
     return redirect('login')
+
+def teste(request):
+    return render(request, 'chamados/teste.html')
