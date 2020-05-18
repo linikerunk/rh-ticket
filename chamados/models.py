@@ -20,6 +20,7 @@ def update_filename(instance, filename):
         if ord(filename[i]) < 127:
             output += (filename[i])
     filename = output
+    path = path.replace('ç', 'c').replace('ã', 'a').replace('´', '')
     return os.path.join(path, filename)
 
 
