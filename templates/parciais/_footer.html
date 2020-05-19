@@ -46,10 +46,9 @@
       
     </script>
 
-    <script>
+    <script charset="UTF-8">
       jQuery("#id_funcionario").change(function () {
         let re_func = jQuery(this).val();
-        console.log(`RE_FUNCIONARIO : ${re_func}`)
         let url = "/pegar_funcionario/" + re_func + "/";
         jQuery.ajax({
           url: url,
