@@ -26,7 +26,8 @@ class TicketForm(forms.ModelForm):
         queryset=Funcionario.objects.all(),
         to_field_name="re_funcionario", 
         widget=forms.TextInput())
-    upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+    upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(
+        attrs={'multiple': True}), required=False, label="Anexar Arquivo : ")
 
 
 
@@ -35,10 +36,10 @@ class TicketForm(forms.ModelForm):
         fields = ['unidade', 'funcionario', 'categoria', 'texto', 'nome',
         'upload_arquivo']
         labels = {
-            'nome': 'Nome do funcionário : ',
+            'nome': 'Funcionário : ',
             'categoria': 'Categoria : ',
             'texto': 'Descrição : ',
-            'upload_arquivo': "Enviar arquivos"
+            'upload_arquivo': "Anexar arquivos : "
         }
         
         widgets={
@@ -66,14 +67,16 @@ class TicketUpdateForm(forms.ModelForm):
         queryset=Funcionario.objects.all(),
         to_field_name="re_funcionario", 
         widget=forms.TextInput())
-    upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+    upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(
+        attrs={'multiple': True}), required=False, label="Anexar Arquivo : ")
+    
 
     class Meta:
         model = Ticket
         fields = ['categoria', 'funcionario', 'nome', 'texto',
                   'resposta', 'data_finalizada', 'finalizado', 'upload_arquivo']
         labels = {
-            'nome': 'Digite o nome do funcionário : ',
+            'nome': 'Funcionário : ',
             'categoria': 'Categoria : ',
             'texto': 'Descrição : ',
         }

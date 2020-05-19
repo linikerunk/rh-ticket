@@ -16,7 +16,7 @@ class Unidade(models.Model):
 
 class Funcionario(models.Model):
     re_funcionario = models.CharField(max_length=9, verbose_name="RE")
-    nome = models.CharField(max_length=55, verbose_name="Nome do Funcionário")
+    nome = models.CharField(max_length=55, verbose_name="Funcionário :")
     cpf = models.CharField(max_length=11, blank=True, null=True, verbose_name="CPF")
     centro_de_custo = models.CharField(max_length=10)
     ramal = models.CharField(max_length=9, null=True, verbose_name="Telefone / Ramal")

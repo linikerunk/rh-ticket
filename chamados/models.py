@@ -41,13 +41,13 @@ class Ticket(models.Model):
         max_length = 23,
         choices = CATEGORIA
     )
-    nome = models.CharField(max_length=55, verbose_name="Nome do Funcionário")
-    texto = models.TextField(blank=False, verbose_name="Descrição")
+    nome = models.CharField(max_length=55, verbose_name="Funcionário : ")
+    texto = models.TextField(blank=False, verbose_name="Descrição : ")
     resposta = models.TextField(blank=True, null=True)
     data = models.DateTimeField(auto_now_add=True)
-    data_finalizada = models.DateTimeField(null=True, blank=True, verbose_name="Data Finalizada ")
+    data_finalizada = models.DateTimeField(null=True, blank=True, verbose_name="Data Finalizada : ")
     finalizado = models.BooleanField(default=False, choices=BOOL_CHOICES)
-    upload_arquivo = models.FileField(blank=True, upload_to=update_filename)
+    upload_arquivo = models.FileField(blank=True, upload_to=update_filename, verbose_name="Anexar Arquivos : ")
     funcionario = models.ForeignKey(Funcionario, related_name="tickets", on_delete=models.PROTECT)
     
     
