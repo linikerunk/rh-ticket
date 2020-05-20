@@ -98,20 +98,23 @@ WSGI_APPLICATION = 'Tickets.wsgi.application'
 
 
 default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-DATABASES = {
-    'default': config('DATABASE_URL', default=default_dburl, cast=dburl)
-    }
+# DATABASES = {
+#     'default': config('DATABASE_URL', default=default_dburl, cast=dburl)
+#     }
 
-# 'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'RHTicket',
-#         'USER': 'root',
-#         'PASSWORD': 'admin',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'init_command': 'SET innodb_strict_mode=1',
-#         }
+DATABASES = {
+'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'RHTicket',
+        'USER': 'root',
+        'PASSWORD': 'admin',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': 'SET innodb_strict_mode=1',
+        },
+}
+}
 
 
 # Password validation
