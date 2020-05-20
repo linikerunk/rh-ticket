@@ -106,9 +106,9 @@ DATABASES = {
 'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'RHTicket',
-        'USER': 'root',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
+        'USER': 'RHTicket',
+        'PASSWORD': 'Vitesco1*',
+        'HOST': '10.218.24.114',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': 'SET innodb_strict_mode=1',
