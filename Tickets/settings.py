@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 
 import os
+from decouple import config
+from dj_database_url import parse as dburl
+
 from django.contrib.messages import constants
 
 from .email import EMAIL_HOST, EMAIL_USE_TLS, EMAIL_PORT, EMAIL_HOST_USER
@@ -98,7 +101,6 @@ default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 DATABASES = {
     'default': config('DATABASE_URL', default=default_dburl, cast=dburl)
     }
-}
 
 # 'default': {
 #         'ENGINE': 'django.db.backends.mysql',
