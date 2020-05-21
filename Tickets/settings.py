@@ -104,7 +104,7 @@ default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 
 DATABASES = {
 'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.mysql'
         'NAME': 'RHTicket',
         'USER': 'RHTicket',
         'PASSWORD': 'Vitesco1*',
