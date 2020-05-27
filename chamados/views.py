@@ -7,14 +7,16 @@ from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User # Chamados
 from django.core.mail import send_mail, send_mass_mail
+from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
-from .models import Ticket
+from .models import Ticket, Categoria, SubCategoria
 from perfil.models import Funcionario, Perfil, Unidade
 from .forms import TicketForm, TicketUpdateForm
 from perfil.forms import FuncionarioForm
+
 
 
 def funcionario_ajax(request, id):
@@ -25,6 +27,14 @@ def funcionario_ajax(request, id):
         response = {"nome": funcionario.nome, 'email': funcionario.email}
     return JsonResponse(response)
         
+
+def carregar_subcategorias(request, id):
+    categoria = request.GET.get('categoria')
+    subcategoria = SubCategoria.objects.filter(categoria=categoria)
+    data = serializers.serialize("json", subcategoria, fields=('id','nome'))
+    response = {'data': data}
+    return JsonResponse(response, safe=False)
+
 
 def enviar(request):
     if str(request.user) == 'AnonymousUser':
@@ -62,6 +72,7 @@ def enviar(request):
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
+        print(form.data)
     else:
         form = TicketForm()
     return render(request, 'chamados/enviar.html', {'form': form})
@@ -79,6 +90,7 @@ def atualizar_chamado(request, id):
     resposta = request.POST.get('resposta')
 
     if request.method == 'POST':
+        #Ajustar para ticket que está aberto
         form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
         if form.is_valid() and ticket.finalizado == True and ticket.data_finalizada == None:
             if not email or not categoria:
@@ -128,6 +140,3 @@ def login(request):
 def meu_logout(request):
     logout(request)
     return redirect('login')
-
-def teste(request):
-    return render(request, 'chamados/teste.html')

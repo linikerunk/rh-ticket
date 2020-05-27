@@ -11,10 +11,11 @@ from django.conf import settings
 
 from perfil.models import Funcionario
 
-# Create your models here.
+BOOL_CHOICES = ((True, 'Sim'), (False, 'Não'))
+
+
 def update_filename(instance, filename):
     path=f'documents/{instance.funcionario.unidade}/{instance.funcionario.re_funcionario}/'
-    #instance.funcionario.perfil.unidade
     output = ""
     for i in range(len(filename)):
         if ord(filename[i]) < 127:
@@ -24,23 +25,22 @@ def update_filename(instance, filename):
     return os.path.join(path, filename)
 
 
-BOOL_CHOICES = ((True, 'Sim'), (False, 'Não'))
-CATEGORIA = (
-            ('', ''),
-            ('Benefícios', 'Benefícios'),
-            ('Cargos e Salários', 'Cargos e Sálarios'),
-            ('Férias', 'Férias'),
-            ('Folha de Pagamento', 'Folha de Pagamento'),
-            ('Ponto', 'Ponto'),
-            ('Treinamento', 'Treinamento'),
-        )
+class Categoria(models.Model):
+    nome = models.CharField(max_length=50, unique=True)
+    
+    def __str__(self):
+        return self.nome
+
+
+class SubCategoria(models.Model):
+    nome = models.CharField(max_length=100, unique=True)
+    categoria = models.ForeignKey(Categoria, related_name='subcategorias', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nome
+
 
 class Ticket(models.Model):
-    categoria = models.CharField(
-        default = "--------------------------------",
-        max_length = 23,
-        choices = CATEGORIA
-    )
     nome = models.CharField(max_length=55, verbose_name="Funcionário : ")
     texto = models.TextField(blank=False, verbose_name="Descrição : ")
     resposta = models.TextField(blank=True, null=True)
@@ -49,6 +49,8 @@ class Ticket(models.Model):
     finalizado = models.BooleanField(default=False, choices=BOOL_CHOICES)
     upload_arquivo = models.FileField(blank=True, upload_to=update_filename, verbose_name="Anexar Arquivos : ")
     funcionario = models.ForeignKey(Funcionario, related_name="tickets", on_delete=models.PROTECT)
+    categoria = models.ForeignKey(Categoria, related_name='tickets', on_delete=models.CASCADE)
+    subcategoria = models.ForeignKey(SubCategoria, related_name='tickets', on_delete=models.CASCADE)
     
     
     def save(self, *args, **kwargs):

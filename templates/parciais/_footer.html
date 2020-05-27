@@ -46,31 +46,59 @@
       
     </script>
 
-    <script charset="UTF-8">
-      jQuery("#id_funcionario").change(function () {
-        let re_func = jQuery(this).val();
-        let url = "/pegar_funcionario/" + re_func + "/";
-        jQuery.ajax({
-          url: url,
-          type: 'GET',
-          data: {
-            re_func: re_func
-          },
-          beforeSend: function (xhr) {
-            // body...
-          },
-          success: function (response) {
-            jQuery("#id_nome").val(response.nome);
-            jQuery("#email").val(response.email)
-            // console.log(response.nome);
-            // console.log(response.email);
-          },
-          error: function (xhr) {
-            // body... xhr.statusText + xhr.responseText
-          },
-          complete: function () {
-            // body...
-          }
-        })
+      <script charset="UTF-8">
+        jQuery("#id_funcionario").change(function () {
+          let re_func = jQuery(this).val();
+          let url = "/pegar_funcionario/" + re_func + "/";
+          jQuery.ajax({
+            url: url,
+            type: 'GET',
+            data: {
+              re_func: re_func
+            },
+            beforeSend: function (xhr) {
+              // body...
+            },
+            success: function (response) {
+              jQuery("#id_nome").val(response.nome);
+              jQuery("#email").val(response.email)
+              // console.log(response.nome);
+              // console.log(response.email);
+            },
+            error: function (xhr) {
+              // body... xhr.statusText + xhr.responseText
+            },
+            complete: function () {
+              // body...
+            }
+          })
+        });
+      </script>
+
+     <script>
+    jQuery("#id_categoria").change(function () {
+      let categoria = jQuery(this).val()
+      let url = "carregar_subcategorias/" + categoria + "/";
+
+      jQuery.ajax({                      
+        url: url,                    
+        type: 'GET',
+        data: {
+          'categoria': categoria       
+        },
+        success: function (response) {
+          jQuery('#subcategoria').empty();
+          let object = JSON.parse(response.data)
+          object.forEach( (data) => {
+            console.log()
+              $('<option/>', {
+                'value': data.pk,
+                'text': data.fields.nome,
+              }).appendTo("#subcategoria")
+          });   
+          
+        }
       });
-    </script>
+
+    });
+  </script>

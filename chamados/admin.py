@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Ticket
+from .models import Ticket, Categoria, SubCategoria
 from perfil.models import Perfil, Funcionario
 # Register your models here.
 
@@ -10,3 +10,14 @@ from perfil.models import Perfil, Funcionario
 class TicketAdmin(ImportExportModelAdmin):
     list_display = ['id', 'funcionario', 'texto', 'data', 'finalizado']
     list_filter = ['funcionario__perfil__unidade']
+
+    
+
+@admin.register(Categoria)
+class CategoriaAdmin(admin.ModelAdmin):
+    fields = ['nome']
+
+
+@admin.register(SubCategoria)
+class SubCategoriaAdmin(admin.ModelAdmin):
+    fields = ['nome', 'categoria']

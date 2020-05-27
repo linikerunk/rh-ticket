@@ -112,7 +112,7 @@ DATABASES = {
         'OPTIONS': {
             'init_command': 'SET innodb_strict_mode=1',
         },
-}
+    }
 }
 
 # Password validation
