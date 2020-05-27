@@ -24,7 +24,7 @@ def update_filename(instance, filename):
     path = path.replace('ç', 'c').replace('ã', 'a').replace('´', '')
     return os.path.join(path, filename)
 
-
+# subcategoria
 class Categoria(models.Model):
     nome = models.CharField(max_length=50, unique=True)
     
