@@ -5,70 +5,69 @@
 
 {% block conteudo %}
 
-<h3> Sessão será disponivél em breve! </h3>
-
-<!-- <div class="row pl-5">
-    <div class="col-md-6 mb-0 mt-2">
-        <h3 class="mb-3">Perfil do usuário <code id="user-profile">{{ request.user }}</code></h3>
-    </div>
-</div>
-
-<div class="container w-75">
-    <div class="col-md-10 offset-md-1">
-    <div class="jumbotron jumbotron-fluid p-5 mb-5 w-100">
-    <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:perfil' %}">
+<h3 class="mb-4">Perfil do usuário [<strong>{{ request.user }}</strong>]</h3>
+<hr>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:atualizar_perfil' funcionario.id %}">
     {% csrf_token %}
     <div class="form-row">
 
-        <div class="form-group  col-md-3">
-            <label for="nome"><strong>RE : </strong></label>
-            <input type="text" class="form-control" id="re_funcionario" name="re_funcionario" value="{{ funcionario.re_funcionario }}" readonly>
+        <div class="form-group  col-md-4">
+            <label for="re"><strong>RE : </strong></label>
+            <input type="text" class="form-control" id="re_funcionario" name="re_funcionario"
+                value="{{ funcionario.re_funcionario }}" readonly>
         </div>
 
-        <div class="form-group  col-md-9">
+        <div class="form-group  col-md-8">
             <label for="nome"><strong>Nome do Funcionário : </strong></label>
             <input type="text" class="form-control" id="nome" name="nome"
                 value="{{ funcionario.nome }}" readonly>
         </div>
 
-        <div class="form-group  col-md-8">
-            <label for="nome"><strong>Unidade : </strong></label>
-            <input type="text" class="form-control" id="unidade" name="unidade" value="{{ perfil.unidade }}" readonly>
-        </div>
-
-
         <div class="form-group  col-md-4">
-            <label for="nome"><strong>Centro de Custo : </strong></label>
-            <input type="text" class="form-control" id="centro_de_custo" name="centro_de_custo" value="{{ funcionario.centro_de_custo }}" readonly>
-        </div>
-
-        <div class="form-group  col-md-6">
-            <label for="nome"><strong>Email Corporativo : </strong></label>
-            <input type="text" class="form-control" id="email_corporativo" name="email_corporativo"
-                value="{{ funcionario.email_corporativo }}">
-        </div>
-
-        <div class="form-group  col-md-6">
-            <label for="nome"><strong>Email Pessoal: </strong></label>
-            <input type="text" class="form-control" id="email" name="email" value="{{ funcionario.email }}">
+            <label for="centro_de_custo"><strong>Centro de Custo : </strong></label>
+            <input type="text" class="form-control" id="centro_de_custo" name="centro_de_custo"
+                value="{{ funcionario.centro_de_custo }}" readonly>
         </div>
 
         <div class="form-group  col-md-5">
-            <label for="nome"><strong>Telefone / Ramal : </strong></label>
-            <input type="text" class="form-control" id="ramal" name="ramal" value="{{ funcionario.ramal }}">
+            <label for="cpf"><strong>CPF :  </strong></label>
+            <input type="text" class="form-control" id="cpf" name="cpf" value="{{ funcionario.cpf }}" readonly>
         </div>
 
-
-        <div class="mt-4 mb-1 col-md-3">
-        <button type="reset" class="btn btn-warning mt-1 w-100 ml-1">Limpar</button>
+        <div class="form-group col-md-3">
+            <select name="unidade" class="select form-control form-control" id="unidade"  readonly hidden>
+                <option value="{{ funcionario.unidade.id }}">{{ funcionario.unidade }}</option>
+            </select>
         </div>
-        <div class="mt-4 mb-1 col-md-4">
-        <button type="submit" class="btn btn-primary float-right  w-100 mt-1">Alterar Informações</button>
+
+        <div class="form-group  col-md-4">
+            <label for="ramal"><strong>Ramal : </strong></label>
+            <input type="text" class="form-control" id="ramal" name="ramal" value="{{ funcionario.ramal }}" readonly>
+        </div>
+
+        <div class="form-group  col-md-8">
+            <label for="email_corporativo"><strong>Email Corporativo : </strong></label>
+            <input type="email" class="form-control" id="email_corporativo" name="email_corporativo" value="{{ funcionario.email_corporativo }}" readonly>
+        </div>
+
+        <div class="form-group  col-md-4">
+            <label for="telefone"><strong>Telefone : </strong></label>
+            <input type="text" class="form-control" id="telefone" name="telefone" value="{{ funcionario.telefone }}">
+        </div>
+
+        <div class="form-group  col-md-8">
+            <label for="email"><strong>Email Pessoal: </strong></label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ funcionario.email }}">
         </div>
         </form>
 
-        </div> 
+        <div class="mt-4 col-md-4 offset-md-2">
+        <a href="{% url 'chamados:enviar' %}"class="btn btn-warning mt-1 w-100 ml-1">Voltar</a>
         </div>
+        <div class="mt-4 col-md-4">
+        <button type="submit" class="btn btn-primary float-right  w-100 mt-1">Alterar Informações</button>
+        </div>
+
     </div>
-    </div> -->
+
 {% endblock %}

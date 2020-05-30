@@ -17,11 +17,12 @@ class Unidade(models.Model):
 class Funcionario(models.Model):
     re_funcionario = models.CharField(max_length=9, verbose_name="RE")
     nome = models.CharField(max_length=55, verbose_name="Funcionário :")
-    cpf = models.CharField(max_length=11, blank=True, null=True, verbose_name="CPF")
+    cpf = models.CharField(max_length=11, verbose_name="CPF")
     centro_de_custo = models.CharField(max_length=10)
-    ramal = models.CharField(max_length=9, null=True, verbose_name="Telefone / Ramal")
-    email_corporativo = models.EmailField(max_length=254, blank=True, null=True, verbose_name="Email Corporativo")
-    email = models.EmailField(max_length=254, blank=True, null=True, verbose_name="Email Pessoal")
+    ramal = models.CharField(max_length=9, blank=True, verbose_name="Ramal")
+    telefone = models.CharField(max_length=11, blank=True, verbose_name="Telefone")
+    email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True)
+    email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True)
     unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
 
     class Meta:

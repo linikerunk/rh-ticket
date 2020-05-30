@@ -1,5 +1,8 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
+from django.contrib.auth.admin import UserAdmin as BaseAdmin
+from django.contrib.auth.models import User 
+from import_export import resources
 from .models import Unidade, Funcionario, Perfil
 
 # Register your models here.
@@ -19,3 +22,14 @@ class UnidadeAdmin(admin.ModelAdmin):
 class FuncionarioAdmin(ImportExportModelAdmin):
     list_display = ['id', 'nome', 're_funcionario']
     list_filter = ['perfil__unidade']  
+
+class UserResource(resources.ModelResource):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password')
+
+class UserAdmin(BaseAdmin, ImportExportModelAdmin):
+    resource_class = UserResource
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)

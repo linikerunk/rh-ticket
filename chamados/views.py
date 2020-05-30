@@ -9,7 +9,6 @@ from django.contrib.auth.models import User # Chamados
 from django.core.mail import send_mail, send_mass_mail
 from django.core import serializers
 from django.core.paginator import Paginator
-from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 from .models import Ticket, Categoria, SubCategoria
@@ -131,12 +130,4 @@ def listar(request):
     return render(request, 'chamados/listar.html', {'tickets': tickets})       
 
 
-def login(request):
-    context = {}
-    return render(request, 'home/login.html', context)
 
-
-@login_required
-def meu_logout(request):
-    logout(request)
-    return redirect('login')
