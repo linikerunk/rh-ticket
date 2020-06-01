@@ -33,7 +33,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['10.218.24.22', '10.218.23.31', 'centralrh.conti.de', 'rhticket', 'sltm202x']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Email information
 
