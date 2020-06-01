@@ -14,7 +14,10 @@ from .models import Funcionario, Perfil, Unidade
 @login_required
 def perfil(request):
     perfil = Perfil.objects.get(id=request.user.id)
+    print("Seu perfil é : ", perfil)
     funcionario = perfil.funcionario
+    print("Funcionário : ", funcionario)
+    print("ID UNIDADE : ", perfil.unidade.id)
     context = {'perfil': perfil, 'funcionario': funcionario} 
     return render(request, 'perfil/perfil.html', context)
 

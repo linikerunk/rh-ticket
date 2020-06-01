@@ -2,6 +2,10 @@ from django.db import models
 from datetime import datetime
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 from django.conf import settings
 
 
@@ -19,10 +23,10 @@ class Funcionario(models.Model):
     nome = models.CharField(max_length=55, verbose_name="Funcionário :")
     cpf = models.CharField(max_length=11, verbose_name="CPF")
     centro_de_custo = models.CharField(max_length=10)
-    ramal = models.CharField(max_length=9, blank=True, verbose_name="Ramal")
+    ramal = models.CharField(max_length=9, blank=True, null=True, verbose_name="Ramal")
     telefone = models.CharField(max_length=11, blank=True, verbose_name="Telefone")
-    email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True)
-    email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True)
+    email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True, null=True)
+    email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True, null=True)
     unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
 
     class Meta:
@@ -42,3 +46,10 @@ class Perfil(models.Model):
 
     def __str__(self):
         return f'usuário : {self.usuario} da unidade : {self.unidade}'
+
+    def create_or_update_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Perfil.objects.create(user=instance)
+        instance.perfil.save()
+    
+        
