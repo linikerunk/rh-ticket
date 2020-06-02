@@ -12,7 +12,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 
 from .models import Ticket, Categoria, SubCategoria
-from perfil.models import Funcionario, Perfil, Unidade
+from perfil.models import Funcionario, Unidade
 from .forms import TicketForm, TicketUpdateForm
 from perfil.forms import FuncionarioForm
 
@@ -45,7 +45,7 @@ def enviar(request):
         elif user == '3':
             user = 'Ponta Grossa'
     else:
-        user = request.user.perfil_usuario.unidade
+        user = request.user.funcionario.unidade
     if request.method == 'POST':
         form = TicketForm(request.POST,  request.FILES or None)
         email = request.POST.get('email')
@@ -79,7 +79,7 @@ def enviar(request):
 
 @login_required
 def atualizar_chamado(request, id):
-    unidade = request.user.perfil_usuario.unidade
+    unidade = request.user.funcionario.unidade
     ticket = get_object_or_404(Ticket, pk=id, funcionario__unidade=unidade)
     initial_data = {
         'unidade': unidade
@@ -121,7 +121,7 @@ def atualizar_chamado(request, id):
 
 @login_required
 def listar(request):
-    unidade = request.user.perfil_usuario.unidade
+    unidade = request.user.funcionario.unidade
     tickets = Ticket.objects.filter(funcionario__unidade=unidade).order_by('-data')
     paginator = Paginator(tickets, 10)
     page = request.GET.get('page', 1)

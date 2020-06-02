@@ -1,5 +1,5 @@
 from django.forms import ModelForm, RadioSelect
-from .models import Funcionario, Perfil, Unidade
+from .models import Funcionario, Unidade
 from django import forms
 
 
@@ -26,11 +26,6 @@ class FuncionarioForm(forms.ModelForm):
         }
 
 
-class PerfilForm(forms.ModelForm):
-
-    class Meta:
-        model = Perfil
-        fields = '__all__'
 
 
 class UnidadeForm(forms.ModelForm):

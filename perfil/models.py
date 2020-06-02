@@ -28,6 +28,7 @@ class Funcionario(models.Model):
     email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True, null=True)
     email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True, null=True)
     unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ['re_funcionario', 'unidade']
@@ -36,20 +37,20 @@ class Funcionario(models.Model):
         return f'Funcionário : {self.re_funcionario} '
 
     def save(self, *args, **kwargs): 
-        self.nome = self.nome.upper() 
+        self.nome = self.nome.upper()
         super(Funcionario, self).save(*args, **kwargs) 
 
-class Perfil(models.Model):
-    unidade = models.ForeignKey(Unidade, related_name="+", on_delete=models.PROTECT)
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="perfil_usuario", on_delete=models.CASCADE)
-    funcionario = models.OneToOneField(Funcionario, related_name="perfil", null=True, blank=True, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f'usuário : {self.usuario} da unidade : {self.unidade}'
+def create_user(sender, instance, created, **kwargs):
+    print("instance: ", instance)
+    if created:
+        user = User.objects.create(username=instance.cpf, password=instance.cpf)
+        instance.usuario = user
+        instance.save()
+        
 
-    def create_or_update_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Perfil.objects.create(user=instance)
-        instance.perfil.save()
+
+post_save.connect(create_user, sender=Funcionario)
+
     
         

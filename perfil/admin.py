@@ -3,14 +3,9 @@ from import_export.admin import ImportExportModelAdmin
 from django.contrib.auth.admin import UserAdmin as BaseAdmin
 from django.contrib.auth.models import User 
 from import_export import resources
-from .models import Unidade, Funcionario, Perfil
+from .models import Unidade, Funcionario
 
 # Register your models here.
-
-@admin.register(Perfil)
-class PerfilAdmin(admin.ModelAdmin):
-    list_display = ['usuario', 'unidade', 'funcionario']
-    list_filter = ['usuario']
 
 @admin.register(Unidade)
 class UnidadeAdmin(admin.ModelAdmin):
@@ -21,7 +16,7 @@ class UnidadeAdmin(admin.ModelAdmin):
 @admin.register(Funcionario)
 class FuncionarioAdmin(ImportExportModelAdmin):
     list_display = ['id', 'nome', 're_funcionario']
-    list_filter = ['perfil__unidade']  
+    list_filter = ['unidade']  
 
 class UserResource(resources.ModelResource):
     class Meta:

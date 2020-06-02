@@ -5,20 +5,17 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User 
 from django.contrib import messages
-from perfil.forms import FuncionarioForm, PerfilForm, UnidadeForm
-from .models import Funcionario, Perfil, Unidade
+from perfil.forms import FuncionarioForm, UnidadeForm
+from .models import Funcionario, Unidade
 
 
 # Create your views here.
 
 @login_required
 def perfil(request):
-    perfil = Perfil.objects.get(id=request.user.id)
-    print("Seu perfil é : ", perfil)
-    funcionario = perfil.funcionario
-    print("Funcionário : ", funcionario)
-    print("ID UNIDADE : ", perfil.unidade.id)
-    context = {'perfil': perfil, 'funcionario': funcionario} 
+    funcionario = Funcionario.objects.get(id=request.user.id)
+    print(funcionario)
+    context = {'funcionario': funcionario} 
     return render(request, 'perfil/perfil.html', context)
 
 @login_required
