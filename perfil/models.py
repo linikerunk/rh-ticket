@@ -27,6 +27,7 @@ class Funcionario(models.Model):
     telefone = models.CharField(max_length=11, blank=True, verbose_name="Telefone")
     email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True, null=True)
     email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True, null=True)
+    primeiro_acesso = models.BooleanField(verbose_name="Primeiro Acesso", default=True)
     unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
 
@@ -42,13 +43,13 @@ class Funcionario(models.Model):
 
 
 def create_user(sender, instance, created, **kwargs):
-    print("instance: ", instance)
     if created:
-        user = User.objects.create(username=instance.cpf, password=instance.cpf)
+        user = User.objects.create_user(username=instance.cpf)
+        user.set_password(instance.cpf)
+        user.save()
         instance.usuario = user
         instance.save()
-        
-
+    
 
 post_save.connect(create_user, sender=Funcionario)
 

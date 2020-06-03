@@ -15,6 +15,7 @@ from .models import Ticket, Categoria, SubCategoria
 from perfil.models import Funcionario, Unidade
 from .forms import TicketForm, TicketUpdateForm
 from perfil.forms import FuncionarioForm
+from perfil.decorators import *
 
 
 
@@ -34,18 +35,10 @@ def carregar_subcategorias(request, id):
     response = {'data': data}
     return JsonResponse(response, safe=False)
 
-
+@verificar_funcionario()
+@login_required
 def enviar(request):
-    if str(request.user) == 'AnonymousUser':
-        user =  request.POST.get('unidade')
-        if user == '1':
-            user = 'Salto'
-        elif user == '2':
-            user = 'Camaçari'
-        elif user == '3':
-            user = 'Ponta Grossa'
-    else:
-        user = request.user.funcionario.unidade
+    unidade = request.user.funcionario.unidade
     if request.method == 'POST':
         form = TicketForm(request.POST,  request.FILES or None)
         email = request.POST.get('email')
@@ -61,22 +54,21 @@ def enviar(request):
             subject = categoria
             message = texto
             from_email = settings.EMAIL_HOST_USER
-            if str(user) == 'Salto':
+            if str(unidade) == 'Salto':
                 recipient_list = ['pedro.melo@continental.com', 
                 'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
-            elif str(user) == 'Camaçari':
+            elif str(unidade) == 'Camaçari':
                 recipient_list = ['Ila.Cerqueira@conti.com.br']
-            elif str(user) == 'Ponta Grossa':
+            elif str(unidade) == 'Ponta Grossa':
                 recipient_list = ['']
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
-        print(form.data)
     else:
         form = TicketForm()
     return render(request, 'chamados/enviar.html', {'form': form})
 
-
+@verificar_funcionario()
 @login_required
 def atualizar_chamado(request, id):
     unidade = request.user.funcionario.unidade
@@ -118,16 +110,18 @@ def atualizar_chamado(request, id):
 
     return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
     
-
+@verificar_funcionario()
 @login_required
 def listar(request):
-    unidade = request.user.funcionario.unidade
-    tickets = Ticket.objects.filter(funcionario__unidade=unidade).order_by('-data')
-    paginator = Paginator(tickets, 10)
-    page = request.GET.get('page', 1)
-    tickets = paginator.get_page(page)
-    
-    return render(request, 'chamados/listar.html', {'tickets': tickets})       
+    if request.user.groups.filter(name="RH"):
+        unidade = request.user.funcionario.unidade
+        tickets = Ticket.objects.filter(funcionario__unidade=unidade).order_by('-data')
+        paginator = Paginator(tickets, 10)
+        page = request.GET.get('page', 1)
+        tickets = paginator.get_page(page)
+        return render(request, 'chamados/listar.html', {'tickets': tickets})
+    else:
+        return render(request, 'chamados/listar_erro.html')       
 
 
 

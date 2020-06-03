@@ -53,6 +53,11 @@ main {
     animation-duration: 3s;
 }
 
+.help-block{
+    color: red;
+    font-size: 18px;
+} 
+
 @keyframes fade { 
     from {
         opacity: 0;
