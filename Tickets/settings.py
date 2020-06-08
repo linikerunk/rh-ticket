@@ -106,9 +106,9 @@ DATABASES = {
 'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'rhticket_prod',
-        'USER': 'root',
-        'PASSWORD': 'Continental1*',
-        'HOST': '127.0.0.1',
+        'USER': 'rhticket',
+        'PASSWORD': 'Vitesco1*',
+        'HOST': '10.218.24.114',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': 'SET innodb_strict_mode=1',
