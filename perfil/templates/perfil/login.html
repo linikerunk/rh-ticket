@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap %}
+{% load crispy_forms_tags %}
+
+{% block titulo %} Login {% endblock %}
+
+
+{% block conteudo %}
+{% if not user.is_authenticated %}
+<div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h3 class="">Fazer Login</h3>
+      <hr>
+<form method="POST">
+{% csrf_token %}
+<div class="row">
+  <div class="col-md-12">
+    <label for="unidade">Selecione sua Unidade</label>
+    <select id="unidade" name="unidade" class="select form-control form-control">
+      <option value="" selected>----------</option>
+      {% for unidade in unidade %}
+      <option value="{{ unidade.id }}">{{ unidade }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-md-12">
+  <label for="funcionario">Digite seu RE : </label>
+    <input type="text" id="funcionario-login" name="funcionario" class="form-control">
+  </div>
+  <div class="col-md-12">
+  {{form|bootstrap}}
+  </div>
+<div class="col-md-12">
+  <button type="reset"  class="btn btn-warning float-right ml-2 w-25" value="Reset">Limpar</button>
+  <button type="submit" class="btn btn-success float-right w-25">Entrar</button>
+  <button type="button" class="btn btn-info">Esqueci minha senha</button>
+ </div>
+ </div>
+
+</form>
+</div>
+</div> <!-- ./row -->
+{% else %}
+<div class="row">
+        <div class="col-md-6 offset-md-3">
+            <p class="lead">Você já está logado como : {{ request.user.username }}</p>
+            <hr>
+</div>
+</div> <!-- ./row -->
+{% endif %}
+{% endblock %}

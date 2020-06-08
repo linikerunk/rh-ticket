@@ -19,12 +19,12 @@
    <div class="form-group col-md-3">
     <label for="re">RE : </label>
     <input type="number" class="form-control" id="funcionario" name="funcionario" maxlength="5" minlength="4"
-      value="{{ ticket.funcionario.re_funcionario }}" readonly>
+      value="{{ ticket.funcionario.re_funcionario }}" readonly> 
   </div>
       <div class="form-group col-md-6">
     <label for="re">Nome do Funcionário : </label>
     <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite um RE válido."
-      value="{{ ticket.funcionario.nome }}" readonly>
+      value="{{ ticket.funcionario.nome }}" readonly> 
   </div>
    <div class="form-group col-md-4">
     <label for="ramal">Ramal / Telefone: </label>
@@ -59,7 +59,7 @@
   </div>
 
   {% if ticket.upload_arquivo %}
-      <div class="form-group col-md-5">
+      <div class="form-group col-md-12">
           <label><strong>Arquivo : </strong></label>
           <p class="mt-2"><a href="{{ ticket.upload_arquivo.url }}">{{ ticket.upload_arquivo }}</a></p>
       </div>
