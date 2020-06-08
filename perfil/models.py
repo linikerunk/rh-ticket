@@ -38,7 +38,7 @@ class Funcionario(models.Model):
 
     def save(self, *args, **kwargs): 
         self.nome = self.nome.upper()
-        print(f'{self.id} : {self.nome} Foi salvo com sucesso!')
+        print(f'{self.id} : {self.nome} Foi salvo com sucesso! \n')
         super(Funcionario, self).save(*args, **kwargs) 
 
 
