@@ -53,12 +53,12 @@ main {
     animation-duration: 3s;
 }
 
-.help-block{
+.help-block {
     color: red;
     font-size: 18px;
-} 
+}
 
-@keyframes fade { 
+@keyframes fade {
     from {
         opacity: 0;
     }
@@ -67,4 +67,10 @@ main {
     }
 }
 
+[for="id_username"] {
+    display: none;
+}
 
+#id_username {
+    display: none;
+}

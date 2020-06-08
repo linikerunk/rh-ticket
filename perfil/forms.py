@@ -62,8 +62,6 @@ class CustomAuthenticationForm(AuthenticationForm):
         concatenar = self.cleaned_data.get('concatenar') 
 
         if username is not None and password:
-            username = str(concatenar) + str(username)
-            print("Username : ", username)
             self.user_cache = authenticate(self.request, username=username, password=password)
             if self.user_cache is None:
                 raise self.get_invalid_login_error()

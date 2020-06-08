@@ -18,6 +18,13 @@ from perfil.forms import FuncionarioForm
 from perfil.decorators import *
 
 
+# AJAX
+
+def funcionario_login_ajax(request, id):
+    re = request.GET.get('funcionario-login')
+    response = {'re': re}
+    return JsonResponse(response)
+
 
 def funcionario_ajax(request, id):
     re_func = request.GET.get('re_func')
@@ -36,10 +43,7 @@ def carregar_subcategorias(request, id):
     return JsonResponse(response, safe=False)
 
 
-def carregar_unidade(request, id):
-    unidade = request.GET.get('unidade')
-    response = {'unidade': unidade}
-    return JsonResponse(response)
+# Sistema
 
 @verificar_funcionario()
 @login_required

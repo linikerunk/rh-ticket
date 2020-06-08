@@ -41,7 +41,6 @@ def set_password(request):
     funcionario = request.user.funcionario
     if request.method == 'POST':
         form =  PasswordChangeForm(data=request.POST,  user=request.user)
-        print("forms : ", form.fields)
         
         if form.is_valid():
             form.save()
@@ -65,14 +64,17 @@ class Login(auth_views.LoginView):
     
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        print(kwargs)
+        kwargs['request'] = self.request
         return kwargs
 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         unidade  = Unidade.objects.all()
-        context.update({'unidade': unidade})
+        re = Funcionario.objects.filter(unidade=unidade)
+        context.update({'unidade': unidade,
+                        're': re,
+                      })
         return context
 
 

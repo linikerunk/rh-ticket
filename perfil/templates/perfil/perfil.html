@@ -11,26 +11,26 @@
     {% csrf_token %}
     <div class="form-row">
 
-        <div class="form-group  col-md-4">
+        <div class="form-group  col-md-6">
             <label for="re"><strong>RE : </strong></label>
             <input type="text" class="form-control" id="re_funcionario" name="re_funcionario"
                 value="{{ funcionario.re_funcionario }}" readonly>
         </div>
 
-        <div class="form-group  col-md-8">
+        <div class="form-group  col-md-6">
             <label for="nome"><strong>Nome do Funcionário : </strong></label>
             <input type="text" class="form-control" id="nome" name="nome"
                 value="{{ funcionario.nome }}" readonly>
         </div>
 
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
             <label for="unidade"><strong>Unidade : </strong></label>
             <select name="unidade" class="select form-control form-control" id="unidade" readonly>
                 <option value="{{ funcionario.unidade.id }}">{{ funcionario.unidade }}</option>
             </select>
         </div>
 
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-6">
             <label for="centro_de_custo"><strong>Centro de Custo : </strong></label>
             <input type="text" class="form-control" id="centro_de_custo" name="centro_de_custo"
                 value="{{ funcionario.centro_de_custo }}" readonly>
@@ -41,12 +41,12 @@
             <input type="text" class="form-control" id="cpf" name="cpf" value="{{ funcionario.cpf }}" readonly>
         </div> -->
 
-        <div class="form-group  col-md-5">
+        <div class="form-group  col-md-6">
             <label for="ramal"><strong>Ramal : </strong></label>
             <input type="text" class="form-control" id="ramal" name="ramal" value="{{ funcionario.ramal }}" readonly>
         </div>
 
-        <div class="form-group  col-md-12">
+        <div class="form-group  col-md-6">
             <label for="email_corporativo"><strong>Email Corporativo : </strong></label>
             <input type="email" class="form-control" id="email_corporativo" name="email_corporativo" value="{{ funcionario.email_corporativo }}" readonly>
         </div>

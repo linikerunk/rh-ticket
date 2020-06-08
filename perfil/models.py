@@ -23,7 +23,7 @@ class Funcionario(models.Model):
     nome = models.CharField(max_length=55, verbose_name="Funcionário :")
     centro_de_custo = models.CharField(max_length=10)
     ramal = models.CharField(max_length=9, blank=True, null=True, verbose_name="Ramal")
-    telefone = models.CharField(max_length=11, blank=True, verbose_name="Telefone")
+    telefone = models.CharField(max_length=11, blank=True, null=True, verbose_name="Telefone")
     email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True, null=True)
     email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True, null=True)
     primeiro_acesso = models.BooleanField(verbose_name="Primeiro Acesso", default=True)
@@ -38,14 +38,16 @@ class Funcionario(models.Model):
 
     def save(self, *args, **kwargs): 
         self.nome = self.nome.upper()
+        print(f'{self.id} : {self.nome} Foi salvo com sucesso!')
         super(Funcionario, self).save(*args, **kwargs) 
 
 
 def create_user(sender, instance, created, **kwargs):
     if created:
-        user = User.objects.create_user(username=str(instance.unidade.id) + instance.re_funcionario)
+        user = User.objects.create_user(username=str(instance.unidade.id) + str(instance.re_funcionario))
         user.set_password(instance.re_funcionario)
         user.save()
+        print(user.username, "Foi salvo com sucesso!")
         instance.usuario = user
         instance.save()
     
