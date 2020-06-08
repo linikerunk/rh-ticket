@@ -67,10 +67,12 @@ main {
     }
 }
 
+#id_username {
+    display: none;
+}
+
 [for="id_username"] {
     display: none;
 }
 
-#id_username {
-    display: none;
-}
+/* comentando para ver se no server vai */
