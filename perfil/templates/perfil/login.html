@@ -13,8 +13,21 @@
     <h3 class="">Fazer Login</h3>
       <hr>
 <form method="POST">
-{% csrf_token %} {{form|bootstrap}}
+{% csrf_token %}
 <div class="row">
+  <div class="col-md-12">
+    <label for="unidade">Selecione sua Unidade</label>
+    <select id="unidade" name="unidade" class="select form-control form-control">
+      <option value="" selected>----------</option>
+      {% for unidade in unidade %}
+      <option value="{{ unidade.id }}">{{ unidade }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <input type="text" id="concatenar" name="concatenar">
+  <div class="col-md-12">
+  {{form|bootstrap}}
+  </div>
 <div class="col-md-12">
   <button type="reset"  class="btn btn-warning float-right ml-2 w-25" value="Reset">Limpar</button>
   <button type="submit" class="btn btn-success float-right w-25">Entrar</button>

@@ -1,12 +1,13 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm 
 from django.contrib import messages
-from perfil.forms import FuncionarioForm, UnidadeForm
+from perfil.forms import FuncionarioForm, UnidadeForm, AuthenticationForm
 from .models import Funcionario, Unidade
 from perfil.decorators import verificar_funcionario
 
@@ -15,7 +16,6 @@ from perfil.decorators import verificar_funcionario
 @login_required
 def perfil(request):
     funcionario = Funcionario.objects.get(id=request.user.funcionario.id)
-    print(funcionario)
     context = {'funcionario': funcionario} 
     return render(request, 'perfil/perfil.html', context)
 
@@ -59,9 +59,23 @@ def set_password(request):
         return render(request, "perfil\modificar_senha.html", context)
 
 
-def login(request):
-    context = {}
-    return render(request, 'perfil/login.html', context)
+class Login(auth_views.LoginView):
+    authentication_form = AuthenticationForm
+    template_name= 'perfil/login.html'
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        print(kwargs)
+        return kwargs
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        unidade  = Unidade.objects.all()
+        context.update({'unidade': unidade})
+        return context
+
+
 
 
 @login_required

@@ -21,7 +21,6 @@ class Unidade(models.Model):
 class Funcionario(models.Model):
     re_funcionario = models.CharField(max_length=9, verbose_name="RE")
     nome = models.CharField(max_length=55, verbose_name="Funcionário :")
-    cpf = models.CharField(max_length=11, verbose_name="CPF")
     centro_de_custo = models.CharField(max_length=10)
     ramal = models.CharField(max_length=9, blank=True, null=True, verbose_name="Ramal")
     telefone = models.CharField(max_length=11, blank=True, verbose_name="Telefone")
@@ -44,8 +43,8 @@ class Funcionario(models.Model):
 
 def create_user(sender, instance, created, **kwargs):
     if created:
-        user = User.objects.create_user(username=instance.cpf)
-        user.set_password(instance.cpf)
+        user = User.objects.create_user(username=str(instance.unidade.id) + instance.re_funcionario)
+        user.set_password(instance.re_funcionario)
         user.save()
         instance.usuario = user
         instance.save()

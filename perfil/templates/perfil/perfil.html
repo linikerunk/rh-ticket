@@ -23,34 +23,35 @@
                 value="{{ funcionario.nome }}" readonly>
         </div>
 
-        <div class="form-group  col-md-4">
+        <div class="form-group col-md-4">
+            <label for="unidade"><strong>Unidade : </strong></label>
+            <select name="unidade" class="select form-control form-control" id="unidade" readonly>
+                <option value="{{ funcionario.unidade.id }}">{{ funcionario.unidade }}</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-3">
             <label for="centro_de_custo"><strong>Centro de Custo : </strong></label>
             <input type="text" class="form-control" id="centro_de_custo" name="centro_de_custo"
                 value="{{ funcionario.centro_de_custo }}" readonly>
         </div>
 
-        <div class="form-group  col-md-5">
+        <!-- <div class="form-group  col-md-5">
             <label for="cpf"><strong>CPF :  </strong></label>
             <input type="text" class="form-control" id="cpf" name="cpf" value="{{ funcionario.cpf }}" readonly>
-        </div>
+        </div> -->
 
-        <div class="form-group col-md-3">
-            <select name="unidade" class="select form-control form-control" id="unidade"  readonly hidden>
-                <option value="{{ funcionario.unidade.id }}">{{ funcionario.unidade }}</option>
-            </select>
-        </div>
-
-        <div class="form-group  col-md-4">
+        <div class="form-group  col-md-5">
             <label for="ramal"><strong>Ramal : </strong></label>
             <input type="text" class="form-control" id="ramal" name="ramal" value="{{ funcionario.ramal }}" readonly>
         </div>
 
-        <div class="form-group  col-md-8">
+        <div class="form-group  col-md-12">
             <label for="email_corporativo"><strong>Email Corporativo : </strong></label>
             <input type="email" class="form-control" id="email_corporativo" name="email_corporativo" value="{{ funcionario.email_corporativo }}" readonly>
         </div>
 
-        <div class="form-group  col-md-4">
+        <!-- <div class="form-group  col-md-4">
             <label for="telefone"><strong>Telefone : </strong></label>
             <input type="text" class="form-control" id="telefone" name="telefone" value="{{ funcionario.telefone }}">
         </div>
@@ -58,15 +59,15 @@
         <div class="form-group  col-md-8">
             <label for="email"><strong>Email Pessoal: </strong></label>
             <input type="email" class="form-control" id="email" name="email" value="{{ funcionario.email }}">
-        </div>
+        </div> -->
         </form>
 
-        <div class="mt-4 col-md-4 offset-md-2">
+        <div class="mt-4 col-md-12">
         <a href="{% url 'chamados:enviar' %}"class="btn btn-warning mt-1 w-100 ml-1">Voltar</a>
         </div>
-        <div class="mt-4 col-md-4">
+        <!-- <div class="mt-4 col-md-4">
         <button type="submit" class="btn btn-primary float-right  w-100 mt-1">Alterar Informações</button>
-        </div>
+        </div> -->
 
     </div>
 

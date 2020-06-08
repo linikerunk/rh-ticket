@@ -35,24 +35,37 @@ def carregar_subcategorias(request, id):
     response = {'data': data}
     return JsonResponse(response, safe=False)
 
+
+def carregar_unidade(request, id):
+    unidade = request.GET.get('unidade')
+    response = {'unidade': unidade}
+    return JsonResponse(response)
+
 @verificar_funcionario()
 @login_required
 def enviar(request):
+    categoria = Categoria.objects.all()
+    # ------------------------------------------------------------------------ #
     unidade = request.user.funcionario.unidade
+    funcionario = request.user.funcionario
     if request.method == 'POST':
         form = TicketForm(request.POST,  request.FILES or None)
         email = request.POST.get('email')
+        categoria_field = request.POST.get('categoria')
+        subcategoria = request.POST.get('subcategoria')
+        subcategoria = SubCategoria.objects.get(pk=subcategoria)
+        form.instance.funcionario = funcionario
+        form.instance.unidade = unidade
         texto = request.POST.get('texto')
-        categoria = request.POST.get('categoria')
-        files = request.FILES.get('upload_arquivo')
-        files = str(files)
-        files.encode('UTF-8', 'ignore')
+
         if form.is_valid():
             form.save()
             save_it = form.save()
             save_it.save()
-            subject = categoria
-            message = texto
+            subject = "----------------------------------------------------------------------Novo chamado aberto----------------------------------------------------------------------------"
+            message = f"\tCategoria : {categoria_field}\n\tSubcategoria : {subcategoria}\n\t\
+RE : {funcionario.re_funcionario}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
             from_email = settings.EMAIL_HOST_USER
             if str(unidade) == 'Salto':
                 recipient_list = ['pedro.melo@continental.com', 
@@ -64,34 +77,48 @@ def enviar(request):
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
+        print(form.errors)
     else:
         form = TicketForm()
-    return render(request, 'chamados/enviar.html', {'form': form})
+    return render(request, 'chamados/enviar.html', {'form': form,
+                                                    'categoria': categoria,
+                                                    })
 
 @verificar_funcionario()
 @login_required
 def atualizar_chamado(request, id):
     unidade = request.user.funcionario.unidade
     ticket = get_object_or_404(Ticket, pk=id, funcionario__unidade=unidade)
+    funcionario = request.user.funcionario
     initial_data = {
         'unidade': unidade
     }
+    if not request.user.groups.filter(name="RH"):
+        return render(request, 'chamados/listar_erro.html' )
+    elif request.user.funcionario.unidade != ticket.funcionario.unidade:
+        return render(request, 'chamados/listar_erro.html' )
+    
     email = request.POST.get('email')
     categoria = request.POST.get('categoria')
-    resposta = request.POST.get('resposta')
 
     if request.method == 'POST':
         #Ajustar para ticket que está aberto
         form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
-        if form.is_valid() and ticket.finalizado == True and ticket.data_finalizada == None:
+        form.instance.funcionario = funcionario
+
+        if form.is_valid():
             if not email or not categoria:
                 messages.error(request, 'Nenhum campo pode estar vazio.')
                 return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
             form.save()
             save_it = form.save()
             save_it.save()
-            subject = categoria
-            message = resposta
+            subject = f"----------------------------------------------------------Fechamento do chamado {ticket.id} no sistema de RH---------------------------------------------------------------------"
+            message = "\tSeu chamado foi finalizado no sistema de RH. \n\
+\tConsulte seu chamado em http://centralrh.conti.de/\n\
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+            print(subject)
+            print(message)
             from_email = settings.EMAIL_HOST_USER
             to_list = [email, settings.EMAIL_HOST_USER]
 

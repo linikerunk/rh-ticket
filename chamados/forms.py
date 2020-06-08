@@ -12,15 +12,22 @@ BOOL_CHOICES = ((True, 'Sim'), (False, 'Não'))
 
 class TicketForm(forms.ModelForm):
 
-    unidade = forms.ModelChoiceField(
-        label="Unidade : ",
-        queryset=Unidade.objects.all())
+    # unidade = forms.ModelChoiceField(
+    #     label="Unidade : ",
+    #     queryset=Unidade.objects.all(),
+    #     to_field_name="nome")
 
-    funcionario = forms.ModelChoiceField(
-        label="RE : ",
-        queryset=Funcionario.objects.all(),
-        to_field_name="re_funcionario", 
-        widget=forms.TextInput())
+    # funcionario = forms.ModelChoiceField(
+    #     label="RE : ",
+    #     queryset=Funcionario.objects.all(),
+    #     to_field_name="re_funcionario", 
+    #     widget=forms.TextInput())
+    
+    categoria = forms.ModelChoiceField(
+        label="Categoria : ",
+        queryset=Categoria.objects.all(),
+        to_field_name="nome")
+    
 
     upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(
         attrs={'multiple': True}), required=False, label="Anexar Arquivo : ")
@@ -28,10 +35,9 @@ class TicketForm(forms.ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['unidade', 'categoria', 'subcategoria', 'funcionario', 'texto', 'nome',
+        fields = ['categoria', 'subcategoria', 'texto',
         'upload_arquivo']
         labels = {
-            'nome': 'Funcionário : ',
             'categoria': 'Categoria : ',
             'subcategoria': 'Subcategoria : ',
             'texto': 'Descrição : ',
@@ -57,21 +63,20 @@ class TicketForm(forms.ModelForm):
 
 
 class TicketUpdateForm(forms.ModelForm):
-    funcionario = forms.ModelChoiceField(
-        label="RE : ",
-        queryset=Funcionario.objects.all(),
-        to_field_name="re_funcionario", 
-        widget=forms.TextInput())
+    # funcionario = forms.ModelChoiceField(
+    #     label="RE : ",
+    #     queryset=Funcionario.objects.all(),
+    #     to_field_name="re_funcionario", 
+    #     widget=forms.TextInput())
+    
     upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(
         attrs={'multiple': True}), required=False, label="Anexar Arquivo : ")
     
 
     class Meta:
         model = Ticket
-        fields = ['categoria', 'funcionario', 'subcategoria', 'nome', 'texto',
-                  'resposta', 'data_finalizada', 'finalizado', 'upload_arquivo']
+        fields = ['resposta', 'data_finalizada', 'finalizado', 'upload_arquivo']
         labels = {
-            'nome': 'Funcionário : ',
             'categoria': 'Categoria : ',
             'subcategoria': 'Subcategoria : ',
             'texto': 'Descrição : ',
