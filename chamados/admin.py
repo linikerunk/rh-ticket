@@ -14,10 +14,10 @@ class TicketAdmin(ImportExportModelAdmin):
     
 
 @admin.register(Categoria)
-class CategoriaAdmin(admin.ModelAdmin):
+class CategoriaAdmin(ImportExportModelAdmin):
     fields = ['nome']
 
 
 @admin.register(SubCategoria)
-class SubCategoriaAdmin(admin.ModelAdmin):
+class SubCategoriaAdmin(ImportExportModelAdmin):
     fields = ['nome', 'categoria']
