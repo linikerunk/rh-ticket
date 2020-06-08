@@ -15,6 +15,4 @@ venv.bak/
 .RHTicket
 media/
 media
-staticfiles
-staticfiles/
 .env
