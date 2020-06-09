@@ -34,7 +34,7 @@
         {% if  user.is_authenticated %}
         <ul class="nav navbar-nav ml-auto" style="font-size: 17px;">
          <li> 
-          <p class="text-light" id="username-title">Usuário : &nbsp;&nbsp;&nbsp;<span id="username-data">{{ request.user.username }}</span> </p>
+          <p class="text-light" id="username-title">Usuário : <span id="username-data">{{ request.user.funcionario.nome }}</span> </p>
         </li> 
         </ul>
         {% else %}

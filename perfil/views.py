@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm 
 from django.contrib import messages
-from perfil.forms import FuncionarioForm, UnidadeForm, AuthenticationForm
+from perfil.forms import FuncionarioForm, UnidadeForm, CustomAuthenticationForm
 from .models import Funcionario, Unidade
 from perfil.decorators import verificar_funcionario
 
@@ -59,7 +59,7 @@ def set_password(request):
 
 
 class Login(auth_views.LoginView):
-    authentication_form = AuthenticationForm
+    authentication_form = CustomAuthenticationForm
     template_name= 'perfil/login.html'
     
     def get_form_kwargs(self):

@@ -5,14 +5,14 @@
 
 {% block conteudo %}
 
-<h3 class="mb-4">Perfil do usuário [<strong>{{ request.user }}</strong>]</h3>
+<h2 class="mb-4">Perfil do usuário</h2>
 <hr>
     <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:atualizar_perfil' funcionario.id %}">
     {% csrf_token %}
     <div class="form-row">
 
         <div class="form-group  col-md-6">
-            <label for="re"><strong>RE : </strong></label>
+            <label for="re"><strong>Registro : </strong></label>
             <input type="text" class="form-control" id="re_funcionario" name="re_funcionario"
                 value="{{ funcionario.re_funcionario }}" readonly>
         </div>

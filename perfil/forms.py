@@ -1,5 +1,7 @@
-from django.forms import ModelForm, RadioSelect, PasswordInput
+from django.forms import ModelForm, RadioSelect
+from django.forms.widgets import PasswordInput, TextInput
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from django.contrib.auth import authenticate
 from .models import Funcionario, Unidade
 from django import forms
 
@@ -40,20 +42,21 @@ class UnidadeForm(forms.ModelForm):
 
 class CustomAuthenticationForm(AuthenticationForm):
 
-    username = UsernameField(
-        label= ("Usuário (RE) :"), 
-        widget=forms.TextInput(attrs={'autofocus': True}))
+    username = forms.CharField(widget=TextInput(
+        attrs={'class':'validate','placeholder': 'O Registro de usuário é conhecido como RE também.'}))
+
     password = forms.CharField(
-        label=("Senha: "),
+        label= "Senha:",
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
+        'placeholder': 'Caso seja seu primeiro acesso, utilizar o número do seu registro.'}),
     )
 
 
     def __init__(self, request=None, *args, **kwargs):
+        super(CustomAuthenticationForm, self).__init__(*args, **kwargs)
         self.request = request
         self.user_cache = None
-        super().__init__(*args, **kwargs)
 
 
     def clean(self):
