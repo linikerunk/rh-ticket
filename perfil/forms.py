@@ -46,7 +46,7 @@ class CustomAuthenticationForm(AuthenticationForm):
         attrs={'class':'validate','placeholder': 'O Registro de usuário é conhecido como RE também.'}))
 
     password = forms.CharField(
-        label= "Senha:",
+        label= "Senha :",
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
         'placeholder': 'Caso seja seu primeiro acesso, utilizar o número do seu registro.'}),
