@@ -51,11 +51,11 @@ def set_password(request):
             return redirect('perfil:perfil')
         else:
             context = {'form': form}
-            return render(request, "perfil\modificar_senha.html", context)
+            return render(request, "perfil/modificar_senha.html", context)
     else:
         form = PasswordChangeForm(user=request.user)
         context = {'form': form}
-        return render(request, "perfil\modificar_senha.html", context)
+        return render(request, "perfil/modificar_senha.html", context)
 
 
 class Login(auth_views.LoginView):
