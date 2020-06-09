@@ -12,10 +12,10 @@ class UnidadeAdmin(admin.ModelAdmin):
     list_filter = ['nome']
 
 
-# @admin.register(Funcionario)
-# class FuncionarioAdmin(ImportExportModelAdmin):
-#     list_display = ['id', 'nome', 're_funcionario']
-#     list_filter = ['unidade']  
+@admin.register(Funcionario)
+class FuncionarioAdmin(ImportExportModelAdmin):
+    list_display = ['id', 'nome', 're_funcionario']
+    list_filter = ['unidade']  
 
 # class UserResource(resources.ModelResource):
 #     class Meta:
