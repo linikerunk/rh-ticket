@@ -43,7 +43,7 @@ class SubCategoria(models.Model):
 class Ticket(models.Model):
     texto = models.TextField(blank=False, verbose_name="Descrição : ")
     resposta = models.TextField(blank=True, null=True, verbose_name="Resposta :")
-    data = models.DateTimeField(auto_now_add=True)
+    data = models.DateTimeField()
     data_finalizada = models.DateTimeField(null=True, blank=True, verbose_name="Data Finalizada : ")
     finalizado = models.BooleanField(default=False, choices=BOOL_CHOICES)
     upload_arquivo = models.FileField(blank=True, upload_to=update_filename, verbose_name="Anexar Arquivos : ")
