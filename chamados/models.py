@@ -43,7 +43,7 @@ class SubCategoria(models.Model):
 class Ticket(models.Model):
     texto = models.TextField(blank=False, verbose_name="Descrição : ")
     resposta = models.TextField(blank=True, null=True, verbose_name="Resposta :")
-    data = models.DateTimeField()
+    data = models.DateTimeField(auto_add_now=True)
     data_finalizada = models.DateTimeField(null=True, blank=True, verbose_name="Data Finalizada : ")
     finalizado = models.BooleanField(default=False, choices=BOOL_CHOICES)
     upload_arquivo = models.FileField(blank=True, upload_to=update_filename, verbose_name="Anexar Arquivos : ")
@@ -56,7 +56,7 @@ class Ticket(models.Model):
         if self.finalizado:
             if not self.data_finalizada:
                 pass
-                # self.data_finalizada = timezone.now()
+                self.data_finalizada = timezone.now()
         return super(Ticket, self).save(*args, **kwargs)
     
     def tempo_aberto(self):
