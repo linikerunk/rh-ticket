@@ -55,7 +55,8 @@ class Ticket(models.Model):
     def save(self, *args, **kwargs):
         if self.finalizado:
             if not self.data_finalizada:
-                self.data_finalizada = timezone.now()
+                pass
+                # self.data_finalizada = timezone.now()
         return super(Ticket, self).save(*args, **kwargs)
     
     def tempo_aberto(self):
