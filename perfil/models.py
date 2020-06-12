@@ -2,7 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -46,6 +46,8 @@ def create_user(sender, instance, created, **kwargs):
     if created:
         user = User.objects.create_user(username=str(instance.unidade.id) + str(instance.re_funcionario))
         user.set_password(instance.re_funcionario)
+        grupo = Group.objects.get(id=3)
+        user.groups.add(grupo)
         user.save()
         print(user.username, "Foi salvo com sucesso!")
         instance.usuario = user
