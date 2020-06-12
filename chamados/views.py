@@ -35,9 +35,10 @@ def funcionario_ajax(request, id):
     return JsonResponse(response)
         
 
-def carregar_subcategorias(request, id):
-    categoria = request.GET.get('categoria')
+def carregar_subcategorias(request, categoria):
+    print(categoria) 
     subcategoria = SubCategoria.objects.filter(categoria=categoria)
+    print(categoria)
     data = serializers.serialize("json", subcategoria, fields=('id','nome'))
     response = {'data': data}
     return JsonResponse(response, safe=False)
@@ -128,6 +129,7 @@ def atualizar_chamado(request, id):
 
             send_mail(subject, message, from_email, to_list, fail_silently=True)
             messages.success(request, f' E-mail enviado com sucesso para {email}')
+            print("DADOS DO FORMULário : ", form.data)
             return redirect('chamados:listar')
             
         elif ticket.finalizado and ticket.data_finalizada != None:

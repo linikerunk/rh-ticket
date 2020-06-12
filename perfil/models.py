@@ -22,6 +22,8 @@ class Funcionario(models.Model):
     re_funcionario = models.CharField(max_length=9, verbose_name="RE")
     nome = models.CharField(max_length=55, verbose_name="Funcionário :")
     centro_de_custo = models.CharField(max_length=10)
+    admissao = models.DateTimeField(null=True, blank=True, verbose_name="Data de Admissão : ")
+    demissao = models.DateTimeField(null=True, blank=True, verbose_name="Data de Demissão : ")
     ramal = models.CharField(max_length=9, blank=True, null=True, verbose_name="Ramal")
     telefone = models.CharField(max_length=11, blank=True, null=True, verbose_name="Telefone")
     email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True, null=True)

@@ -43,6 +43,13 @@
       jQuery(document).on('click', 'ul li', function(){
         jQuery(this).addClass('active')
       })
+
+      // click finalizar chamado
+      jQuery("#finaliza_ticket").click(function (){
+        alert("Deseja finalizar esse chamado ? ")
+        var selectedTicket = jQuery("#finalizado").val("True");
+        console.log(selectedTicket.val())
+      })
       
     </script>
 
@@ -89,7 +96,6 @@
     jQuery("#id_categoria").change(function () {
       let categoria = jQuery(this).children("option:selected").val();
       var select = document.getElementById('id_categoria').getElementsByTagName("option");
-      categoria = indexMatchingText(select, categoria)
       let url = "carregar_subcategorias/" + categoria + "/";
       console.log(categoria)
 

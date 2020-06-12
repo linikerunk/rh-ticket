@@ -66,8 +66,8 @@
   {% else %}
   {% endif %}
   <div class="form-group col-md-3">
-    <label for="finalizado"><small><strong>Chamado foi finalizado ?</strong></small> </label>
-    <select class="form-control" id="finalizado" name="finalizado" value="{{ ticket.finalizado }}" required>
+    <!-- <label for="finalizado"><small><strong>Chamado foi finalizado ?</strong></small> </label> -->
+    <select class="form-control" id="finalizado" name="finalizado" value="{{ ticket.finalizado }}" required hidden>
       <option id="finalizado" value="False">Não</option>
       <option id="finalizado" value="True">Sim</option>
     </select>
@@ -75,7 +75,8 @@
 
 <div class="form-group  col-md-9 mt-4 p-2">
 <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning w-25">&nbsp;&nbsp;&nbsp; Voltar &nbsp;&nbsp;&nbsp;</a>
-<button type="submit" class="btn btn-success w-50">Atualizar o Chamado</button>
+<button type="submit" class="btn btn-primary">Atualizar o Chamado</button>
+<button type="submit" id="finaliza_ticket"  class="btn btn-success w-50">Finalizar Chamado</button>
 </div>
 
 {% else %}
