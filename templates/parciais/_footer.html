@@ -94,10 +94,10 @@
       }
 
     jQuery("#id_categoria").change(function () {
-      let categoria = jQuery(this).children("option:selected").val();
+      let categoria_nome = jQuery(this).children("option:selected").val();
       var select = document.getElementById('id_categoria').getElementsByTagName("option");
+      var categoria = indexMatchingText(select, categoria_nome)
       let url = "carregar_subcategorias/" + categoria + "/";
-      console.log(categoria)
 
       jQuery.ajax({                      
         url: url,                    

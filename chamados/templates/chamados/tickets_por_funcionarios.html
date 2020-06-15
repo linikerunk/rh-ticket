@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Tickets por Funcionarios {% endblock %}
+
+{% block conteudo %}
+    <h1> Estou na página de funcionários</h1>
+    <div class="form-row">
+        <div class="form-group  col-md-3">
+            <label for="unidade">Unidade : </label>
+            <input type="text" class="form-control" id="unidade" name="unidade" value="{{ ticket.funcionario.unidade }}"
+                readonly>
+        </div>
+        <div class="form-group col-md-3">
+            <label for="re">RE : </label>
+            <input type="number" class="form-control" id="funcionario" name="funcionario" maxlength="5" minlength="4"
+                value="{{ ticket.funcionario.re_funcionario }}" readonly>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="re">Nome do Funcionário : </label>
+            <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite um RE válido."
+                value="{{ ticket.funcionario.nome }}" readonly>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="ramal">Ramal / Telefone: </label>
+            <input type="number" class="form-control" id="ramal" name="ramal" value="{{ ticket.funcionario.ramal }}"
+                readonly>
+        </div>
+        <div class="form-group col-md-8">
+            <label for="email">Email Funcionário : </label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ ticket.funcionario.email }}"
+                readonly>
+        </div>
+        <div class="form-group col-md-6">
+            <label> Categoria </label>
+            <select name="categoria" class="select form-control form-control" id="categoria" readonly>
+                <option value="{{ ticket.categoria.id }}">{{ ticket.categoria }}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label> Subcategoria </label>
+            <select name="subcategoria" class="select form-control form-control" id="subcategoria" readonly>
+                <option value="{{ ticket.subcategoria.id }}">{{ ticket.subcategoria }}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-12">
+            <label for="texto">Descrição do Chamado : </label>
+            <textarea class="form-control" id="texto-atualizar" name="texto" rows="5" col="15"
+                readonly>{{ ticket.texto }}</textarea>
+        </div>
+        {% if ticket.resposta %}
+        <div class="form-group col-md-12">
+            <label for="resposta">Resposta : </label>
+            <textarea class="form-control" id="texto-azul" name="resposta" rows="5" col="15" value="{{ ticket.resposta }}" readonly
+                required>{{ ticket.resposta }}</textarea>
+        </div>
+        {% else %}
+        {% endif %}
+        
+        {% if ticket.upload_arquivo %}
+        <div class="form-group col-md-12">
+            <label><strong>Arquivo : </strong></label>
+            <p class="mt-2"><a href="{{ ticket.upload_arquivo.url }}">{{ ticket.upload_arquivo }}</a></p>
+        </div>
+        {% else %}
+        {% endif %}
+        
+        <div class="form-group  col-md-12 mt-4 p-2">
+            <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning pr-5 pl-5 w-100">&nbsp;&nbsp;&nbsp;
+                Voltar &nbsp;&nbsp;&nbsp;</a>
+        </div>
+{% endblock %}

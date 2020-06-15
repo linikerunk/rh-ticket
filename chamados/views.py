@@ -35,17 +35,15 @@ def funcionario_ajax(request, id):
     return JsonResponse(response)
         
 
-def carregar_subcategorias(request, categoria):
-    print(categoria) 
-    subcategoria = SubCategoria.objects.filter(categoria=categoria)
-    print(categoria)
+def carregar_subcategorias(request, id):
+    subcategoria = SubCategoria.objects.filter(categoria=id)
+    print(subcategoria)
     data = serializers.serialize("json", subcategoria, fields=('id','nome'))
     response = {'data': data}
     return JsonResponse(response, safe=False)
 
 
 # Sistema
-
 @verificar_funcionario()
 @login_required
 def enviar(request):
@@ -67,7 +65,7 @@ def enviar(request):
             form.save()
             save_it = form.save()
             save_it.save()
-            subject = "----------------------------------------------------------------------Novo chamado aberto----------------------------------------------------------------------------"
+            subject = "Novo chamado aberto"
             message = f"\tCategoria : {categoria_field}\n\tSubcategoria : {subcategoria}\n\t\
 RE : {funcionario.re_funcionario}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -98,9 +96,9 @@ def atualizar_chamado(request, id):
     initial_data = {
         'unidade': unidade
     }
-    if not request.user.groups.filter(name="RH"):
-        return render(request, 'chamados/listar_erro.html' )
-    elif request.user.funcionario.unidade != ticket.funcionario.unidade:
+    if not request.user.groups.filter(name="RH") and ticket.funcionario == request.user.funcionario:
+        return render(request, 'chamados/tickets_por_funcionarios.html', {'ticket': ticket} )
+    elif not request.user.groups.filter(name="RH"):
         return render(request, 'chamados/listar_erro.html' )
     
     email = request.POST.get('email')
@@ -109,7 +107,6 @@ def atualizar_chamado(request, id):
     if request.method == 'POST':
         #Ajustar para ticket que está aberto
         form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
-        form.instance.funcionario = funcionario
 
         if form.is_valid():
             if not email or not categoria:
@@ -118,7 +115,7 @@ def atualizar_chamado(request, id):
             form.save()
             save_it = form.save()
             save_it.save()
-            subject = f"----------------------------------------------------------Fechamento do chamado {ticket.id} no sistema de RH---------------------------------------------------------------------"
+            subject = f"Fechamento do chamado {ticket.id} no sistema de RH"
             message = "\tSeu chamado foi finalizado no sistema de RH. \n\
 \tConsulte seu chamado em http://centralrh.conti.de/\n\
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -143,6 +140,7 @@ def atualizar_chamado(request, id):
 
     return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
     
+
 @verificar_funcionario()
 @login_required
 def listar(request):
@@ -154,7 +152,13 @@ def listar(request):
         tickets = paginator.get_page(page)
         return render(request, 'chamados/listar.html', {'tickets': tickets})
     else:
-        return render(request, 'chamados/listar_erro.html')       
+        funcionario = request.user.funcionario
+        tickets = Ticket.objects.filter(funcionario=funcionario).order_by('-data')
+        paginator = Paginator(tickets, 10)
+        page = request.GET.get('page', 1)
+        tickets = paginator.get_page(page)
+        return render(request, 'chamados/listar.html', {'tickets': tickets})
+               
 
 
 
