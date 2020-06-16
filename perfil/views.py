@@ -25,6 +25,7 @@ def perfil(request):
 def atualizar_perfil(request, id):
     funcionario = get_object_or_404(Funcionario, pk=id)
     form = FuncionarioForm(request.POST,  request.FILES or None, instance=funcionario)
+    print("Formulário de dados funcionário : ", form.data)
     if request.method == 'POST':
         if form.is_valid():
             form.save()

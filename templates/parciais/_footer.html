@@ -154,3 +154,16 @@
       });
   </script>
 
+<script>
+  $('#telefone_edit').blur(function () {
+      if ($(this).val().length === 0) {
+      $(this).attr("placeholder", "Se esse campo ficar vázio, será considerado como exclusão de dados.").val("").focusout();
+    }
+    });
+
+  $('#email_edit').blur(function () {
+       if ($(this).val().length === 0) {
+      $(this).attr("placeholder", "Se esse campo ficar vázio, será considerado como exclusão de dados.").val("").focusout();
+    }
+    });
+</script>

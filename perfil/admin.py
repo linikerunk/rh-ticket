@@ -20,7 +20,7 @@ class FuncionarioAdmin(ImportExportModelAdmin):
 
 @admin.register(RegistroAutorizacao)
 class RegistroAutorizacaoAdmin(ImportExportModelAdmin):
-    list_display = ['get_user', 'get_funcionario_id','funcionario', 'data_atualizacao']
+    list_display = ['funcionario', 'get_funcionario_id', 'get_user', 'data_atualizacao', 'acao', ]
     list_filter = ['funcionario']
     search_fields = ['funcionario__re_funcionario']
 
@@ -31,7 +31,7 @@ class RegistroAutorizacaoAdmin(ImportExportModelAdmin):
     
     def get_funcionario_id(self, obj):
         return obj.funcionario.id
-    get_funcionario_id.short_description = 'Id do Funcionario'
+    get_funcionario_id.short_description = 'Id'
     get_funcionario_id.admin_order_field = 'funcionario__id'
 
 # class UserResource(resources.ModelResource):

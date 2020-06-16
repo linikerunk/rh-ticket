@@ -10,6 +10,12 @@ from django.conf import settings
 
 now = datetime.now()
 
+TERMO = (
+     ("1", "Alteração"),
+    ("2", "Exclusão"),
+)
+
+
 
 class Unidade(models.Model):
     nome = models.CharField(max_length=64, unique=True)
@@ -22,16 +28,17 @@ class Funcionario(models.Model):
     re_funcionario = models.CharField(max_length=9, verbose_name="RE")
     nome = models.CharField(max_length=55, verbose_name="Funcionário :")
     centro_de_custo = models.CharField(max_length=10)
-    admissao = models.CharField(max_length=20, null=True, blank=True, verbose_name="Data de Admissão : ")
-    demissao = models.CharField(max_length=20, null=True, blank=True, verbose_name="Data de Demissão : ")
-    ramal = models.CharField(max_length=9, blank=True, null=True, verbose_name="Ramal")
-    telefone = models.CharField(max_length=11, blank=True, null=True, verbose_name="Telefone")
-    email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True, null=True)
-    email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True, null=True)
+    admissao = models.CharField(max_length=20, blank=True, verbose_name="Data de Admissão : ", default="")
+    demissao = models.CharField(max_length=20, blank=True, verbose_name="Data de Demissão : ", default="")
+    ramal = models.CharField(max_length=9, blank=True, verbose_name="Ramal", default="")
+    telefone = models.CharField(max_length=11, blank=True, verbose_name="Telefone", default="")
+    email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True, default="")
+    email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True, default="")
     primeiro_acesso = models.BooleanField(verbose_name="Primeiro Acesso", default=True)
     unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
-    
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    termo_dados = models.CharField(verbose_name="Termo de Consentimento", max_length=9, choices=TERMO)
+
 
     class Meta:
         unique_together = ['re_funcionario', 'unidade']
@@ -62,7 +69,7 @@ post_save.connect(create_user, sender=Funcionario)
 
 def update_func(sender, instance, created, **kwargs):
     if not created:
-        registro = RegistroAutorizacao.objects.create(funcionario=instance)
+        registro = RegistroAutorizacao.objects.create(funcionario=instance, acao=instance.termo_dados)
         registro.save()
 
 post_save.connect(update_func, sender=Funcionario)
@@ -71,6 +78,7 @@ post_save.connect(update_func, sender=Funcionario)
 class RegistroAutorizacao(models.Model):
     funcionario = models.ForeignKey(Funcionario, related_name="logs", on_delete=models.PROTECT)
     data_atualizacao = models.DateTimeField(verbose_name='Atualização', auto_now_add=True)     
+    acao = models.CharField(verbose_name="Ação", max_length=9, choices=TERMO, default=1)
 
     class Meta:
         verbose_name = 'Registro de Autorizações'
