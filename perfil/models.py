@@ -61,7 +61,7 @@ post_save.connect(create_user, sender=Funcionario)
 
 
 def update_func(sender, instance, created, **kwargs):
-    if kwargs.get('created', False):
+    if not created:
         registro = RegistroAutorizacao.objects.create(funcionario=instance)
         registro.save()
 
