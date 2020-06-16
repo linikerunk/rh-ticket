@@ -8,8 +8,8 @@ from django.dispatch import receiver
 
 from django.conf import settings
 
+now = datetime.now()
 
-# Create your models here.
 
 class Unidade(models.Model):
     nome = models.CharField(max_length=64, unique=True)
@@ -31,6 +31,7 @@ class Funcionario(models.Model):
     primeiro_acesso = models.BooleanField(verbose_name="Primeiro Acesso", default=True)
     unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
+    
 
     class Meta:
         unique_together = ['re_funcionario', 'unidade']
@@ -58,5 +59,19 @@ def create_user(sender, instance, created, **kwargs):
 
 post_save.connect(create_user, sender=Funcionario)
 
+
+def update_func(sender, instance, created, **kwargs):
+    if kwargs.get('created', False):
+        registro = RegistroAutorizacao.objects.create(funcionario=instance)
+        registro.save()
+
+post_save.connect(update_func, sender=Funcionario)
     
-        
+
+class RegistroAutorizacao(models.Model):
+    funcionario = models.ForeignKey(Funcionario, related_name="logs", on_delete=models.PROTECT)
+    data_atualizacao = models.DateTimeField(verbose_name='Atualização', auto_now_add=True)     
+
+    class Meta:
+        verbose_name = 'Registro de Autorizações'
+        verbose_name_plural = 'Registro de Autorizações'

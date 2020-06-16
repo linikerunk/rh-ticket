@@ -75,4 +75,23 @@ main {
     }
 }
 
-/* comentando para ver se no server vai */
+/* perfil checkbox */
+
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  transform: scale(2);
+  
+}
+
+.checkboxtext
+{
+  display: inline;
+  padding: 15px;
+}
+
+/* ---------------------------------- */

@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from django.contrib.auth.admin import UserAdmin as BaseAdmin
 from django.contrib.auth.models import User 
-from .models import Unidade, Funcionario
+from .models import Unidade, Funcionario, RegistroAutorizacao
 
 # Register your models here.
 
@@ -16,6 +16,23 @@ class UnidadeAdmin(admin.ModelAdmin):
 class FuncionarioAdmin(ImportExportModelAdmin):
     list_display = ['id', 'nome', 're_funcionario']
     list_filter = ['unidade']  
+
+
+@admin.register(RegistroAutorizacao)
+class RegistroAutorizacaoAdmin(ImportExportModelAdmin):
+    list_display = ['get_user', 'get_funcionario_id','funcionario', 'data_atualizacao']
+    list_filter = ['funcionario']
+    search_fields = ['funcionario__re_funcionario']
+
+    def get_user(self, obj):
+        return obj.funcionario.usuario
+    get_user.short_description = 'Usuário'
+    get_user.admin_order_field = 'funcionario__usuario'
+    
+    def get_funcionario_id(self, obj):
+        return obj.funcionario.id
+    get_funcionario_id.short_description = 'Id do Funcionario'
+    get_funcionario_id.admin_order_field = 'funcionario__id'
 
 # class UserResource(resources.ModelResource):
 #     class Meta:

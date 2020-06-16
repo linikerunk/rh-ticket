@@ -29,7 +29,7 @@ def atualizar_perfil(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Perfil atualizado com sucesso!')
-            redirect('perfil')
+            redirect('perfil:perfil')
         else:
             messages.error(request, 'Erro campos inválidos.')
 
@@ -76,8 +76,6 @@ class Login(auth_views.LoginView):
                         're': re,
                       })
         return context
-
-
 
 
 @login_required

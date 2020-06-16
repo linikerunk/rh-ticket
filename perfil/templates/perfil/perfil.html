@@ -51,23 +51,29 @@
             <input type="email" class="form-control" id="email_corporativo" name="email_corporativo" value="{{ funcionario.email_corporativo }}" readonly>
         </div>
 
-        <!-- <div class="form-group  col-md-4">
+        <div class="form-group  col-md-6">
             <label for="telefone"><strong>Telefone : </strong></label>
             <input type="text" class="form-control" id="telefone" name="telefone" value="{{ funcionario.telefone }}">
         </div>
 
-        <div class="form-group  col-md-8">
+        <div class="form-group  col-md-6">
             <label for="email"><strong>Email Pessoal: </strong></label>
             <input type="email" class="form-control" id="email" name="email" value="{{ funcionario.email }}">
-        </div> -->
+        </div>
+        <div class="form-check ml-1">
+            <input class="form-check-input position-static" type="checkbox" id="autorizacao" value="autorizacao"
+            oninvalid="this.setCustomValidity('Para atulizar suas informações, você precisa estar de acordo com o termo.')" required>
+            <span class="checkboxtext">
+                Eu {{ funcionario.nome|title }}, autorizo o departamento de <strong> Recursos Humanos </strong>
+                a armazenar meu número de celular pessoal e/ou e-mail pessoal, com a finalizade
+                exclusiva de ser contatado pelos funcionários do departamento de RH e/ou Gestão.
+            </span>
+        </div>
         </form>
 
         <div class="mt-4 col-md-12">
-        <a href="{% url 'chamados:enviar' %}"class="btn btn-warning mt-1 w-100 ml-1">Voltar</a>
+        <button type="submit" class="btn btn-success float-right  w-100 mt-1">Alterar Informações</button>
         </div>
-        <!-- <div class="mt-4 col-md-4">
-        <button type="submit" class="btn btn-primary float-right  w-100 mt-1">Alterar Informações</button>
-        </div> -->
 
     </div>
 
