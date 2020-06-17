@@ -37,7 +37,7 @@ class Funcionario(models.Model):
     primeiro_acesso = models.BooleanField(verbose_name="Primeiro Acesso", default=True)
     unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    termo_dados = models.CharField(verbose_name="Termo de Consentimento", max_length=9, choices=TERMO)
+    termo_dados = models.CharField(verbose_name="Termo de Consentimento", max_length=9, blank=True, choices=TERMO)
 
 
     class Meta:
@@ -68,7 +68,9 @@ post_save.connect(create_user, sender=Funcionario)
 
 
 def update_func(sender, instance, created, **kwargs):
-    if not created:
+    if created:
+        print("Fui criado !")
+    else:
         registro = RegistroAutorizacao.objects.create(funcionario=instance, acao=instance.termo_dados)
         registro.save()
 
