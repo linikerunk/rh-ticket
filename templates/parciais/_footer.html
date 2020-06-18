@@ -158,12 +158,34 @@
   $('#telefone_edit').blur(function () {
       if ($(this).val().length === 0) {
       $(this).attr("placeholder", "Se esse campo ficar vázio, será considerado como exclusão de dados.").val("").focusout();
+        if($('#email_edit').val().length === 0){
+          $('#termo_dados_1').attr('disabled', 'disabled');
+          $('#termo_dados_1').prop('checked', false);
+          $('#termo_dados_2').prop('disabled', false);
+    
+        }
+    }
+    else {
+      $('#termo_dados_2').attr('disabled', 'disabled');
+      $('#termo_dados_2').prop('checked', false);
+      $('#termo_dados_1').prop('disabled', false);
     }
     });
 
   $('#email_edit').blur(function () {
        if ($(this).val().length === 0) {
       $(this).attr("placeholder", "Se esse campo ficar vázio, será considerado como exclusão de dados.").val("").focusout();
+          if ($('#telefone_edit').val().length === 0) {
+            $('#termo_dados_1').attr('disabled', 'disabled');
+            $('#termo_dados_1').prop('checked', false);
+            $('#termo_dados_2').prop('disabled', false);
+         }
     }
+    else {
+         $('#termo_dados_2').attr('disabled', 'disabled');
+         $('#termo_dados_2').prop('checked', false);
+         $('#termo_dados_1').prop('disabled', false);
+       }
     });
+    
 </script>

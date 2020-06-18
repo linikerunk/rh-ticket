@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'crispy_forms',
     'import_export',
+    'auditlog',
 ]
 
 
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
 ]
 
 ROOT_URLCONF = 'Tickets.urls'

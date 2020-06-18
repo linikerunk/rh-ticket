@@ -1,4 +1,5 @@
 from django.db import models
+from auditlog.registry import auditlog
 from datetime import datetime
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -8,13 +9,12 @@ from django.dispatch import receiver
 
 from django.conf import settings
 
-now = datetime.now()
 
 TERMO = (
-     ("1", "Alteração"),
-    ("2", "Exclusão"),
+     ("Alteração", "Alteração"),
+    ("Exclusão", "Exclusão"),
 )
-
+print(timezone.now())
 
 
 class Unidade(models.Model):
@@ -51,6 +51,7 @@ class Funcionario(models.Model):
         print(f'{self.id} : {self.nome} Foi salvo com sucesso! \n')
         super(Funcionario, self).save(*args, **kwargs) 
 
+auditlog.register(Funcionario, exclude_fields=['user'],  mapping_fields={'telefone': 'Telefone', 'email': 'E-mail Pessoal'})
 
 def create_user(sender, instance, created, **kwargs):
     if created:
@@ -67,21 +68,23 @@ def create_user(sender, instance, created, **kwargs):
 post_save.connect(create_user, sender=Funcionario)
 
 
-def update_func(sender, instance, created, **kwargs):
-    if created:
-        print("Fui criado !")
-    else:
-        registro = RegistroAutorizacao.objects.create(funcionario=instance, acao=instance.termo_dados)
-        registro.save()
 
-post_save.connect(update_func, sender=Funcionario)
+# def update_func(sender, instance, created, **kwargs):
+#     if created:
+#         print("Fui criado !")
+#     else:
+#         registro = RegistroAutorizacao.objects.create(funcionario=instance, acao=instance.termo_dados, campos=instance.termo_dados + "")
+#         registro.save()
+
+# post_save.connect(update_func, sender=Funcionario)
     
 
-class RegistroAutorizacao(models.Model):
-    funcionario = models.ForeignKey(Funcionario, related_name="logs", on_delete=models.PROTECT)
-    data_atualizacao = models.DateTimeField(verbose_name='Atualização', auto_now_add=True)     
-    acao = models.CharField(verbose_name="Ação", max_length=9, choices=TERMO, default=1)
+# class RegistroAutorizacao(models.Model):
+#     funcionario = models.ForeignKey(Funcionario, related_name="logs", on_delete=models.PROTECT)
+#     data_atualizacao = models.DateTimeField(verbose_name='Atualização', auto_now_add=True)     
+#     acao = models.CharField(verbose_name="Ação", max_length=9, choices=TERMO, default=1)
+#     campos = models.CharField(verbose_name="Status de campo", max_length=50)
 
-    class Meta:
-        verbose_name = 'Registro de Autorizações'
-        verbose_name_plural = 'Registro de Autorizações'
+#     class Meta:
+#         verbose_name = 'Registro de Autorizações'
+#         verbose_name_plural = 'Registro de Autorizações'
