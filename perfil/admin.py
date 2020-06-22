@@ -4,7 +4,21 @@ from django.contrib.auth.admin import UserAdmin as BaseAdmin
 from django.contrib.auth.models import User 
 from .models import Unidade, Funcionario
 
-# Register your models here.
+from auditlog.admin import LogEntryAdmin
+from auditlog.models import LogEntry
+
+from .models import CustomLogEntry
+
+
+@admin.register(CustomLogEntry)
+class CustomLogEntryAdmin(LogEntryAdmin):
+    list_display = ['timestamp', 'resource_url', 'action', 'msg_short', 'user_url']
+    readonly_fields = ['created', 'resource_url', 'action', 'user_url', 'msg']
+    # list_display_links = None
+    
+
+admin.site.unregister(LogEntry)
+
 
 @admin.register(Unidade)
 class UnidadeAdmin(admin.ModelAdmin):

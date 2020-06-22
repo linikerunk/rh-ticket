@@ -3,11 +3,18 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.models import User
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm 
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from django.views.generic.edit import FormView
 from django.contrib import messages
-from perfil.forms import FuncionarioForm, UnidadeForm, CustomAuthenticationForm
+from perfil.forms import (
+SetPasswordFormCustom,
+FuncionarioForm,
+UnidadeForm,
+CustomAuthenticationForm
+)
 from .models import Funcionario, Unidade
 from perfil.decorators import verificar_funcionario
 
@@ -59,6 +66,24 @@ def set_password(request):
         return render(request, "perfil/modificar_senha.html", context)
 
 
+@login_required
+def meu_logout(request):
+    logout(request)
+    return redirect('login')
+
+
+class ResetaSenha(FormView):
+    template_name = 'perfil/modificar_senha.html'
+    form_class = SetPasswordFormCustom
+    success_url = '/resetar_senha/'
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+
+        return super().form_valid(form)
+
+
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm
     template_name= 'perfil/login.html'
@@ -77,9 +102,3 @@ class Login(auth_views.LoginView):
                         're': re,
                       })
         return context
-
-
-@login_required
-def meu_logout(request):
-    logout(request)
-    return redirect('login')

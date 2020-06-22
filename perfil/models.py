@@ -3,9 +3,11 @@ from auditlog.registry import auditlog
 from datetime import datetime
 from django.utils import timezone
 from django.core.validators import MaxValueValidator, MinValueValidator
+from auditlog.models import LogEntry 
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 
 from django.conf import settings
 
@@ -14,7 +16,14 @@ TERMO = (
      ("Alteração", "Alteração"),
     ("Exclusão", "Exclusão"),
 )
-print(timezone.now())
+
+
+class CustomLogEntry(LogEntry):
+    
+    class Meta:
+        proxy = True
+    
+
 
 
 class Unidade(models.Model):
@@ -66,7 +75,6 @@ def create_user(sender, instance, created, **kwargs):
     
 
 post_save.connect(create_user, sender=Funcionario)
-
 
 
 # def update_func(sender, instance, created, **kwargs):

@@ -1,6 +1,12 @@
 from django.forms import ModelForm, RadioSelect
 from django.forms.widgets import PasswordInput, TextInput
-from django.contrib.auth.forms import AuthenticationForm, UsernameField
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import (
+PasswordChangeForm,
+AuthenticationForm,
+UsernameField,
+SetPasswordForm,
+)
 from django.contrib.auth import authenticate
 from .models import Funcionario, Unidade
 from django import forms
@@ -76,5 +82,21 @@ class CustomAuthenticationForm(AuthenticationForm):
     
     def get_user(self):
         return self.user_cache
+
+
+class SetPasswordFormCustom(SetPasswordForm):
+    'Class to be a reset of user password...'
+
+    error_messages = {
+        'password_mismatch': ('A senhas não se combinam..'),
+    }
+
+    new_password1 = forms.CharField(
+        label=("Nova Senha"),
+    )
+    new_password2 = forms.CharField(
+        label=("Confirmação de Nova Senha"),
+    )
+
 
     
