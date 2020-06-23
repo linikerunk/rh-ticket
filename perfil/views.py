@@ -13,7 +13,8 @@ from perfil.forms import (
 SetPasswordFormCustom,
 FuncionarioForm,
 UnidadeForm,
-CustomAuthenticationForm
+CustomAuthenticationForm,
+PasswordChangeFormCustom,
 )
 from .models import Funcionario, Unidade
 from perfil.decorators import verificar_funcionario
@@ -48,7 +49,31 @@ def atualizar_perfil(request, id):
 def set_password(request):
     funcionario = request.user.funcionario
     if request.method == 'POST':
-        form =  PasswordChangeForm(data=request.POST,  user=request.user)
+        form =  PasswordChangeFormCustom(data=request.POST,  user=request.user)
+
+        print(f'form.fields: {form.fields}')
+        print(f'\n form.data: {form.data}')
+        print(f'\n form.errors: {form.errors}')
+
+        old_password = form.data["old_password"]
+        admissao = str(form.data["admissao"])
+        admissao_banco_dados = str(request.user.funcionario.admissao)
+
+        if not request.user.check_password(old_password):
+            messages.error(request, "O número de registro não é válido.")
+            return render(request, "perfil/modificar_senha.html", {'form': form})
+
+        elif admissao.replace('/', '') != admissao_banco_dados.replace('/', ''):
+            messages.error(request, "A data de admissão está inválida")
+            return render(request, "perfil/modificar_senha.html", {'form': form})
+        
+        elif len(form.data['new_password1']) < 8:
+            messages.error(request, "A senha precisa ser maior que 8 dígitos ser composta por letras e números e uma letra maiúscula ")
+            return render(request, "perfil/modificar_senha.html", {'form': form})
+
+        elif str(form.data['new_password1']) != str(form.data['new_password2']):
+            messages.error(request, "As senha não se combinam.")
+            return render(request, "perfil/modificar_senha.html", {'form': form})
         
         if form.is_valid():
             form.save()
@@ -61,7 +86,7 @@ def set_password(request):
             context = {'form': form}
             return render(request, "perfil/modificar_senha.html", context)
     else:
-        form = PasswordChangeForm(user=request.user)
+        form = PasswordChangeFormCustom(user=request.user)
         context = {'form': form}
         return render(request, "perfil/modificar_senha.html", context)
 
@@ -80,8 +105,11 @@ class ResetaSenha(FormView):
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
         # It should return an HttpResponse.
-
         return super().form_valid(form)
+    
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        return super().post(request, *args, **kwargs)
 
 
 class Login(auth_views.LoginView):

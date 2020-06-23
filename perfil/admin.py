@@ -11,10 +11,10 @@ from .models import CustomLogEntry
 
 
 @admin.register(CustomLogEntry)
-class CustomLogEntryAdmin(LogEntryAdmin):
+class CustomLogEntryAdmin(LogEntryAdmin, ImportExportModelAdmin):
     list_display = ['timestamp', 'resource_url', 'action', 'msg_short', 'user_url']
     readonly_fields = ['created', 'resource_url', 'action', 'user_url', 'msg']
-    # list_display_links = None
+    list_display_links = None
     
 
 admin.site.unregister(LogEntry)
