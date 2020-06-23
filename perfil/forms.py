@@ -1,4 +1,5 @@
 from django.forms import ModelForm, RadioSelect
+from django.core.exceptions import ValidationError
 from django.forms.widgets import PasswordInput, TextInput
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import (
@@ -97,6 +98,32 @@ class SetPasswordFormCustom(SetPasswordForm):
     new_password2 = forms.CharField(
         label=("Confirmação de Nova Senha"),
     )
+
+
+class PasswordChangeFormCustom(PasswordChangeForm):
+
+    admissao = forms.CharField(
+        label=("Digite sua data da admissão :"),
+        widget=forms.TextInput(attrs={'placeholder':'Digite a data de sua Admissão'})
+        
+    )
+
+    old_password = forms.CharField(
+        label=("Número de Registro : "),
+    )
+
+    field_order = ['old_password', 'admissao', 'new_password1', 'new_password2']
+
+    def clean_old_password(self):
+        """
+        Validate that the old_password field is correct.
+        """
+        old_password = self.cleaned_data["old_password"]
+        if not self.user.check_password(old_password):
+            raise ValidationError(
+              'Teste', code='invalid',
+            )
+        return old_password
 
 
     
