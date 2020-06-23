@@ -25,12 +25,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
+<<<<<<< HEAD:Tickets/settings_dev.py
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
+=======
+# SECURITY WARNING: keep the secret key used in production secret
+SECRET_KEY = config('SECRET_KEY') # enviando para o servidor
+>>>>>>> 3c9cc5f57da6c24e12ec7ee964e16f001e6bbd3b:Tickets/settings_prod.py
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool) 
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
