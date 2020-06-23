@@ -97,20 +97,23 @@ def meu_logout(request):
     return redirect('login')
 
 
-class ResetaSenha(FormView):
-    template_name = 'perfil/modificar_senha.html'
-    form_class = SetPasswordFormCustom
-    success_url = '/resetar_senha/'
+# class ResetaSenha(FormView):
+#     template_name = 'perfil/modificar_senha.html'
+#     form_class = SetPasswordFormCustom
+#     success_url = '/resetar_senha/'
 
-    def form_valid(self, form):
-        # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         # This method is called when valid form data has been POSTed.
+#         # It should return an HttpResponse.
+#         return super().form_valid(form)
     
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        return super().post(request, *args, **kwargs)
+#     def post(self, request, *args, **kwargs):
+#         self.object = None
+#         return super().post(request, *args, **kwargs)
 
+
+def ResetaSenhaTemp(request):
+    return render(request, 'perfil/informativo.html', {})
 
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm
