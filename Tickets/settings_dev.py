@@ -25,13 +25,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-<<<<<<< HEAD:Tickets/settings_dev.py
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
-=======
-# SECURITY WARNING: keep the secret key used in production secret
-SECRET_KEY = config('SECRET_KEY') # enviando para o servidor
->>>>>>> 3c9cc5f57da6c24e12ec7ee964e16f001e6bbd3b:Tickets/settings_prod.py
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -111,9 +106,9 @@ default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 DATABASES = {
 'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'rhticket_dev',
+        'NAME': 'rhticket',
         'USER': 'admin',
-        'PASSWORD': 'Continental1*',
+        'PASSWORD': 'admin',
         'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
@@ -183,3 +178,4 @@ LOGIN_REDIRECT_URL = '/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+

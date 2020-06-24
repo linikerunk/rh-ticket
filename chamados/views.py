@@ -102,16 +102,17 @@ def atualizar_chamado(request, id):
         return render(request, 'chamados/listar_erro.html' )
     
     email = request.POST.get('email')
+    email_corporativo = request.POST.get('email_corporativo')
     categoria = request.POST.get('categoria')
 
     if request.method == 'POST':
         #Ajustar para ticket que está aberto
         form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
-
+        
+        print("Dados : ", form.data)
+        
         if form.is_valid():
-            if not email or not categoria:
-                messages.error(request, 'Nenhum campo pode estar vazio.')
-                return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
+            
             form.save()
             save_it = form.save()
             save_it.save()
@@ -122,11 +123,22 @@ def atualizar_chamado(request, id):
             print(subject)
             print(message)
             from_email = settings.EMAIL_HOST_USER
-            to_list = [email, settings.EMAIL_HOST_USER]
+
+            if email_corporativo:
+                to_list = [email_corporativo, settings.EMAIL_HOST_USER]
+            elif email:
+                to_list = [email, settings.EMAIL_HOST_USER]
 
             send_mail(subject, message, from_email, to_list, fail_silently=True)
-            messages.success(request, f' E-mail enviado com sucesso para {email}')
-            print("DADOS DO FORMULário : ", form.data)
+
+            if email_corporativo:
+                messages.success(request, f' E-mail enviado com sucesso para {email_corporativo}')
+            elif email:
+                messages.success(request, f' E-mail enviado com sucesso para {email}')
+            else:
+                messages.warning(request, f' Ticket atualizado porém funcionário : {ticket.funcionario.nome} não tem um e-mail.')
+
+    
             return redirect('chamados:listar')
             
         elif ticket.finalizado and ticket.data_finalizada != None:
@@ -135,6 +147,7 @@ def atualizar_chamado(request, id):
         elif form.is_valid() and ticket.finalizado == False:
             messages.warning(request, 'Ticket não foi finalizado')
             return redirect('chamados:listar')
+        print("Errors : ", form.errors)
     else:
         form = TicketUpdateForm()
 
