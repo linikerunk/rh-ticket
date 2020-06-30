@@ -11,8 +11,16 @@
 <form method="POST" enctype="multipart/form-data"  content='text/html; charset=UTF-8' accept-charset="UTF-8">
 {% csrf_token %}
 <div class="form-row">
+<label> Categoria </label>
+    <select name="categoria" class="select form-control form-control" id="categoria">
+      <option value="" selected>----------</option>
+      {% for categoria in categoria %}
+    <option value="{{ categorias.id }}">{{ categoria }}</option>
+    {% endfor %}
+
+    </select>
   <div class="form-group col-md-5 offset-md-1 mb-0">
-    {{ form.categoria|as_crispy_field }}
+    {% comment %} {{ form.categoria|as_crispy_field }} {% endcomment %}
   </div>
   <div class="form-group col-md-5 mb-0">
     <label> Subcategoria </label>

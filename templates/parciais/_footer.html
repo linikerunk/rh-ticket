@@ -84,19 +84,17 @@
 
 
   <script>
-    function indexMatchingText(ele, text) {
+/*    function indexMatchingText(ele, text) {
         for (var i = 0; i < ele.length; i++) {
           if (ele[i].childNodes[0].nodeValue === text) {
             return i;
           }
         }
         return undefined;
-      }
+      } */
 
-    jQuery("#id_categoria").change(function () {
-      let categoria_nome = jQuery(this).children("option:selected").val();
-      var select = document.getElementById('id_categoria').getElementsByTagName("option");
-      var categoria = indexMatchingText(select, categoria_nome)
+    jQuery("#categoria").change(function () {
+      let categoria = jQuery(this).children("option:selected").val();
       let url = "carregar_subcategorias/" + categoria + "/";
 
       jQuery.ajax({                      
