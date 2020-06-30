@@ -23,10 +23,10 @@ class TicketForm(forms.ModelForm):
     #     to_field_name="re_funcionario", 
     #     widget=forms.TextInput())
     
-    categoria = forms.ModelChoiceField(
-        label="Categoria : ",
-        queryset=Categoria.objects.all(),
-        to_field_name="nome")
+    # categoria = forms.ModelChoiceField(
+    #     label="Categoria : ",
+    #     queryset=Categoria.objects.all(),
+    #     to_field_name="nome")
     
 
     upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(
