@@ -16,7 +16,7 @@
     <select name="categoria" class="select form-control form-control" id="categoria">
       <option value="" selected>----------</option>
       {% for categoria in categoria %}
-    <option value="{{ categorias.id }}">{{ categoria }}</option>
+    <option value="{{ categoria.id }}">{{ categoria }}</option>
     {% endfor %}
 
     </select>
