@@ -77,8 +77,8 @@ RE : {funcionario.re_funcionario}\n\tNome : {funcionario.nome}\n\tDescrição : 
                 from_email = 'rh.camacari@conti.com.br'
                 recipient_list = ['Cristhiane.nascimento@continental.com', 'Elissandra.magalhaes@continental.com',
 'Eloah.jesus@continental.com', 'evelyn.aguiar@continental.com', 'fabio.pinho@continental.com', 'Ila.cerqueira@continental.com', 
-'Jorrelrison.tanan@continental.com', 'Leila.tavares@continental.com', 'Lelia.lima@continental.com', 'Olivia.figueiredo@conti.com.br',
-'rayssa.santos@continental.com', 'Tatiane.custodio@continental.com', 'Thaissa.juliao@conti.com.br']
+'Jorrelrison.tanan@continental.com', 'Leila.tavares@continental.com', 'Lelia.lima@continental.com', 'olivia.figueiredo@conti.com',
+'rayssa.santos@continental.com', 'Tatiane.custodio@continental.com', 'thaissa.juliao@conti.com']
             elif str(unidade) == 'Ponta Grossa':
                 from_email = settings.EMAIL_HOST_USER
                 recipient_list = ['']
