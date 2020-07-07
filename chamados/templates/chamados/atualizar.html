@@ -7,7 +7,7 @@
 
 <div class="row">
         <div class="col-12">
-            <p class="lead"> Atualizar chamado de <code>{{ ticket.nome }}</code></p>
+            <p class="lead"> Atualizar chamado de <code>{{ ticket.funcionario.nome }}</code></p>
             <hr>
 
 <form method="POST" enctype="multipart/form-data" action="{% url 'chamados:atualizar_chamado' ticket.id %}">
@@ -111,6 +111,14 @@
   <textarea class="form-control" id="texto-azul" name="resposta" rows="5" col="15"
     readonly>{{ ticket.resposta }}</textarea>
 </div>
+
+  {% if ticket.upload_arquivo %}
+  <div class="form-group col-md-12">
+    <label><strong>Arquivo : </strong></label>
+    <p class="mt-2"><a href="{{ ticket.upload_arquivo.url }}">{{ ticket.upload_arquivo }}</a></p>
+  </div>
+  {% else %}
+  {% endif %}
 
 </form>
 <div class="form-group  col-md-12 mt-4 p-2">

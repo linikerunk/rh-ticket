@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chamados.apps.ChamadosConfig',
     'perfil.apps.PerfilConfig',
+    'formularios.apps.FormulariosConfig',
     'bootstrapform',
     'crispy_forms',
     'import_export',
@@ -178,4 +179,5 @@ LOGIN_REDIRECT_URL = '/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 

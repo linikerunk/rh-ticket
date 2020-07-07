@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Justificativa de Ausência {% endblock %}
+
+{% block conteudo %}
+
+<div class="row">
+  <div class="col-12">
+    <h3 class="">Abrir um chamado</h3>
+    <hr>
+
+    <!-- {{ form }} -->
+
+<a href="{% url 'chamados:enviar' %}" class="btn btn-warning btn-sm mb-3" role="button" >Voltar</a>
+
+<div class="form-row">
+  <form method="POST" enctype="multipart/form-data" content='text/html; charset=UTF-8' accept-charset="UTF-8" action="{% url 'formularios:enviar_justificativa_ausencia' %}">
+    {% csrf_token %}
+    <div class="form-row">
+    
+  <div class="col-md-6">
+      <label> Data início Ausência : </label>
+      <input type="text" class="form-control" id="periodo_inicio" name="data_inicio" data-mask="00/00/0000"  placeholder="DD/MM/YYYY" required>
+  </div>
+  <div class="col-md-6">
+    <label> Data fim Ausência : </label>
+    <input type="text" class="form-control" id="periodo_fim" name="data_fim" data-mask="00/00/0000" placeholder="DD/MM/YYYY" required>
+  </div>
+
+
+  <div class="col-md-12 mt-3" id="tipo_ausencia_bloco">
+    <label> Tipo de Ausência : </label>
+  
+    <select class="custom-select mr-sm-2" id="tipo_ausencia" name="tipo_de_ausencia" required>
+      <option value="Falta">Falta</option>
+      <option value="Atraso">Atraso</option>
+      <option value="Saída Antecipada">Saida Antecipada</option>
+      <option value="Saída Intermediária">Saída Intermediária</option>
+    </select>
+  </div>
+
+  <div class="col-md-12 mt-3" id="tipo_ausencia_bloco">
+    <label> Justificativa de Ausência :</label>
+  
+    <select class="custom-select mr-sm-2" name="justificativa" required>
+      <option value="Débido em Banco de HS">Débido em Banco de HS</option>
+      <option value="Descanso de Jornadas">Descanso de Jornadas</option>
+      <option value="Serviço Externo">Serviço Externo</option>
+      <option value="Viagem à Trabalho">Viagem à Trabalho</option>
+      <option value="Treinamento Externo">Treinamento Externo</option>
+      <option value="Folga TRE">Folga TRE</option>
+    </select>
+  </div>
+
+
+
+  <div class="col-md-12 mt-3" id="observacao">
+    <label for="">Observação : </label>
+    <textarea name="observacao" cols="40" rows="5" placeholder="Deixe aqui sua observação.."
+      class="textarea form-control"  id="observacao" spellcheck="false"></textarea>
+  </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-11 mt-3">
+      <button type="reset" class="btn btn-warning float-right w-25">Limpar</button>
+      <button type="submit" id="enviar_justificativa_ausencia" class="btn btn-success mr-2 float-right w-50">Enviar</button>
+    </div>
+  </div>
+  </form>
+
+</div>
+</div>
+{% endblock %}
+

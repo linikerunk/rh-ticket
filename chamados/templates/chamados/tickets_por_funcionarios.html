@@ -4,7 +4,10 @@
 {% block titulo %} Tickets por Funcionarios {% endblock %}
 
 {% block conteudo %}
-    <h1> Estou na página de funcionários</h1>
+    <div class="col-12">
+        <p class="lead"> Atualizar chamado de <code>{{ ticket.funcionario.nome }}</code></p>
+        <hr>
+    </div>
     <div class="form-row">
         <div class="form-group  col-md-3">
             <label for="unidade">Unidade : </label>

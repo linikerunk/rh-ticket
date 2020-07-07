@@ -69,18 +69,24 @@ def enviar(request):
             message = f"\tCategoria : {categoria_field}\n\tSubcategoria : {subcategoria}\n\t\
 RE : {funcionario.re_funcionario}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-            from_email = settings.EMAIL_HOST_USER
             if str(unidade) == 'Salto':
+                from_email = settings.EMAIL_HOST_USER
                 recipient_list = ['pedro.melo@continental.com', 
                 'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
             elif str(unidade) == 'Camaçari':
-                recipient_list = ['Ila.Cerqueira@conti.com.br']
+                from_email = 'rh.camacari@conti.com.br'
+                recipient_list = ['Cristhiane.nascimento@continental.com', 'Elissandra.magalhaes@continental.com',
+'Eloah.jesus@continental.com', 'evelyn.aguiar@continental.com', 'fabio.pinho@continental.com', 'Ila.cerqueira@continental.com', 
+'Jorrelrison.tanan@continental.com', 'Leila.tavares@continental.com', 'Lelia.lima@continental.com', 'Olivia.figueiredo@conti.com.br',
+'rayssa.santos@continental.com', 'Tatiane.custodio@continental.com', 'Thaissa.juliao@conti.com']
+
             elif str(unidade) == 'Ponta Grossa':
                 recipient_list = ['']
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
-        print(form.errors)
+        # print(form.errors)
+        # print(form.data)
     else:
         form = TicketForm()
     return render(request, 'chamados/enviar.html', {'form': form,
@@ -152,7 +158,7 @@ def atualizar_chamado(request, id):
         form = TicketUpdateForm()
 
     return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
-    
+
 
 @verificar_funcionario()
 @login_required
