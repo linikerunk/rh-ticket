@@ -13,15 +13,6 @@ BOOL_CHOICES = ((True, 'Sim'), (False, 'Não'))
 class TicketForm(forms.ModelForm):
 
     
-<<<<<<< HEAD
-    # categoria = forms.ModelChoiceField(
-    #     label="Categoria : ",
-    #     queryset=Categoria.objects.all(),
-    #     to_field_name="nome")
-    
-
-=======
->>>>>>> e6cc4165a936cb3aabf48de6cbb464783fb49ce6
     upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(
         attrs={'multiple': True}), required=False, label="Anexar Arquivo : ")
 
