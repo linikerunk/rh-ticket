@@ -8,29 +8,31 @@
   <div class="col-12">
       <h3 class="">Abrir um chamado</h3>
       <hr>
-<form method="POST" enctype="multipart/form-data"  content='text/html; charset=UTF-8' accept-charset="UTF-8">
+
+<form method="POST"  enctype="multipart/form-data"  content='text/html; charset=UTF-8' accept-charset="UTF-8"> <!-- Generico Ticket-->
 {% csrf_token %}
 <div class="form-row">
-  <div class="form-group col-md-5 offset-md-1 mb-0">
-    <label> Categoria </label>
+<!-- Começa aqui o formulário -->
+  <div class="form-group col-md-6 mb-0">
+    <label> Categorias : </label>
     <select name="categoria" class="select form-control form-control" id="categoria">
       <option value="" selected>----------</option>
       {% for categoria in categoria %}
-    <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
-    {% endfor %}
-
+      <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+      {% endfor %}
     </select>
   </div>
-  <div class="form-group col-md-5 mb-0">
-    <label> Subcategoria </label>
+  <div class="form-group col-md-6 mb-0">
+    <label> Subcategoria : </label>
     <select name="subcategoria" class="select form-control form-control" id="subcategoria">
-      <option value="">---------</option>
+      <option value="" selected>----------</option>
     </select>
   </div>
-<div class="form-group offset-md-1 col-md-10 mb-0">
+<div class="form-group col-md-12 mb-0">
   <input type="email" class="form-control" id="email" name="email" readonly hidden>
 </div>
-<div class="form-group offset-md-1 col-md-10 mb-0">
+<!-- Parte fixa do formulário. -->
+<div class="form-group  col-md-12 mb-0">
   <select id="id_unidade" name="unidade" class="select form-control form-control" hidden>
     <option value="" selected>----------</option>
     {% for unidades in unidades %}
@@ -38,20 +40,24 @@
     {% endfor %}
   </select>
 </div>
-  <div class="form-group offset-md-1 col-md-10 mb-0">
+
+  <div class="form-group  col-md-12 mt-2">
     {{ form.texto|as_crispy_field }}
-  </div>
-  <div class="form-group offset-md-1 col-md-10 mb-0">
     {{ form.upload_arquivo|as_crispy_field }}
   </div>
+
 </div>
+
 <div class="row">
-<div class="col-md-12">
+<div class="col-md-11">
   <button type="reset" class="btn btn-warning float-right w-25">Limpar</button>
    <button type="submit" class="btn btn-success mr-2 float-right w-50">Enviar</button>
 </div>
 </div>
 </form>
+
+<a href="{% url 'formularios:enviar_justificativa_ausencia' %}" id="justificativa_ausencia_link" hidden></a>
+
 </div>
 </div> 
 

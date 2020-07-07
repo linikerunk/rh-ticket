@@ -112,6 +112,14 @@
     readonly>{{ ticket.resposta }}</textarea>
 </div>
 
+  {% if ticket.upload_arquivo %}
+  <div class="form-group col-md-12">
+    <label><strong>Arquivo : </strong></label>
+    <p class="mt-2"><a href="{{ ticket.upload_arquivo.url }}">{{ ticket.upload_arquivo }}</a></p>
+  </div>
+  {% else %}
+  {% endif %}
+
 </form>
 <div class="form-group  col-md-12 mt-4 p-2">
 <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning pr-5 pl-5 w-100">&nbsp;&nbsp;&nbsp; Voltar &nbsp;&nbsp;&nbsp;</a>

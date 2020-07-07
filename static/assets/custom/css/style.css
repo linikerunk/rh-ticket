@@ -63,3 +63,9 @@ main {
 }
 
 
+/* Radios buttons */
+
+input[type="radio"] + label {
+    font-family:Arial, sans-serif;
+    font-size:15px;
+}

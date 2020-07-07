@@ -5,6 +5,7 @@ from datetime import datetime
 from django.db import models
 
 from django.utils import timezone
+from model_utils.models import TimeStampedModel
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
 
@@ -41,7 +42,7 @@ class SubCategoria(models.Model):
 
 
 class Ticket(models.Model):
-    texto = models.TextField(blank=False, verbose_name="Descrição : ")
+    texto = models.TextField(blank=False, verbose_name="Descrição")
     resposta = models.TextField(blank=True, null=True, verbose_name="Resposta :")
     data = models.DateTimeField(auto_now_add=True)
     data_finalizada = models.DateTimeField(null=True, blank=True, verbose_name="Data Finalizada : ")
@@ -81,3 +82,63 @@ class Ticket(models.Model):
     
     def __str__(self):
         return  f'Ticket Número {self.id}, Re funcionário {self.funcionario.re_funcionario}, data {self.data}'
+
+
+
+
+# class Campo(TimeStampedModel):
+#     nome = models.CharField(verbose_name="Nome do Campo", max_length=100, unique=True)
+
+#     class Meta:
+#         ordering = ['-created']
+#         verbose_name = 'Campo'
+#         verbose_name_plural = 'Campos'
+
+#     def __str__(self):
+#         return self.nome
+
+
+# class ModeloFormulario(TimeStampedModel):
+#     campo = models.ManyToManyField(
+#         Campo, through='ModeloFormularioCampo', related_name='campo'
+#     )
+
+#     texto = models.TextField(verbose_name="Observação", blank = True)
+    
+#     subcategoria = models.ForeignKey(SubCategoria, related_name='modelo_formulario', on_delete=models.CASCADE)
+
+
+#     class Meta:
+#         verbose_name = 'Modelo de Formulários'
+#         verbose_name_plural = 'Modelos de Formulários'
+#         ordering = ['-created']
+
+#     def __str__(self):
+#         return f'Formulário da subcategoria : {self.subcategoria}'
+
+
+# class ModeloFormularioCampo(models.Model):
+#     modelo_formulario = models.ForeignKey(
+#         ModeloFormulario,
+#         verbose_name = 'Formulário',
+#         related_name = 'modelo_formulario',
+#         on_delete=models.CASCADE
+#     )
+
+#     campo = models.ForeignKey(
+#         Campo,
+#         verbose_name = 'Campos',
+#         related_name = 'modelo_formulario',
+#         on_delete=models.CASCADE
+#     )
+
+#     valor_campo = models.CharField(verbose_name="Valor do Campo", max_length=250, blank=True)
+
+#     class Meta:
+#         verbose_name = 'Formulário e Campo'
+#         verbose_name_plural = 'Formulários e Campos'
+#         ordering = ['-campo__nome']
+#         unique_together = ['modelo_formulario', 'campo']
+    
+#     def __str__(self):
+#         return f'{self.id}'

@@ -44,6 +44,7 @@ EMAIL_PORT = EMAIL_PORT
 
 # Application definition
 
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'chamados.apps.ChamadosConfig',
     'perfil.apps.PerfilConfig',
+    'formularios.apps.FormulariosConfig',
     'bootstrapform',
     'crispy_forms',
     'import_export',

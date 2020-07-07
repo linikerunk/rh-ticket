@@ -14,6 +14,7 @@
     <script src="{% static 'assets\jquery\jquery-3.2.1.min.js' %}"></script>
     <script>window.jQuery || document.write('<script src="{% static "assets/jquery/jquery.slim.min.js" %}"><\/script>')</script>
     <script src="{% static 'assets\bootstrap\bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
    
     <script>
     var message_ele = document.getElementById("message_container");
@@ -101,7 +102,7 @@
         url: url,                    
         type: 'GET',
         data: {
-          'categoria': categoria       
+          'categoria': categoria  
         },
         success: function (response) {
           jQuery('#subcategoria').empty();
@@ -124,6 +125,7 @@
   <script>
   jQuery("#funcionario-login").change(function () {
         let funcionario_login = jQuery(this).val();
+        console.log("login : ", funcionario_login)
         let unidade = jQuery("#unidade").val();
         let url = "/funcionario_login/" + funcionario_login + "/";
         jQuery.ajax({
@@ -189,5 +191,20 @@
 </script>
 
 <script>
-    $('')
+ 
+    $("#subcategoria").change(function () {
+      var selectedSubCategory = $(this).children("option:selected").text();
+      var selectedCategory = $('#categoria').children("option:selected").text();
+      if(selectedSubCategory == 'Justificativa de Ausência' ){
+       $('#justificativa_ausencia_link')[0].click();
+      }
+
+    });
+</script>
+
+<script>
+  $(document).ready(function () {
+    periodo_inicio = $('#periodo_inicio').val();
+    console.log(periodo_inicio)
+  });
 </script>
