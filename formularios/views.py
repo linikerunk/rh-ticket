@@ -31,8 +31,8 @@ def enviar_justificativa_ausencia(request):
             return redirect('chamados:enviar')
         else:
             messages.error(request, f"\tErro ao enviar : data inicio ou data fim está diferente do especificado.")
-            return render(request, 'formularios\justificativa_ausencia.html', {'form': form})
+            return render(request, 'formularios/justificativa_ausencia.html', {'form': form})
     else:    
-        return render(request, 'formularios\justificativa_ausencia.html', {})
+        return render(request, 'formularios/justificativa_ausencia.html', {})
         
 
