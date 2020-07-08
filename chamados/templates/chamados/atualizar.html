@@ -99,10 +99,10 @@
     </select>
   </div>
 
-<div class="form-group  col-md-9 mt-4 p-2">
+<div class="form-group  col-md-12 mt-4 p-2">
+<button type="submit" id="finaliza_ticket"  class="btn btn-success w-25">Finalizar Chamado</button>
+<button type="submit" class="btn btn-primary w-25">Atualizar o Chamado</button>
 <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning w-25">&nbsp;&nbsp;&nbsp; Voltar &nbsp;&nbsp;&nbsp;</a>
-<button type="submit" class="btn btn-primary">Atualizar o Chamado</button>
-<button type="submit" id="finaliza_ticket"  class="btn btn-success w-50">Finalizar Chamado</button>
 </div>
 
 {% else %}
