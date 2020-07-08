@@ -12,7 +12,7 @@
 
     <!-- {{ form }} -->
 
-<a href="{% url 'chamados:enviar' %}" class="btn btn-warning btn-sm mb-3" role="button" >Voltar</a>
+
 
 <div class="form-row">
   <form method="POST" enctype="multipart/form-data" content='text/html; charset=UTF-8' accept-charset="UTF-8" action="{% url 'formularios:enviar_justificativa_ausencia' %}">
@@ -21,15 +21,15 @@
     
   <div class="col-md-6">
       <label> Data início Ausência : </label>
-      <input type="text" class="form-control" id="periodo_inicio" name="data_inicio" data-mask="00/00/0000"  placeholder="DD/MM/YYYY" required>
+      <input type="text" class="form-control" id="periodo_inicio" name="data_inicio" data-mask="00/00/0000"  placeholder="DD/MM/AAAA" required>
   </div>
   <div class="col-md-6">
     <label> Data fim Ausência : </label>
-    <input type="text" class="form-control" id="periodo_fim" name="data_fim" data-mask="00/00/0000" placeholder="DD/MM/YYYY" required>
+    <input type="text" class="form-control" id="periodo_fim" name="data_fim" data-mask="00/00/0000" placeholder="DD/MM/AAAA" required>
   </div>
 
 
-  <div class="col-md-12 mt-3" id="tipo_ausencia_bloco">
+  <div class="col-md-6 mt-3" id="tipo_ausencia_bloco">
     <label> Tipo de Ausência : </label>
   
     <select class="custom-select mr-sm-2" id="tipo_ausencia" name="tipo_de_ausencia" required>
@@ -40,7 +40,7 @@
     </select>
   </div>
 
-  <div class="col-md-12 mt-3" id="tipo_ausencia_bloco">
+  <div class="col-md-6 mt-3" id="tipo_ausencia_bloco">
     <label> Justificativa de Ausência :</label>
   
     <select class="custom-select mr-sm-2" name="justificativa" required>
@@ -64,8 +64,9 @@
 
   <div class="row">
     <div class="col-md-11 mt-3">
-      <button type="reset" class="btn btn-warning float-right w-25">Limpar</button>
-      <button type="submit" id="enviar_justificativa_ausencia" class="btn btn-success mr-2 float-right w-50">Enviar</button>
+      <a href="{% url 'chamados:enviar' %}" class="btn btn-warning ml-2 float-right w-25" role="button" >Voltar</a>
+      <button type="reset" class="btn btn-primary float-right w-25">Limpar</button>
+      <button type="submit" id="enviar_justificativa_ausencia" class="btn btn-success mr-2 float-right w-25">Enviar</button>
     </div>
   </div>
   </form>

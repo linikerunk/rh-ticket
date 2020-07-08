@@ -33,7 +33,6 @@ def enviar_justificativa_ausencia(request):
             messages.error(request, f"\tErro ao enviar : data inicio ou data fim está diferente do especificado.")
             return render(request, 'formularios\justificativa_ausencia.html', {'form': form})
     else:    
-        print("To no terceiro else ?")
         return render(request, 'formularios\justificativa_ausencia.html', {})
         
 
