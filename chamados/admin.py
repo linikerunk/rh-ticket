@@ -6,16 +6,19 @@ from .models import (
 Ticket,
 Categoria,
 SubCategoria,
+HistoricoTicket,
 )
 from perfil.models import Funcionario
+from .forms import TicketForm
+
 # Register your models here.
 
 @admin.register(Ticket)
 class TicketAdmin(ImportExportModelAdmin):
     list_display = ['id', 'funcionario', 'data', 'finalizado']
     list_filter = ['funcionario__unidade']
+    form = TicketForm
 
-    
 
 @admin.register(Categoria)
 class CategoriaAdmin(ImportExportModelAdmin):
@@ -27,11 +30,10 @@ class SubCategoriaAdmin(ImportExportModelAdmin):
     fields = ['nome', 'categoria']
 
 
-
-
-
-
-
+@admin.register(HistoricoTicket)
+class HistoricoTicketAdmin(ImportExportModelAdmin):
+    list_display = ['funcionario', 'ticket', 'data_mensagem']
+    fields = ['data_mensagem', 'mensagem', 'ticket', 'funcionario']
 
 
 

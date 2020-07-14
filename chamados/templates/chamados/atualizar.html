@@ -74,13 +74,32 @@
       </div>
     <div class="form-group col-md-12">
     <label for="texto"><strong>Descrição do Chamado : </strong></label>
-    <textarea class="form-control" id="texto-atualizar" name="texto" rows="5" col="15"
+    <textarea class="form-control" id="texto-atualizar" name="texto" rows="3" col="15"
       readonly>{{ ticket.texto }}</textarea>
   </div>
+
+<div class="form-group col-md-12">
+  <label for="texto">Historico de Mensagens: </label>
+  <div class="history-field">
+    <hr style="border: 1px solid rgb(119, 119, 119); ">
+    <p class="m-2 name_employee"> <strong> &nbsp; &nbsp; {{ ticket.funcionario.nome }},
+        {{ ticket.data|date:'d/m/Y G:i:s'}} </strong></p><span style="margin-left: 20px;">‎‎▸</span>‎{{ ticket.texto }}
+    <hr style="border: 1px solid rgb(119, 119, 119); ">
+    {% for mensagens in historico %}
+    <p class="m-2 name_employee"> <strong> &nbsp; &nbsp; {{ mensagens.funcionario.nome }},
+        {{ mensagens.data_mensagem|date:'d/m/Y G:i:s'}} </strong></p>
+    <span class="description-historic ">&nbsp;&nbsp;&nbsp;&nbsp;▸{{ mensagens.mensagem }} </span>
+    <hr style="border: 1px solid rgb(119, 119, 119); ">
+    {% endfor %}
+  </div>
+</div>
+
+
+
 {% if ticket.finalizado == False %}
     <div class="form-group col-md-12">
     <label for="resposta"><strong>Resposta : </strong></label>
-    <textarea class="form-control" id="texto-azul" name="resposta" rows="5" col="15" value="{{ ticket.resposta }}"
+    <textarea class="form-control" id="texto-azul" name="resposta" rows="3" col="15" value="{{ ticket.resposta }}"
       required>{{ ticket.resposta }}</textarea>
   </div>
 
@@ -100,16 +119,17 @@
   </div>
 
 <div class="form-group  col-md-12 mt-4 p-2">
-<button type="submit" id="finaliza_ticket"  class="btn btn-success w-25">Finalizar Chamado</button>
-<button type="submit" class="btn btn-primary w-25">Atualizar o Chamado</button>
+<button type="submit"  class="btn btn-success w-25" id="finaliza_ticket">Finalizar Chamado</button>
+<button type="submit" class="btn btn-primary w-25" id="finaliza_ticket">Atualizar o Chamado</button>
+<!-- <a type="button" href="{% url 'chamados:atualizar_chamado' ticket.id %}" class="btn btn-primary w-25">Atualizar o Chamado</button> -->
 <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning w-25">&nbsp;&nbsp;&nbsp; Voltar &nbsp;&nbsp;&nbsp;</a>
 </div>
 
 {% else %}
-<div class="form-group col-md-12">
+<!-- <div class="form-group col-md-12">
   <label for="resposta">Resposta : </label>
-  <textarea class="form-control" id="texto-azul" name="resposta" rows="5" col="15"
-    readonly>{{ ticket.resposta }}</textarea>
+  <textarea class="form-control" id="texto-azul" name="resposta" rows="3" col="15"
+    readonly>{{ ticket.resposta }}</textarea> -->
 </div>
 
   {% if ticket.upload_arquivo %}

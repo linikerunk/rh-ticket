@@ -33,7 +33,6 @@ def perfil(request):
 def atualizar_perfil(request, id):
     funcionario = get_object_or_404(Funcionario, pk=id)
     form = FuncionarioForm(request.POST,  request.FILES or None, instance=funcionario)
-    print("Formulário de dados funcionário : ", form.data)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -50,10 +49,6 @@ def set_password(request):
     funcionario = request.user.funcionario
     if request.method == 'POST':
         form =  PasswordChangeFormCustom(data=request.POST,  user=request.user)
-
-        print(f'form.fields: {form.fields}')
-        print(f'\n form.data: {form.data}')
-        print(f'\n form.errors: {form.errors}')
 
         old_password = form.data["old_password"]
         admissao = str(form.data["admissao"])

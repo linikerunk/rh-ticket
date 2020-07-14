@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.utils import timezone
+from datetime import datetime
 
 from django.forms import ModelForm, RadioSelect
-from .models import Ticket, Categoria, SubCategoria
+from .models import Ticket, Categoria, SubCategoria, HistoricoTicket
 from perfil.models import Funcionario, Unidade
 
 from django import forms
@@ -19,7 +21,8 @@ class TicketForm(forms.ModelForm):
 
     class Meta:
         model = Ticket
-        fields = ['categoria', 'subcategoria', 'texto', 'upload_arquivo']
+        fields = ['categoria', 'subcategoria', 'funcionario', 'data_finalizada',
+        'texto', 'resposta', 'upload_arquivo', 'finalizado']
         labels = {
             'categoria': 'Categoria : ',
             'subcategoria': 'Subcategoria : ',
@@ -34,15 +37,26 @@ class TicketForm(forms.ModelForm):
         }
 
 
-    def clean_funcionario(self):
-        unidade = self.cleaned_data['unidade']
-        funcionario = self.cleaned_data['funcionario']
+    def save(self, commit=True):
+        instance = super(TicketForm, self).save(commit=False)
+        historico_ticket = HistoricoTicket.objects.create(
+                           data_mensagem = timezone.now(),
+                           mensagem = instance.resposta,
+                           ticket = instance,
+                           funcionario = instance.funcionario)
+        historico_ticket.save()
+        print("criou um historico para isso...")
+        self.resposta = ' '
+        print("resposta : ", self.resposta)
+        instance.funcionario = request.user
+        instance.finalizado = False
+        instance.save()
+        print('instance : ', instance.resposta)
+        print("Salvou o ticket tbm lindao")
+        print("Criou um ticket novo")
+        return instance
 
-
-        if funcionario.unidade != unidade:
-            raise forms.ValidationError('Funcionário não está vinculado à essa unidade')
-            
-        return funcionario
+    
 
 
 class TicketUpdateForm(forms.ModelForm):
@@ -64,3 +78,23 @@ class TicketUpdateForm(forms.ModelForm):
             'subcategoria': 'Subcategoria : ',
             'texto': 'Descrição : ',
         }
+
+    def save(self, commit=True):
+        instance = super(TicketUpdateForm, self).save(commit=True)
+        historico_ticket = HistoricoTicket.objects.create(
+                           data_mensagem = timezone.now(),
+                           mensagem = instance.resposta,
+                           ticket = instance,
+                           funcionario = instance.funcionario)
+        historico_ticket.save()
+        print("criou um historico para isso...")
+        self.resposta = ' '
+        print("resposta : ", self.resposta)
+        instance.save()
+        print('instance : ', instance.resposta)
+        print("Salvou o ticket tbm lindao")
+        print("estou fazendo duas vezes isso aqui ?")
+        return instance
+
+
+ 

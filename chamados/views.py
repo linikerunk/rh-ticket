@@ -11,7 +11,7 @@ from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib import messages
 
-from .models import Ticket, Categoria, SubCategoria
+from .models import Ticket, Categoria, SubCategoria, HistoricoTicket
 from perfil.models import Funcionario, Unidade
 from .forms import TicketForm, TicketUpdateForm
 from perfil.forms import FuncionarioForm
@@ -37,7 +37,6 @@ def funcionario_ajax(request, id):
 
 def carregar_subcategorias(request, id):
     subcategoria = SubCategoria.objects.filter(categoria=id)
-    print(subcategoria)
     data = serializers.serialize("json", subcategoria, fields=('id','nome'))
     response = {'data': data}
     return JsonResponse(response, safe=False)
@@ -86,8 +85,8 @@ RE : {funcionario.re_funcionario}\n\tNome : {funcionario.nome}\n\tDescrição : 
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
-        # print(form.errors)
-        # print(form.data)
+        print(form.errors)
+        print(form.data)
     else:
         form = TicketForm()
     return render(request, 'chamados/enviar.html', {'form': form,
@@ -100,65 +99,67 @@ def atualizar_chamado(request, id):
     unidade = request.user.funcionario.unidade
     ticket = get_object_or_404(Ticket, pk=id, funcionario__unidade=unidade)
     funcionario = request.user.funcionario
+    historico = HistoricoTicket.objects.filter(ticket__id=ticket.id )
     initial_data = {
         'unidade': unidade
     }
+
     if not request.user.groups.filter(name="RH") and ticket.funcionario == request.user.funcionario:
-        return render(request, 'chamados/tickets_por_funcionarios.html', {'ticket': ticket} )
+        return render(request, 'chamados/tickets_por_funcionarios.html', {'ticket': ticket,
+                                                                          'historico': historico} )
     elif not request.user.groups.filter(name="RH"):
         return render(request, 'chamados/listar_erro.html' )
     
     email = request.POST.get('email')
     email_corporativo = request.POST.get('email_corporativo')
     categoria = request.POST.get('categoria')
-
-    if request.method == 'POST':
-        #Ajustar para ticket que está aberto
-        form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
         
-        print("Dados : ", form.data)
+    #Ajustar para ticket que está aberto
+    form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
         
-        if form.is_valid():
+        
+    if form.is_valid():
             
-            form.save()
-            save_it = form.save()
-            save_it.save()
-            subject = f"Fechamento do chamado {ticket.id} no sistema de RH"
-            message = "\tSeu chamado foi finalizado no sistema de RH. \n\
+        form.save()
+        save_it = form.save()
+        save_it.save()
+        subject = f"Fechamento do chamado {ticket.id} no sistema de RH"
+        message = "\tSeu chamado foi finalizado no sistema de RH. \n\
 \tConsulte seu chamado em http://centralrh.conti.de/\n\
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-            print(subject)
-            print(message)
-            from_email = settings.EMAIL_HOST_USER
+        print(subject)
+        print(message)
+        from_email = settings.EMAIL_HOST_USER
 
-            if email_corporativo:
-                to_list = [email_corporativo, settings.EMAIL_HOST_USER]
-            elif email:
-                to_list = [email, settings.EMAIL_HOST_USER]
+        if email_corporativo:
+            to_list = [email_corporativo, settings.EMAIL_HOST_USER]
+        elif email:
+            to_list = [email, settings.EMAIL_HOST_USER]
+        else:
+            to_list = ['', settings.EMAIL_HOST_USER]
 
-            send_mail(subject, message, from_email, to_list, fail_silently=True)
+        send_mail(subject, message, from_email, to_list, fail_silently=True)
 
-            if email_corporativo:
-                messages.success(request, f' E-mail enviado com sucesso para {email_corporativo}')
-            elif email:
-                messages.success(request, f' E-mail enviado com sucesso para {email}')
-            else:
-                messages.warning(request, f' Ticket atualizado porém funcionário : {ticket.funcionario.nome} não tem um e-mail.')
-
-    
-            return redirect('chamados:listar')
+        if email_corporativo:
+            messages.success(request, f' E-mail enviado com sucesso para {email_corporativo}')
+        elif email:
+            messages.success(request, f' E-mail enviado com sucesso para {email}')
+        else:
+            messages.warning(request, f' Ticket atualizado porém funcionário : {ticket.funcionario.nome} não tem um e-mail.')
+           
+        return redirect('chamados:listar')
             
-        elif ticket.finalizado and ticket.data_finalizada != None:
-            messages.warning(request, 'Ticket já finalizado!')
-            return redirect('chamados:listar')
-        elif form.is_valid() and ticket.finalizado == False:
-            messages.warning(request, 'Ticket não foi finalizado')
-            return redirect('chamados:listar')
-        print("Errors : ", form.errors)
-    else:
-        form = TicketUpdateForm()
+    elif ticket.finalizado and ticket.data_finalizada != None:
+        messages.warning(request, 'Ticket já finalizado!')
+        print('Ticket já finalizado!')
+        return redirect('chamados:listar')
 
-    return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket})
+    elif form.is_valid() and ticket.finalizado == False:
+        messages.warning(request, 'Ticket não foi finalizado')
+        print('Ticket não foi finalizado')
+        return redirect('chamados:listar')
+
+    return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket, 'historico': historico})
 
 
 @verificar_funcionario()

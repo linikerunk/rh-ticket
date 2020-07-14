@@ -8,7 +8,6 @@ from chamados.models import Ticket, Categoria, SubCategoria
 from perfil.models import Funcionario
 
 
-
 AUSENCIA = (
     ("Falta", "Falta"),
     ("Atraso", "Atraso"),
@@ -48,10 +47,10 @@ def create_ticket(sender, instance, created, **kwargs):
         categoria = Categoria.objects.get(nome="Acesso")
         subcategoria = SubCategoria.objects.get(nome="Justificativa de Ausência")
         ticket = Ticket.objects.create(
-            texto = f"\t[Data Início]: {instance.data_inicio.strftime('%d/%m/%Y')}  à  [Data Fim]: {instance.data_fim.strftime('%d/%m/%Y')}\n \
-\t[Tipo de Justificativa de Ausência] : {instance.tipo_de_ausencia}, \n \
-\t[Justificativa] : {instance.justificativa}, \n \
-\t[Observação] : {instance.observacao}\n",
+            texto = f"[Data Início] : {instance.data_inicio.strftime('%d/%m/%Y')}  à  [Data Fim] : {instance.data_fim.strftime('%d/%m/%Y')}\n\
+[Tipo de Justificativa de Ausência] : {instance.tipo_de_ausencia}, \n\
+[Justificativa] : {instance.justificativa}, \n\
+[Observação] : {instance.observacao}\n",
             funcionario =instance.funcionario,
             data=datetime.now(),
             categoria=categoria,

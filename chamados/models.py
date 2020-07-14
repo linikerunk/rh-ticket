@@ -58,6 +58,7 @@ class Ticket(models.Model):
             if not self.data_finalizada:
                 pass
                 self.data_finalizada = timezone.now()
+            print("TESTE")
         return super(Ticket, self).save(*args, **kwargs)
     
     def tempo_aberto(self):
@@ -81,64 +82,16 @@ class Ticket(models.Model):
 
     
     def __str__(self):
-        return  f'Ticket Número {self.id}, Re funcionário {self.funcionario.re_funcionario}, data {self.data}'
+        return  f'Ticket Número {self.id}, Funcionário {self.funcionario.re_funcionario}'
 
 
+class HistoricoTicket(models.Model):
+    data_mensagem = models.DateTimeField()
+    mensagem = models.TextField(blank=True, null=True, verbose_name="Mensagem :")
+    ticket = models.ForeignKey(Ticket, related_name='historico', on_delete=models.CASCADE)
+    funcionario = models.ForeignKey(Funcionario, related_name="historico", on_delete=models.PROTECT)
 
-
-# class Campo(TimeStampedModel):
-#     nome = models.CharField(verbose_name="Nome do Campo", max_length=100, unique=True)
-
-#     class Meta:
-#         ordering = ['-created']
-#         verbose_name = 'Campo'
-#         verbose_name_plural = 'Campos'
-
-#     def __str__(self):
-#         return self.nome
-
-
-# class ModeloFormulario(TimeStampedModel):
-#     campo = models.ManyToManyField(
-#         Campo, through='ModeloFormularioCampo', related_name='campo'
-#     )
-
-#     texto = models.TextField(verbose_name="Observação", blank = True)
     
-#     subcategoria = models.ForeignKey(SubCategoria, related_name='modelo_formulario', on_delete=models.CASCADE)
+    def __str__(self):
+        return f'Mensagem de {self.funcionario} referênte ao Ticket {self.ticket.id}, data :{self.data_mensagem}'
 
-
-#     class Meta:
-#         verbose_name = 'Modelo de Formulários'
-#         verbose_name_plural = 'Modelos de Formulários'
-#         ordering = ['-created']
-
-#     def __str__(self):
-#         return f'Formulário da subcategoria : {self.subcategoria}'
-
-
-# class ModeloFormularioCampo(models.Model):
-#     modelo_formulario = models.ForeignKey(
-#         ModeloFormulario,
-#         verbose_name = 'Formulário',
-#         related_name = 'modelo_formulario',
-#         on_delete=models.CASCADE
-#     )
-
-#     campo = models.ForeignKey(
-#         Campo,
-#         verbose_name = 'Campos',
-#         related_name = 'modelo_formulario',
-#         on_delete=models.CASCADE
-#     )
-
-#     valor_campo = models.CharField(verbose_name="Valor do Campo", max_length=250, blank=True)
-
-#     class Meta:
-#         verbose_name = 'Formulário e Campo'
-#         verbose_name_plural = 'Formulários e Campos'
-#         ordering = ['-campo__nome']
-#         unique_together = ['modelo_formulario', 'campo']
-    
-#     def __str__(self):
-#         return f'{self.id}'

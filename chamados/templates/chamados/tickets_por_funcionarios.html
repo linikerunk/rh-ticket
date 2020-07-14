@@ -25,7 +25,7 @@
                 value="{{ ticket.funcionario.nome }}" readonly>
         </div>
         <div class="form-group col-md-4">
-            <label for="ramal">Ramal / Telefone: </label>
+            <label for="ramal">Ramal / Telefone : </label>
             <input type="number" class="form-control" id="ramal" name="ramal" value="{{ ticket.funcionario.ramal }}"
                 readonly>
         </div>
@@ -35,30 +35,48 @@
                 readonly>
         </div>
         <div class="form-group col-md-6">
-            <label> Categoria </label>
+            <label> Categoria : </label>
             <select name="categoria" class="select form-control form-control" id="categoria" readonly>
                 <option value="{{ ticket.categoria.id }}">{{ ticket.categoria }}</option>
             </select>
         </div>
         <div class="form-group col-md-6">
-            <label> Subcategoria </label>
+            <label> Subcategoria : </label>
             <select name="subcategoria" class="select form-control form-control" id="subcategoria" readonly>
                 <option value="{{ ticket.subcategoria.id }}">{{ ticket.subcategoria }}</option>
             </select>
         </div>
         <div class="form-group col-md-12">
             <label for="texto">Descrição do Chamado : </label>
-            <textarea class="form-control" id="texto-atualizar" name="texto" rows="5" col="15"
+            <textarea class="form-control" id="texto-atualizar" name="texto" rows="3" col="15"
                 readonly>{{ ticket.texto }}</textarea>
         </div>
-        {% if ticket.resposta %}
+
+<div class="form-group col-md-12">
+    <label for="texto">Historico de Mensagens: </label>
+    <div class="history-field">
+        <hr style="border: 1px solid rgb(119, 119, 119); ">
+        <p class="m-2 name_employee"> <strong> &nbsp; &nbsp; {{ ticket.funcionario.nome }},
+                {{ ticket.data|date:'d/m/Y G:i:s'}} </strong></p><span
+            style="margin-left: 20px;">‎‎▸</span>‎{{ ticket.texto }}
+        <hr style="border: 1px solid rgb(119, 119, 119); ">
+        {% for mensagens in historico %}
+        <p class="m-2 name_employee"> <strong> &nbsp; &nbsp; {{ mensagens.funcionario.nome }},
+                {{ mensagens.data_mensagem|date:'d/m/Y G:i:s'}} </strong></p>
+        <span class="description-historic ">&nbsp;&nbsp;&nbsp;&nbsp;▸{{ mensagens.mensagem }} </span>
+        <hr style="border: 1px solid rgb(119, 119, 119); ">
+        {% endfor %}
+    </div>
+</div>
+
+        {% if not ticket.finalizado %}
         <div class="form-group col-md-12">
             <label for="resposta">Resposta : </label>
-            <textarea class="form-control" id="texto-azul" name="resposta" rows="5" col="15" value="{{ ticket.resposta }}" readonly
-                required>{{ ticket.resposta }}</textarea>
+            <textarea class="form-control" id="texto-azul" name="resposta" rows="3" col="15" value="{{ ticket.resposta }}" required>{{ ticket.resposta }}</textarea>
         </div>
         {% else %}
         {% endif %}
+
         
         {% if ticket.upload_arquivo %}
         <div class="form-group col-md-12">
@@ -67,8 +85,12 @@
         </div>
         {% else %}
         {% endif %}
+
+        <div class="form-group  col-md-6 mt-4 p-2">
+            <a type="button" href="#" class="btn btn-success pr-5 pl-5 w-100">&nbsp;&nbsp;&nbsp;Responder &nbsp;&nbsp;&nbsp;</a>
+        </div>
         
-        <div class="form-group  col-md-12 mt-4 p-2">
+        <div class="form-group  col-md-6 mt-4 p-2">
             <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning pr-5 pl-5 w-100">&nbsp;&nbsp;&nbsp;
                 Voltar &nbsp;&nbsp;&nbsp;</a>
         </div>
