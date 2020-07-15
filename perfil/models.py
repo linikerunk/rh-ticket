@@ -60,7 +60,9 @@ class Funcionario(models.Model):
         print(f'{self.id} : {self.nome} Foi salvo com sucesso! \n')
         super(Funcionario, self).save(*args, **kwargs) 
 
+
 auditlog.register(Funcionario, exclude_fields=['user'],  mapping_fields={'telefone': 'Telefone', 'email': 'E-mail Pessoal'})
+
 
 def create_user(sender, instance, created, **kwargs):
     if created:

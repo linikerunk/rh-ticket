@@ -10,6 +10,7 @@ from django.core.mail import send_mail, send_mass_mail
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.utils import timezone
 
 from .models import Ticket, Categoria, SubCategoria, HistoricoTicket
 from perfil.models import Funcionario, Unidade
@@ -83,6 +84,7 @@ RE : {funcionario.re_funcionario}\n\tNome : {funcionario.nome}\n\tDescrição : 
                 from_email = settings.EMAIL_HOST_USER
                 recipient_list = ['']
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
+            print("TICKET ENVIADO COM SUCESSO")
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
         print(form.errors)
@@ -95,71 +97,118 @@ RE : {funcionario.re_funcionario}\n\tNome : {funcionario.nome}\n\tDescrição : 
 
 @verificar_funcionario()
 @login_required
-def atualizar_chamado(request, id):
+def finalizar_chamado(request, id):
     unidade = request.user.funcionario.unidade
     ticket = get_object_or_404(Ticket, pk=id, funcionario__unidade=unidade)
     funcionario = request.user.funcionario
-    historico = HistoricoTicket.objects.filter(ticket__id=ticket.id )
+    historico = HistoricoTicket.objects.filter(ticket__id=ticket.id)
     initial_data = {
         'unidade': unidade
     }
 
-    if not request.user.groups.filter(name="RH") and ticket.funcionario == request.user.funcionario:
-        return render(request, 'chamados/tickets_por_funcionarios.html', {'ticket': ticket,
-                                                                          'historico': historico} )
-    elif not request.user.groups.filter(name="RH"):
-        return render(request, 'chamados/listar_erro.html' )
+    if request.method == 'POST':
+
+        if not request.user.groups.filter(name="RH") and ticket.funcionario == request.user.funcionario:
+
+            form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
+
+            if form.is_valid():
+                historico_ticket = HistoricoTicket.objects.create(
+                           data_mensagem = timezone.now(),
+                           mensagem = form.instance.resposta,
+                           ticket_id = form.instance.id,
+                           funcionario = request.user.funcionario)
+                historico_ticket.save()
+                
+                form.save()
+                save_it = form.save()
+                save_it.save()
+                subject = f"Fechamento do chamado {ticket.id} no sistema de RH"
+                message = "\tSeu chamado foi finalizado no sistema de RH. \n\
+        \tConsulte seu chamado em http://centralrh.conti.de/\n\
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+            print(subject)
+            print(message)
+            from_email = settings.EMAIL_HOST_USER
+
+            if email_corporativo:
+                to_list = [email_corporativo, settings.EMAIL_HOST_USER]
+            elif email:
+                to_list = [email, settings.EMAIL_HOST_USER]
+            else:
+                to_list = ['', settings.EMAIL_HOST_USER]
+                messages.success(request, f'Ticket respondido com sucesso')
     
-    email = request.POST.get('email')
-    email_corporativo = request.POST.get('email_corporativo')
-    categoria = request.POST.get('categoria')
         
-    #Ajustar para ticket que está aberto
+            return render(request, 'chamados/tickets_por_funcionarios.html', {'ticket': ticket,
+                                                                            'historico': historico} )
+        elif not request.user.groups.filter(name="RH"):
+            return render(request, 'chamados/listar_erro.html' )
+        
+        email = request.POST.get('email')
+        email_corporativo = request.POST.get('email_corporativo')
+        categoria = request.POST.get('categoria')
+            
+        #Ajustar para ticket que está aberto
+        form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
+
+        if form.is_valid():
+            historico_ticket = HistoricoTicket.objects.create(
+                           data_mensagem = timezone.now(),
+                           mensagem = form.instance.resposta,
+                           ticket_id = form.instance.id,
+                           funcionario = request.user.funcionario)
+            historico_ticket.save()
+            form.instance.resposta = ''
+            form.save()
+            save_it = form.save()
+            save_it.save()
+            subject = f"Fechamento do chamado {ticket.id} no sistema de RH"
+            message = "\tSeu chamado foi finalizado no sistema de RH. \n\
+    \tConsulte seu chamado em http://centralrh.conti.de/\n\
+    ------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+            print(subject)
+            print(message)
+            from_email = settings.EMAIL_HOST_USER
+
+            if email_corporativo:
+                to_list = [email_corporativo, settings.EMAIL_HOST_USER]
+            elif email:
+                to_list = [email, settings.EMAIL_HOST_USER]
+            else:
+                to_list = ['', settings.EMAIL_HOST_USER]
+
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
+
+            if email_corporativo and ticket.finalizado:
+                messages.success(request, f' Ticket finalizado e e-mail enviado com sucesso para {email_corporativo}')
+
+            elif email and ticket.finalizado:
+                messages.success(request, f' Ticket finalizado e e-mail enviado com sucesso para {email}')
+            
+            elif email_corporativo or email and ticket.finalizado == False:
+                messages.success(request, f' Ticket atualizado e e-mail enviado com sucesso para {email}')
+            else:
+                messages.warning(request, f' Ticket finalizado, porém funcionário : {ticket.funcionario.nome} não tem um e-mail.')
+            
+            
+            return redirect('chamados:listar')
+
+        elif ticket.finalizado and ticket.data_finalizada != None:
+            messages.warning(request, 'Ticket já finalizado!')
+            print('Ticket já finalizado!')
+            return redirect('chamados:listar')
+
+        elif form.is_valid() and ticket.finalizado == False:
+            messages.warning(request, 'Ticket respondido')
+            print('Ticket não foi finalizado')
+            return redirect('chamados:listar')
+
+        print(f"Forms errors : {form.errors}")
+        print(f"Forms data : {form.data}")
+
     form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
-        
-        
-    if form.is_valid():
-            
-        form.save()
-        save_it = form.save()
-        save_it.save()
-        subject = f"Fechamento do chamado {ticket.id} no sistema de RH"
-        message = "\tSeu chamado foi finalizado no sistema de RH. \n\
-\tConsulte seu chamado em http://centralrh.conti.de/\n\
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-        print(subject)
-        print(message)
-        from_email = settings.EMAIL_HOST_USER
-
-        if email_corporativo:
-            to_list = [email_corporativo, settings.EMAIL_HOST_USER]
-        elif email:
-            to_list = [email, settings.EMAIL_HOST_USER]
-        else:
-            to_list = ['', settings.EMAIL_HOST_USER]
-
-        send_mail(subject, message, from_email, to_list, fail_silently=True)
-
-        if email_corporativo:
-            messages.success(request, f' E-mail enviado com sucesso para {email_corporativo}')
-        elif email:
-            messages.success(request, f' E-mail enviado com sucesso para {email}')
-        else:
-            messages.warning(request, f' Ticket atualizado porém funcionário : {ticket.funcionario.nome} não tem um e-mail.')
-           
-        return redirect('chamados:listar')
-            
-    elif ticket.finalizado and ticket.data_finalizada != None:
-        messages.warning(request, 'Ticket já finalizado!')
-        print('Ticket já finalizado!')
-        return redirect('chamados:listar')
-
-    elif form.is_valid() and ticket.finalizado == False:
-        messages.warning(request, 'Ticket não foi finalizado')
-        print('Ticket não foi finalizado')
-        return redirect('chamados:listar')
-
-    return render(request, 'chamados/atualizar.html', {'form': form, 'ticket': ticket, 'historico': historico})
+    return render(request, 'chamados/tickets_por_funcionarios.html', {'form': form, 'ticket': ticket, 'historico': historico})
 
 
 @verificar_funcionario()

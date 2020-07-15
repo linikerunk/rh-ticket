@@ -17,8 +17,19 @@ from .forms import TicketForm
 class TicketAdmin(ImportExportModelAdmin):
     list_display = ['id', 'funcionario', 'data', 'finalizado']
     list_filter = ['funcionario__unidade']
-    form = TicketForm
+    # save_on_top = True
+    # form = TicketForm
 
+    
+    # def save_model(self, request, obj, form, change):
+    #     if not obj.pk: # call super method if object has no primary key 
+    #         super(TicketAdmin, self).save_model(request, obj, form, change)
+    #     else:
+    #         pass # don't actually save the parent instance
+
+    # def save_related(self, request, form, formsets, change):
+    #     pass
+        
 
 @admin.register(Categoria)
 class CategoriaAdmin(ImportExportModelAdmin):

@@ -35,7 +35,7 @@
     {% for ticket in tickets %}
       <td style="text-align : center;">{{ ticket.data|date:"d/m/Y  H:i" }}</td>
       <td scope="row" style="text-align : center;">{{ ticket.funcionario.re_funcionario }}</th>
-      <td style="text-align : left;"><h6><a href="{% url 'chamados:atualizar_chamado' ticket.id %}"> {{ ticket.funcionario.nome }}</a></h6></td>
+      <td style="text-align : left;"><h6><a href="{% url 'chamados:finalizar_chamado' ticket.id %}"> {{ ticket.funcionario.nome }}</a></h6></td>
       <td style="text-align : left;">{{ ticket.categoria }}</td>
       <td style="text-align : left;">{{ ticket.subcategoria }}</td>
       {% if ticket.finalizado is False %}

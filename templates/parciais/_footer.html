@@ -17,11 +17,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
    
     <script>
-    var message_ele = document.getElementById("message_container");
+      var message_ele = document.getElementById("message_container");
+      console.log("to aqui  na mensagem??")
 
-      setTimeout(function(){ 
-        message_ele.style.display = "none"; 
-        }, 7000);
+      setTimeout(function () {
+        message_ele.style.display = "none";
+      }, 7000);
     </script>
 
     <script>
@@ -41,17 +42,21 @@
     </script>
 
     <script>
-      jQuery(document).on('click', 'ul li', function(){
-        jQuery(this).addClass('active')
-      })
-
-      // click finalizar chamado
+      
       jQuery("#finaliza_ticket").click(function (){
         alert("Deseja finalizar esse chamado ? ")
         var selectedTicket = jQuery("#finalizado").val("True");
-        console.log(selectedTicket.val())
+        console.log("valor selecionado  finaliza: ", selectedTicket.val())
       })
       
+    </script>
+
+    <script>
+        jQuery("#responder_chamado").click(function () {
+          var selectedTicket = jQuery("#finalizado").val("False");
+          console.log("valor selecionado responde : ", selectedTicket.val())
+        });
+
     </script>
 
       <script charset="UTF-8">

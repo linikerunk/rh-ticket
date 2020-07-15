@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load filters %}
 
 {% block titulo %} Tickets por Funcionarios {% endblock %}
 
@@ -8,6 +9,8 @@
         <p class="lead"> Atualizar chamado de <code>{{ ticket.funcionario.nome }}</code></p>
         <hr>
     </div>
+<form method="POST" enctype="multipart/form-data" action="{% url 'chamados:finalizar_chamado' ticket.id %}">
+    {% csrf_token %}
     <div class="form-row">
         <div class="form-group  col-md-3">
             <label for="unidade">Unidade : </label>
@@ -46,28 +49,29 @@
                 <option value="{{ ticket.subcategoria.id }}">{{ ticket.subcategoria }}</option>
             </select>
         </div>
-        <div class="form-group col-md-12">
-            <label for="texto">Descrição do Chamado : </label>
+        <!-- <div class="form-group col-md-12">
+            <label for="texto"><strong>Descrição do Chamado : </strong></label>
             <textarea class="form-control" id="texto-atualizar" name="texto" rows="3" col="15"
-                readonly>{{ ticket.texto }}</textarea>
+              readonly>{{ ticket.texto }}</textarea>
+          </div> -->
+        
+        <div class="form-group col-md-12">
+            <label for="texto">Historico </label>
+            <div class="history-field ">
+                <hr style="border: 1px solid rgb(119, 119, 119); ">
+                <p class="m-2 name_employee"> <strong> &nbsp; &nbsp; {{ ticket.funcionario.nome }},
+                        {{ ticket.data|date:'d/m/Y G:i:s'}} </strong></p><span
+                    style="margin-left: 20px;">‎‎▸</span>‎{{ ticket.texto }}
+                <hr style="border: 1px solid rgb(119, 119, 119); ">
+                {% for mensagens in historico %}
+                <p class="m-2 name_employee"> <strong> &nbsp; &nbsp; {{ mensagens.funcionario.nome }},
+                        {{ mensagens.data_mensagem|date:'d/m/Y G:i:s'}} </strong></p>
+                <span class="description-historic ">&nbsp;&nbsp;&nbsp;&nbsp;▸{{ mensagens.mensagem }} </span>
+                <hr style="border: 1px solid rgb(119, 119, 119); ">
+                {% endfor %}
+            </div>
         </div>
 
-<div class="form-group col-md-12">
-    <label for="texto">Historico de Mensagens: </label>
-    <div class="history-field">
-        <hr style="border: 1px solid rgb(119, 119, 119); ">
-        <p class="m-2 name_employee"> <strong> &nbsp; &nbsp; {{ ticket.funcionario.nome }},
-                {{ ticket.data|date:'d/m/Y G:i:s'}} </strong></p><span
-            style="margin-left: 20px;">‎‎▸</span>‎{{ ticket.texto }}
-        <hr style="border: 1px solid rgb(119, 119, 119); ">
-        {% for mensagens in historico %}
-        <p class="m-2 name_employee"> <strong> &nbsp; &nbsp; {{ mensagens.funcionario.nome }},
-                {{ mensagens.data_mensagem|date:'d/m/Y G:i:s'}} </strong></p>
-        <span class="description-historic ">&nbsp;&nbsp;&nbsp;&nbsp;▸{{ mensagens.mensagem }} </span>
-        <hr style="border: 1px solid rgb(119, 119, 119); ">
-        {% endfor %}
-    </div>
-</div>
 
         {% if not ticket.finalizado %}
         <div class="form-group col-md-12">
@@ -86,12 +90,49 @@
         {% else %}
         {% endif %}
 
+        <div class="form-group col-md-12">
+            <!-- <label for="finalizado"><small><strong>Chamado foi finalizado ?</strong></small> </label> -->
+            <select class="form-control" id="finalizado" name="finalizado" value="{{ ticket.finalizado }}" required hidden>
+                <option id="finalizado" value="False">Não</option>
+                <option id="finalizado" value="True">Sim</option>
+            </select>
+        </div>
+
+        </form>
+
+        {% if ticket.finalizado %}
+        <div class="form-group  col-md-12 mt-4 p-2">
+            <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning pr-5 pl-5 w-100">&nbsp;&nbsp;&nbsp;
+                Voltar &nbsp;&nbsp;&nbsp;</a>
+        </div>
+        
+        {% else %}
+        {% if request.user|belong_group:"RH" or request.user|belong_group:"ADMIN" and not ticket.finalizado %}
+
+        <div class="form-group  col-md-4 mt-4">
+            <button type="submit" class="btn btn-success w-100" id="finaliza_ticket">Finalizar Chamado</button>
+        </div>
+
+        <div class="form-group  col-md-4 mt-4">
+            <button type="submit" class="btn btn-primary w-100" id="responder_chamado">Responder</button>
+        </div>
+        
+        <div class="form-group  col-md-4 mt-4">
+            <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning pr-5 pl-5 w-100">&nbsp;&nbsp;&nbsp;
+                Voltar &nbsp;&nbsp;&nbsp;</a>
+        </div>
+
+        {% else %}
+
         <div class="form-group  col-md-6 mt-4 p-2">
-            <a type="button" href="#" class="btn btn-success pr-5 pl-5 w-100">&nbsp;&nbsp;&nbsp;Responder &nbsp;&nbsp;&nbsp;</a>
+            <button type="submit" class="btn btn-primary w-100" id="responder_chamado" >Responder</button>
         </div>
         
         <div class="form-group  col-md-6 mt-4 p-2">
             <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning pr-5 pl-5 w-100">&nbsp;&nbsp;&nbsp;
                 Voltar &nbsp;&nbsp;&nbsp;</a>
         </div>
+        {% endif %}
+        {% endif %}
+
 {% endblock %}
