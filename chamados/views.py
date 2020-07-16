@@ -108,7 +108,7 @@ def finalizar_chamado(request, id):
 
     if request.method == 'POST':
 
-        if not request.user.groups.filter(name="RH") and ticket.funcionario == request.user.funcionario:
+        if not request.user.groups.filter(name="RH") or ticket.funcionario == request.user.funcionario:
 
             form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
 
@@ -177,11 +177,11 @@ def finalizar_chamado(request, id):
             from_email = settings.EMAIL_HOST_USER
 
             if ticket.funcionario.email_corporativo is not None:
-                from_email = ticket.funcionario.email_corporativo
+                from_email = settings.EMAIL_HOST_USER
                 to_list = [ticket.funcionario.email_corporativo, settings.EMAIL_HOST_USER]
                 print("email : ", ticket.funcionario.email_corporativo)
             elif ticket.funcionario.email is not None:
-                from_email = ticket.funcionario.email
+                from_email = settings.EMAIL_HOST_USER
                 to_list = [ticket.funcionario.email, settings.EMAIL_HOST_USER]
             else:
                 to_list = ['', settings.EMAIL_HOST_USER]
