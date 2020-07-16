@@ -66,7 +66,7 @@ def enviar(request):
             save_it = form.save()
             save_it.save()
             subject = "Novo chamado aberto"
-            message = f"\tCategoria : {categoria_field}\n\tSubcategoria : {subcategoria}\n\t\
+            message = f"\tCategoria : {categoria}\n\tSubcategoria : {subcategoria}\n\t\
 RE : {funcionario.re_funcionario}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
             if str(unidade) == 'Salto':
@@ -120,29 +120,34 @@ def finalizar_chamado(request, id):
                            funcionario = request.user.funcionario)
                 historico_ticket.save()
                 
+                subject = f"Resposta do funcionário {ticket.funcionario.nome} do registro {ticket.funcionario.re_funcionario}.\n"
+                message = f"\t Resposta : {ticket.resposta} \n\
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
+                form.instance.resposta = ''
+
                 form.save()
+                
                 save_it = form.save()
                 save_it.save()
-                subject = f"Fechamento do chamado {ticket.id} no sistema de RH"
-                message = "\tSeu chamado foi finalizado no sistema de RH. \n\
-        \tConsulte seu chamado em http://centralrh.conti.de/\n\
- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-            print(subject)
-            print(message)
-            from_email = settings.EMAIL_HOST_USER
-
-            if email_corporativo:
-                to_list = [email_corporativo, settings.EMAIL_HOST_USER]
-            elif email:
-                to_list = [email, settings.EMAIL_HOST_USER]
+                print(subject)
+                print(message)
+            if ticket.funcionario.email_corporativo is not None:
+                from_email = ticket.funcionario.email_corporativo
+                to_list = [ticket.funcionario.email_corporativo, settings.EMAIL_HOST_USER]
+            elif ticket.funcionario.email is not None:
+                from_email = ticket.funcionario.email
+                to_list = [ticket.funcionario.email, settings.EMAIL_HOST_USER]
             else:
-                to_list = ['', settings.EMAIL_HOST_USER]
-                messages.success(request, f'Ticket respondido com sucesso')
+                form.to_list = ['', settings.EMAIL_HOST_USER]
+                messages.success(request, f'Ticket respondido com sucesso, mas funcionário não tem e-mail')
+            send_mail(subject, message, from_email, to_list, fail_silently=True)
+            messages.success(request, f'Ticket respondido com sucesso, logo o RH te responderá.')
     
         
             return render(request, 'chamados/tickets_por_funcionarios.html', {'ticket': ticket,
                                                                             'historico': historico} )
         elif not request.user.groups.filter(name="RH"):
+
             return render(request, 'chamados/listar_erro.html' )
         
         email = request.POST.get('email')
@@ -171,22 +176,24 @@ def finalizar_chamado(request, id):
             print(message)
             from_email = settings.EMAIL_HOST_USER
 
-            if email_corporativo:
-                to_list = [email_corporativo, settings.EMAIL_HOST_USER]
-            elif email:
-                to_list = [email, settings.EMAIL_HOST_USER]
+            if ticket.funcionario.email_corporativo is not None:
+                from_email = ticket.funcionario.email_corporativo
+                to_list = [ticket.funcionario.email_corporativo, settings.EMAIL_HOST_USER]
+                print("email : ", ticket.funcionario.email_corporativo)
+            elif ticket.funcionario.email is not None:
+                from_email = ticket.funcionario.email
+                to_list = [ticket.funcionario.email, settings.EMAIL_HOST_USER]
             else:
                 to_list = ['', settings.EMAIL_HOST_USER]
-
             send_mail(subject, message, from_email, to_list, fail_silently=True)
 
-            if email_corporativo and ticket.finalizado:
+            if ticket.funcionario.email_corporativo and ticket.finalizado:
                 messages.success(request, f' Ticket finalizado e e-mail enviado com sucesso para {email_corporativo}')
 
-            elif email and ticket.finalizado:
+            elif ticket.funcionario.email and ticket.finalizado:
                 messages.success(request, f' Ticket finalizado e e-mail enviado com sucesso para {email}')
             
-            elif email_corporativo or email and ticket.finalizado == False:
+            elif ticket.funcionario.email_corporativo or ticket.funcionario.email and ticket.finalizado == False:
                 messages.success(request, f' Ticket atualizado e e-mail enviado com sucesso para {email}')
             else:
                 messages.warning(request, f' Ticket finalizado, porém funcionário : {ticket.funcionario.nome} não tem um e-mail.')

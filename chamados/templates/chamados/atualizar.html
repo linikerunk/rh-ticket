@@ -79,7 +79,7 @@
   </div> -->
 
 <div class="form-group col-md-12">
-  <label for="texto">Historico </label>
+  <label for="texto">Historico : </label>
   <div class="history-field">
     <hr style="border: 1px solid rgb(119, 119, 119); ">
     <p class="m-2 name_employee"> <strong> &nbsp; &nbsp; {{ ticket.funcionario.nome }},
@@ -110,6 +110,7 @@
       </div>
   {% else %}
   {% endif %}
+
   <div class="form-group col-md-3">
     <!-- <label for="finalizado"><small><strong>Chamado foi finalizado ?</strong></small> </label> -->
     <select class="form-control" id="finalizado" name="finalizado" value="{{ ticket.finalizado }}" required hidden>
@@ -119,7 +120,7 @@
   </div>
 
 <div class="form-group  col-md-12 mt-4 p-2">
-<button type="submit"  class="btn btn-success w-25" id="finaliza_ticket">Finalizar Chamado</button>
+<button type="submit"  class="btn btn-success w-25" id="finaliza_ticket">Finalizar</button>
 <!-- <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-primary w-25">Atualizar o Chamado</button> -->
 <a type="button" href="{% url 'chamados:listar' %}" class="btn btn-warning w-25">&nbsp;&nbsp;&nbsp; Voltar &nbsp;&nbsp;&nbsp;</a>
 </div>
