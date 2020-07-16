@@ -95,3 +95,17 @@ input[type=checkbox]
 }
 
 /* ---------------------------------- */
+/* Radios buttons */
+
+input[type="radio"] + label {
+    font-family:Arial, sans-serif;
+    font-size:15px;
+}
+
+
+.history-field {
+    overflow-y: auto;
+    height:200px;
+    background: #E9ECEF; 
+    border: 1px solid #cecece;
+}
