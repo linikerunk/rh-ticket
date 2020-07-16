@@ -121,7 +121,7 @@ def finalizar_chamado(request, id):
                 historico_ticket.save()
                 
                 subject = f"Resposta do funcionário {ticket.funcionario.nome} do registro {ticket.funcionario.re_funcionario}.\n"
-                message = f"\t Resposta : {ticket.resposta} \n\
+                message = f"\t Resposta : {ticket.resposta} \n \
  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
                 form.instance.resposta = ''
 
