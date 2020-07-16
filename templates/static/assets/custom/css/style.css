@@ -102,6 +102,7 @@ input[type="radio"] + label {
     font-size:15px;
 }
 
+/* Historico */
 
 .history-field {
     overflow-y: auto;
