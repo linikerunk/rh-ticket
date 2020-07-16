@@ -67,7 +67,7 @@ def enviar(request):
             save_it.save()
             subject = "Novo chamado aberto"
             message = f"\tCategoria : {categoria}\n\tSubcategoria : {subcategoria}\n\t\
-RE : {funcionario.re_funcionario}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
+RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
             if str(unidade) == 'Salto':
                 from_email = settings.EMAIL_HOST_USER
