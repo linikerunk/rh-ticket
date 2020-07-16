@@ -132,10 +132,10 @@ def finalizar_chamado(request, id):
                 print(subject)
                 print(message)
             if ticket.funcionario.email_corporativo is not None:
-                from_email = ticket.funcionario.email_corporativo
+                from_email = settings.EMAIL_HOST_USER]
                 to_list = [ticket.funcionario.email_corporativo, settings.EMAIL_HOST_USER]
             elif ticket.funcionario.email is not None:
-                from_email = ticket.funcionario.email
+                from_email = settings.EMAIL_HOST_USER]
                 to_list = [ticket.funcionario.email, settings.EMAIL_HOST_USER]
             else:
                 form.to_list = ['', settings.EMAIL_HOST_USER]
