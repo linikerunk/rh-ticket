@@ -22,8 +22,6 @@ class CustomLogEntry(LogEntry):
     
     class Meta:
         proxy = True
-    
-
 
 
 class Unidade(models.Model):
@@ -36,7 +34,6 @@ class Unidade(models.Model):
 class Funcionario(models.Model):
     re_funcionario = models.CharField(max_length=9, verbose_name="RE")
     nome = models.CharField(max_length=55, verbose_name="Funcionário :")
-    centro_de_custo = models.CharField(max_length=10)
     admissao = models.CharField(max_length=20, blank=True, verbose_name="Data de Admissão : ", default="")
     demissao = models.CharField(max_length=20, blank=True, verbose_name="Data de Demissão : ", default="")
     ramal = models.CharField(max_length=9, blank=True, verbose_name="Ramal", default="")
@@ -44,10 +41,10 @@ class Funcionario(models.Model):
     email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True, default="")
     email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True, default="")
     primeiro_acesso = models.BooleanField(verbose_name="Primeiro Acesso", default=True)
-    unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     termo_dados = models.CharField(verbose_name="Termo de Consentimento", max_length=9, blank=True, choices=TERMO)
-
+    unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
+    centro_de_custo = models.CharField(max_length=10)
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ['re_funcionario', 'unidade']
@@ -77,6 +74,15 @@ def create_user(sender, instance, created, **kwargs):
     
 
 post_save.connect(create_user, sender=Funcionario)
+
+
+class CentroDeCusto(models.Model):
+    numero = models.CharField(max_length=12, verbose_name="Número Centro de Custo")
+    nome = models.CharField(max_length=100, blank=False, verbose_name="Nome do Centro de Custo")
+    responsaveis = models.ManyToManyField(Funcionario, blank=True, related_name="funcionarios")
+
+    def __str__(self):
+        return f'CDC : {self.numero} Nome : {self.nome}'
 
 
 # def update_func(sender, instance, created, **kwargs):

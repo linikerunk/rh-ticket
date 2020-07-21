@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.forms.widgets import PasswordInput, TextInput
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import (
-PasswordChangeForm,
+PasswordResetForm,
 AuthenticationForm,
 UsernameField,
 SetPasswordForm,
@@ -48,7 +48,6 @@ class UnidadeForm(forms.ModelForm):
 
 
 class CustomAuthenticationForm(AuthenticationForm):
-
     username = forms.CharField(widget=TextInput(
         attrs={'class':'validate','placeholder': 'O Registro de usuário é conhecido como RE também.'}))
 
@@ -86,8 +85,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class SetPasswordFormCustom(SetPasswordForm):
-    'Class to be a reset of user password...'
-
+    print("Set PasswordForm")
     error_messages = {
         'password_mismatch': ('A senhas não se combinam..'),
     }
@@ -95,12 +93,19 @@ class SetPasswordFormCustom(SetPasswordForm):
     new_password1 = forms.CharField(
         label=("Nova Senha"),
     )
+
     new_password2 = forms.CharField(
         label=("Confirmação de Nova Senha"),
     )
 
 
-class PasswordChangeFormCustom(PasswordChangeForm):
+    def clean(self):
+        unidade = self.cleaned_data.get('unidade')
+        registro = self.cleaned_data.get('registro')
+        return self.cleaned_data
+
+
+class PasswordResetFormCustom(PasswordResetForm):
     admissao = forms.CharField(
         label=("Digite sua data da admissão :"),
         widget=forms.TextInput(attrs={'placeholder':'Digite a data de sua Admissão'})
@@ -111,16 +116,15 @@ class PasswordChangeFormCustom(PasswordChangeForm):
         label=("Número de Registro : "),
     )
 
+
     field_order = ['old_password', 'admissao', 'new_password1', 'new_password2']
 
-    def __init__(self, user):
-        print("entro aqui ?")
-        self.user = user
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
 
     def clean_old_password(self):
-        print("To aqui ??")
+        
         """
         Validate that the old_password field is correct.
         """

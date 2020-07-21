@@ -84,7 +84,6 @@ RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo}\n\tNome 
                 from_email = settings.EMAIL_HOST_USER
                 recipient_list = ['']
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
-            print("TICKET ENVIADO COM SUCESSO")
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
         print(form.errors)

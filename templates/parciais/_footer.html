@@ -158,6 +158,41 @@
       });
   </script>
 
+
+    <script>
+  jQuery("#funcionario-login-reset").change(function () {
+        let funcionario_senha_reset = jQuery(this).val();
+        console.log("registro : ", funcionario_senha_reset)
+        let unidade = jQuery("#unidade").val();
+        console.log("unidade: ", unidade)
+        let url = "/resetar_senha/" + funcionario_senha_reset + "/";
+        jQuery.ajax({
+          url: url,
+          type: 'GET',
+          data: {
+            funcionario_senha_reset: funcionario_senha_reset,
+            unidade: unidade,
+          },
+
+          beforeSend: function (xhr) {
+          },
+
+          success: function (data) {
+          console.log(unidade)
+          concatenar = jQuery("#id_username").val(unidade + funcionario_login)
+          console.log('usuario : ', concatenar)
+          },
+  
+          error: function (xhr) {
+            // body... xhr.statusText + xhr.responseText
+          },
+          complete: function () {
+            // body...
+          }
+        })
+      });
+  </script>
+
 <script>
   $('#telefone_edit').blur(function () {
       if ($(this).val().length === 0) {
