@@ -107,8 +107,13 @@ def meu_logout(request):
 #         return super().post(request, *args, **kwargs)
 
 
-def ResetaSenhaTemp(request):
-    return render(request, 'perfil/informativo.html', {})
+class ResetaSenha(FormView):
+    template_name = 'perfil/reset_senha.html'
+    form_class = SetPasswordFormCustom
+    success_url = '/resetar_senha/'
+
+    
+
 
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm

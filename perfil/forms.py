@@ -101,7 +101,6 @@ class SetPasswordFormCustom(SetPasswordForm):
 
 
 class PasswordChangeFormCustom(PasswordChangeForm):
-
     admissao = forms.CharField(
         label=("Digite sua data da admissão :"),
         widget=forms.TextInput(attrs={'placeholder':'Digite a data de sua Admissão'})
@@ -114,7 +113,14 @@ class PasswordChangeFormCustom(PasswordChangeForm):
 
     field_order = ['old_password', 'admissao', 'new_password1', 'new_password2']
 
+    def __init__(self, user):
+        print("entro aqui ?")
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+
     def clean_old_password(self):
+        print("To aqui ??")
         """
         Validate that the old_password field is correct.
         """
