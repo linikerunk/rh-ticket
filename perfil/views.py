@@ -14,7 +14,7 @@ SetPasswordFormCustom,
 FuncionarioForm,
 UnidadeForm,
 CustomAuthenticationForm,
-PasswordChangeFormCustom,
+PasswordResetFormCustom,
 )
 from .models import Funcionario, Unidade
 from perfil.decorators import verificar_funcionario
@@ -107,8 +107,20 @@ def meu_logout(request):
 #         return super().post(request, *args, **kwargs)
 
 
-def ResetaSenhaTemp(request):
-    return render(request, 'perfil/informativo.html', {})
+def ResetaSenha(request):
+    form = SetPasswordFormCustom(data=request.POST, user=None)
+    unidade  = Unidade.objects.all()
+    # re = Funcionario.objects.all().filter(unidade=unidade)
+    print(unidade)
+    print("FORM USER  ", form.user)
+
+    if form.is_valid():
+        form.save()
+        return redirect('perfil:enviar')
+    else:
+        return render(request, 'perfil/reset_senha.html', {'form': form, 'unidade': unidade}) 
+        
+    
 
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm

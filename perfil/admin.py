@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from django.contrib.auth.admin import UserAdmin as BaseAdmin
 from django.contrib.auth.models import User 
-from .models import Unidade, Funcionario
+from .models import Unidade, Funcionario, CentroDeCusto
 
 from auditlog.admin import LogEntryAdmin
 from auditlog.models import LogEntry
@@ -31,6 +31,16 @@ class FuncionarioAdmin(ImportExportModelAdmin):
     list_display = ['id', 'nome', 're_funcionario']
     list_filter = ['unidade']  
 
+
+@admin.register(CentroDeCusto)
+class FuncionarioAdmin(ImportExportModelAdmin):
+    list_display = ['id', 'numero', 'nome', 'get_responsaveis']
+    list_filter = ['numero']
+
+    def get_responsaveis(self, obj):
+        return ",\t ".join([responsaveis.nome for responsaveis in obj.responsaveis.all()])
+
+    get_responsaveis.short_description = 'Nome dos Responsáveis'
 
 # @admin.register(RegistroAutorizacao)
 # class RegistroAutorizacaoAdmin(ImportExportModelAdmin):

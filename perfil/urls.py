@@ -7,7 +7,7 @@ from perfil.forms import CustomAuthenticationForm
 from .views import (
 Login,
 # ResetaSenha,
-ResetaSenhaTemp,
+ResetaSenha,
 logout,
 perfil,
 atualizar_perfil,
@@ -22,6 +22,6 @@ urlpatterns = [
     path('perfil/set_password/', set_password, name="set_password"),
     path("login/", Login.as_view(), name="login", kwargs={"authentication_form":CustomAuthenticationForm}),
     path("logout/", auth_views.LogoutView.as_view(template_name="perfil/logout.html"), name="meu_logout"),
-    path("resetar_senha/", ResetaSenhaTemp, name="resetar_senha"),
+    path("resetar_senha/", ResetaSenha, name="resetar_senha"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
