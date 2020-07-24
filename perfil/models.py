@@ -6,7 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from auditlog.models import LogEntry 
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
-from django.dispatch import receiver # receiver PostSignal 1
+from django.dispatch import receiver # receiver PostSignal 2
 
 
 from django.conf import settings
