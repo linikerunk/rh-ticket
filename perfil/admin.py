@@ -34,13 +34,9 @@ class FuncionarioAdmin(ImportExportModelAdmin):
 
 @admin.register(CentroDeCusto)
 class FuncionarioAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'numero', 'nome', 'get_responsaveis']
+    list_display = ['id', 'numero', 'nome', 'responsaveis']
     list_filter = ['numero']
 
-    def get_responsaveis(self, obj):
-        return ",\t ".join([responsaveis.nome for responsaveis in obj.responsaveis.all()])
-
-    get_responsaveis.short_description = 'Nome dos Responsáveis'
 
 # @admin.register(RegistroAutorizacao)
 # class RegistroAutorizacaoAdmin(ImportExportModelAdmin):
