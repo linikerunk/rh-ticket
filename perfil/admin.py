@@ -33,7 +33,7 @@ class FuncionarioAdmin(ImportExportModelAdmin):
 
 
 @admin.register(CentroDeCusto)
-class FuncionarioAdmin(ImportExportModelAdmin):
+class CentroDeCustoAdmin(ImportExportModelAdmin):
     list_display = ['id', 'numero', 'nome', 'responsaveis']
     list_filter = ['numero']
 
