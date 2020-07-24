@@ -19,13 +19,13 @@ class FuncionarioForm(forms.ModelForm):
 
     class Meta:
         model = Funcionario
-        fields = ['re_funcionario', 'nome', 'centro_de_custo', 'ramal',
+        fields = ['re_funcionario', 'nome', 'centro_de_custo_link', 'ramal',
         'telefone', 'email_corporativo', 'email', 'unidade', 'termo_dados']
         
         label = {
             're_funcionario': 'RE do Funcionário : ',
             'nome': 'Nome do Funcionário : ',
-            'centro_de_custo': 'Centro de Custo : ',
+            'centro_de_custo_link': 'Centro de Custo : ',
             'ramal': 'Ramal : ',
             'telefone': 'Telefone : ',
             'email_corporativo': 'Email Corporativo : ',
