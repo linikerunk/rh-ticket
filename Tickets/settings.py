@@ -33,12 +33,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-<<<<<<< HEAD
-# DEBUG = config('DEBUG', default=False, cast=bool) DEBUG
-DEBUG = True
-=======
 DEBUG = config('DEBUG', default=False, cast=bool)
->>>>>>> 7cd1133f6f998f45462f9f06637f4f7efe44bb1e
 
 ALLOWED_HOSTS = ['10.218.24.22', 'rhticket.gs.conti', 'rhticket', 'sltm202x', 'sltm203x', '10.218.23.31', 'centralrh.conti.de']
 
