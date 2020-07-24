@@ -31,6 +31,18 @@ class Unidade(models.Model):
         return self.nome
 
 
+class CentroDeCusto(models.Model):
+    numero = models.CharField(max_length=12, verbose_name="Número Centro de Custo", unique=True)
+    nome = models.CharField(max_length=100, blank=False, verbose_name="Nome do Centro de Custo")
+    responsaveis = models.CharField(max_length=250, blank=True, null=True, verbose_name="Responsaveis")
+
+    def split_tags(self):
+        return self.tags.split(',')
+
+    def __str__(self):
+        return f'CDC : {self.numero} Nome : {self.nome}'
+
+
 class Funcionario(models.Model):
     re_funcionario = models.CharField(max_length=9, verbose_name="RE")
     nome = models.CharField(max_length=55, verbose_name="Funcionário :")
@@ -43,14 +55,17 @@ class Funcionario(models.Model):
     primeiro_acesso = models.BooleanField(verbose_name="Primeiro Acesso", default=True)
     termo_dados = models.CharField(verbose_name="Termo de Consentimento", max_length=9, blank=True, choices=TERMO)
     unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
-    centro_de_custo = models.CharField(max_length=10)
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    centro_de_custo = models.CharField(max_length=12, verbose_name="Centro de Custo")
+    centro_de_custo_link = models.ForeignKey(CentroDeCusto, verbose_name="Centro de Custo", null=True, on_delete=models.PROTECT)
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ['re_funcionario', 'unidade']
     
+
     def __str__(self):
         return f'Funcionário : {self.re_funcionario} '
+
 
     def save(self, *args, **kwargs): 
         self.nome = self.nome.upper()
@@ -74,15 +89,6 @@ def create_user(sender, instance, created, **kwargs):
     
 
 post_save.connect(create_user, sender=Funcionario)
-
-
-class CentroDeCusto(models.Model):
-    numero = models.CharField(max_length=12, verbose_name="Número Centro de Custo")
-    nome = models.CharField(max_length=100, blank=False, verbose_name="Nome do Centro de Custo")
-    responsaveis = models.ManyToManyField(Funcionario, blank=True, related_name="funcionarios")
-
-    def __str__(self):
-        return f'CDC : {self.numero} Nome : {self.nome}'
 
 
 # def update_func(sender, instance, created, **kwargs):
