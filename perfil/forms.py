@@ -105,7 +105,7 @@ class SetPasswordFormCustom(SetPasswordForm):
         return self.cleaned_data
 
 
-class PasswordResetFormCustom(PasswordResetForm):
+class PasswordChangeFormCustom(PasswordResetForm):
     admissao = forms.CharField(
         label=("Digite sua data da admissão :"),
         widget=forms.TextInput(attrs={'placeholder':'Digite a data de sua Admissão'})
