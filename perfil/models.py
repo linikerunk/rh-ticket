@@ -56,7 +56,7 @@ class Funcionario(models.Model):
     termo_dados = models.CharField(verbose_name="Termo de Consentimento", max_length=9, blank=True, choices=TERMO)
     unidade = models.ForeignKey(Unidade, related_name="funcionarios", on_delete=models.PROTECT)
     # centro_de_custo = models.CharField(max_length=12, verbose_name="Centro de Custo")
-    centro_de_custo_link = models.ForeignKey(CentroDeCusto, verbose_name="Centro de Custo", null=True, on_delete=models.PROTECT)
+    centro_de_custo_link = models.ForeignKey(CentroDeCusto, verbose_name="Centro de Custo link", null=True, on_delete=models.PROTECT)
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
