@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.forms.widgets import PasswordInput, TextInput
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import (
-PasswordResetForm,
+PasswordChangeForm,
 AuthenticationForm,
 UsernameField,
 SetPasswordForm,
