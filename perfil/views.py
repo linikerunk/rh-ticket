@@ -14,7 +14,7 @@ SetPasswordFormCustom,
 FuncionarioForm,
 UnidadeForm,
 CustomAuthenticationForm,
-PasswordResetFormCustom,
+PasswordChangeFormCustom,
 )
 from .models import Funcionario, Unidade
 from perfil.decorators import verificar_funcionario
