@@ -40,6 +40,7 @@ def atualizar_perfil(request, id):
             redirect('perfil:perfil')
         else:
             messages.error(request, 'Erro campos inválidos.')
+            print('erro: ', form.errors)
 
     return render(request, 'perfil/perfil.html', {'form': form, 'funcionario': funcionario})
 
