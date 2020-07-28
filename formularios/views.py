@@ -36,3 +36,5 @@ def enviar_justificativa_ausencia(request):
         return render(request, 'formularios/justificativa_ausencia.html', {})
         
 
+def enviar_agendamento_ferias(request):
+    pass

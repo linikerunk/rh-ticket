@@ -111,8 +111,6 @@ def ResetaSenha(request):
     form = SetPasswordFormCustom(data=request.POST, user=None)
     unidade  = Unidade.objects.all()
     # re = Funcionario.objects.all().filter(unidade=unidade)
-    print(unidade)
-    print("FORM USER  ", form.user)
 
     if form.is_valid():
         form.save()

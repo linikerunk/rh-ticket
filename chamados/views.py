@@ -48,6 +48,7 @@ def carregar_subcategorias(request, id):
 @login_required
 def enviar(request):
     categoria = Categoria.objects.all()
+    print("OPÇOES : ", dir(request.user))
     # ------------------------------------------------------------------------ #
     unidade = request.user.funcionario.unidade
     funcionario = request.user.funcionario
@@ -67,7 +68,7 @@ def enviar(request):
             save_it.save()
             subject = "Novo chamado aberto"
             message = f"\tCategoria : {categoria}\n\tSubcategoria : {subcategoria}\n\t\
-RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
+RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo_link}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
             if str(unidade) == 'Salto':
                 from_email = settings.EMAIL_HOST_USER
