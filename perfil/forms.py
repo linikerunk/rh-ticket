@@ -85,7 +85,6 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 
 class SetPasswordFormCustom(SetPasswordForm):
-    print("Set PasswordForm")
     error_messages = {
         'password_mismatch': ('A senhas não se combinam..'),
     }
@@ -98,6 +97,26 @@ class SetPasswordFormCustom(SetPasswordForm):
         label=("Confirmação de Nova Senha"),
     )
 
+
+    def clean(self):
+        unidade = self.cleaned_data.get('unidade')
+        registro = self.cleaned_data.get('registro')
+        return self.cleaned_data
+
+
+class ResetPasswordFormCustom(SetPasswordForm):
+    print("Reset PasswordChangeFormCustom")
+    error_messages = {
+        'password_mismatch': ('A senhas não se combinam..'),
+    }
+
+    new_password1 = forms.CharField(
+        label=("Nova Senha"),
+    )
+
+    new_password2 = forms.CharField(
+        label=("Confirmação de Nova Senha"),
+    )
 
     def clean(self):
         unidade = self.cleaned_data.get('unidade')
@@ -131,7 +150,7 @@ class PasswordChangeFormCustom(PasswordChangeForm):
         old_password = self.cleaned_data["old_password"]
         if not self.user.check_password(old_password):
             raise ValidationError(
-              'Teste', code='invalid',
+              'Erro', code='invalid',
             )
         return old_password
 

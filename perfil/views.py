@@ -11,6 +11,7 @@ from django.views.generic.edit import FormView
 from django.contrib import messages
 from perfil.forms import (
 SetPasswordFormCustom,
+ResetPasswordFormCustom,
 FuncionarioForm,
 UnidadeForm,
 CustomAuthenticationForm,
@@ -108,8 +109,8 @@ def meu_logout(request):
 #         return super().post(request, *args, **kwargs)
 
 
-def ResetaSenha(request):
-    form = SetPasswordFormCustom(data=request.POST, user=None)
+def reset_password(request):
+    form = ResetPasswordFormCustom(data=request.POST, user=None)
     unidade  = Unidade.objects.all()
     # re = Funcionario.objects.all().filter(unidade=unidade)
 

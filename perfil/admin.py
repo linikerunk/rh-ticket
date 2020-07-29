@@ -30,6 +30,7 @@ class UnidadeAdmin(admin.ModelAdmin):
 class FuncionarioAdmin(ImportExportModelAdmin):
     list_display = ['id', 'nome', 're_funcionario']
     list_filter = ['unidade']  
+    search_fields = ('re_funcionario', 'nome' )
 
 
 @admin.register(CentroDeCusto)
