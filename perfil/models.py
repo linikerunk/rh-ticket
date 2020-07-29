@@ -7,15 +7,12 @@ from auditlog.models import LogEntry
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver # receiver PostSignal 2
-
-
 from django.conf import settings
 
 
-TERMO = (
-     ("Alteração", "Alteração"),
-    ("Exclusão", "Exclusão"),
-)
+PHOTOS_FOLDER = 'espelhos/'
+DEFAULT = '0000.jpg'
+TERMO = (("Alteração", "Alteração"), ("Exclusão", "Exclusão"),)
 
 
 class CustomLogEntry(LogEntry):
@@ -58,6 +55,15 @@ class Funcionario(models.Model):
     # centro_de_custo = models.CharField(max_length=12, verbose_name="Centro de Custo")
     centro_de_custo_link = models.ForeignKey(CentroDeCusto, verbose_name="Centro de Custo link", null=True, on_delete=models.PROTECT)
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
+    espelho = models.ImageField(max_length=200, upload_to="espelhos",  default="0000.jpg", verbose_name='Fotos Funcionários')
+
+    def get_photo_url(self):
+        path = f'{PHOTOS_FOLDER}/{self.re_funcionario}'
+
+        if default_storage.exists(path):
+            return default_storage.open(path).name
+
+        return default_storage.open(f'{PHOTOS_FOLDER}/{DEFAULT}').name
 
     class Meta:
         unique_together = ['re_funcionario', 'unidade']

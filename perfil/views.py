@@ -31,6 +31,13 @@ def perfil(request):
 
 @verificar_funcionario()
 @login_required
+def espelho(request):
+    print("Aplicação Espelhos")
+    context = {}
+    return render(request, 'perfil/espelho.html', context)
+
+@verificar_funcionario()
+@login_required
 def atualizar_perfil(request, id):
     funcionario = get_object_or_404(Funcionario, pk=id)
     form = FuncionarioForm(request.POST,  request.FILES or None, instance=funcionario)

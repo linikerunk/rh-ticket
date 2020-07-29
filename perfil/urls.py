@@ -9,6 +9,7 @@ Login,
 reset_password,
 logout,
 perfil,
+espelho,
 atualizar_perfil,
 set_password,
 )
@@ -17,6 +18,7 @@ app_name = "perfil"
 
 urlpatterns = [
     path("perfil/perfil/", perfil, name="perfil"),
+    path("perfil/espelho/", espelho, name="espelho"),
     path("perfil/atualizar_perfil/<int:id>/", atualizar_perfil, name="atualizar_perfil"),
     path('perfil/set_password/', set_password, name="set_password"),
     path("login/", Login.as_view(), name="login", kwargs={"authentication_form":CustomAuthenticationForm}),
