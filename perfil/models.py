@@ -10,7 +10,7 @@ from django.dispatch import receiver # receiver PostSignal 2
 from django.conf import settings
 
 
-PHOTOS_FOLDER = 'espelhos/'
+PHOTOS_FOLDER = 'espelhos'
 DEFAULT = '0000.jpg'
 TERMO = (("Alteração", "Alteração"), ("Exclusão", "Exclusão"),)
 
@@ -58,7 +58,7 @@ class Funcionario(models.Model):
     espelho = models.ImageField(max_length=200, upload_to="espelhos",  default="0000.jpg", verbose_name='Fotos Funcionários')
 
     def get_photo_url(self):
-        path = f'{PHOTOS_FOLDER}/{self.re_funcionario}'
+        path = f'{PHOTOS_FOLDER}/{self.re_funcionario}.jpg'
 
         if default_storage.exists(path):
             return default_storage.open(path).name
