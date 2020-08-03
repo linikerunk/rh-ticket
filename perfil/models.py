@@ -61,6 +61,8 @@ class Funcionario(models.Model):
     def get_photo_url(self):
         path = f'{PHOTOS_FOLDER}/{self.usuario}.jpg'
 
+        print("Path : ", path)
+
         if default_storage.exists(path): # Default of get url
             return default_storage.url(path)
         
