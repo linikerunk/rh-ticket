@@ -61,7 +61,7 @@ class Funcionario(models.Model):
     def get_photo_url(self):
         path = f'{PHOTOS_FOLDER}/{self.usuario}.jpg'
 
-        print("usuario : ", usuario)
+        print("usuario : ", self.usuario)
 
         print("Path : ", path)
 
