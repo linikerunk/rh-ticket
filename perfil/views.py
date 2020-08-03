@@ -33,7 +33,8 @@ def perfil(request):
 @login_required
 def espelho(request):
     print("Aplicação Espelhos")
-    context = {}
+    funcionario = Funcionario.objects.get(usuario = request.user)
+    context = {'funcionario': funcionario}
     return render(request, 'perfil/espelho.html', context)
 
 @verificar_funcionario()

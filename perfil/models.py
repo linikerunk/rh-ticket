@@ -7,6 +7,7 @@ from auditlog.models import LogEntry
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from django.dispatch import receiver # receiver PostSignal 2
+from django.core.files.storage import default_storage
 from django.conf import settings
 
 
@@ -58,12 +59,12 @@ class Funcionario(models.Model):
     espelho = models.ImageField(max_length=200, upload_to="espelhos",  default="0000.jpg", verbose_name='Fotos Funcionários')
 
     def get_photo_url(self):
-        path = f'{PHOTOS_FOLDER}/{self.re_funcionario}.jpg'
+        path = f'{PHOTOS_FOLDER}/{self.usuario}.jpg'
 
         if default_storage.exists(path):
-            return default_storage.open(path).name
+            return default_storage.url(path)
 
-        return default_storage.open(f'{PHOTOS_FOLDER}/{DEFAULT}').name
+        return default_storage.url(f'{PHOTOS_FOLDER}/{DEFAULT}')
 
     class Meta:
         unique_together = ['re_funcionario', 'unidade']
