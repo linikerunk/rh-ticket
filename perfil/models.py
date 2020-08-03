@@ -59,7 +59,7 @@ class Funcionario(models.Model):
     espelho = models.ImageField(max_length=200, upload_to="espelhos",  default="0000.jpg", verbose_name='Fotos Funcionários')
 
     def get_photo_url(self):
-        path = f'{PHOTOS_FOLDER}/{self.usuario}.jpg'
+        path = f'/{PHOTOS_FOLDER}/{self.usuario}.jpg'
 
         print("usuario : ", self.usuario)
 
