@@ -61,9 +61,9 @@ class Funcionario(models.Model):
     def get_photo_url(self):
         path = f'{PHOTOS_FOLDER}/{self.usuario}.jpg'
 
-        if default_storage.exists(path):
+        if default_storage.exists(path): # Default of get url
             return default_storage.url(path)
-
+        
         return default_storage.url(f'{PHOTOS_FOLDER}/{DEFAULT}')
 
     class Meta:
