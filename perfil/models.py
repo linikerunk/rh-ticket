@@ -57,8 +57,10 @@ class Funcionario(models.Model):
     centro_de_custo_link = models.ForeignKey(CentroDeCusto, verbose_name="Centro de Custo link", null=True, on_delete=models.PROTECT)
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
     espelho = models.ImageField(max_length=200, upload_to="espelhos",  default="0000.jpg", verbose_name='Fotos Funcionários')
+    
     def get_photo_url(self):
-        path = f'{PHOTOS_FOLDER}/{self.usuario}.jpg'
+        # path = f'{PHOTOS_FOLDER}/{self.usuario}.jpg'
+        path = f'/home/vitesco/RHTicket/media/espelhos/181945.jpg'
 
         print("usuario : ", self.usuario)
 
