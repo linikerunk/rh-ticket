@@ -7,9 +7,11 @@
 
 {% block conteudo %}
 
+{{ funcionario.get_photo_url }}
 <div class="row">
     <div class="col-md-12">
-      <h3>Cartão Ponto do Funcionário : <code>{{ request.user.funcionario.nome }}</code> </h3>
+      <h3>Cartão Ponto </h3>
+      <p class="lead">A visualização em tela do cartão ponto não isenta a obrigação de sua assinatura no documento físico.</p>
         <hr>
     </div>
    
