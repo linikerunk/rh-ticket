@@ -64,11 +64,11 @@ class Funcionario(models.Model):
         print("Path : ", path)
 
         if default_storage.exists(path): # Default of get url
-            print("EStou no return ? : ", default_storage.url(path))
+            print("Estou no return ? : ", default_storage.url(path))
             return default_storage.url(path)
-        
-        print(f'{PHOTOS_FOLDER}/{DEFAULT}')
-        return default_storage.url(f'{PHOTOS_FOLDER}/{DEFAULT}')
+        else:
+            print(f'{PHOTOS_FOLDER}/{DEFAULT}')
+            return default_storage.url(f'{PHOTOS_FOLDER}/{DEFAULT}')
 
     class Meta:
         unique_together = ['re_funcionario', 'unidade']
