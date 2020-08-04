@@ -21,3 +21,11 @@ def belong_group(user, group_name):
 def group_name(user):
     # group = Group.objects.get(name=)
     pass
+
+
+@register.filter(name='photo_view')
+def photo_view(image):
+    image = image.split('/')[-1]
+    if image == "0000.JPG":
+        return True
+    return False
