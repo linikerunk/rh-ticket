@@ -22,8 +22,7 @@ from perfil.decorators import *
 # AJAX
 
 def funcionario_login_reset_ajax(request, id):
-    re_funcionario = request.GET.get('funcionario-login-reset')
-    
+    re_funcionario = request.GET.get('username')
     response = {'re_funcionario': re_funcionario}
     return JsonResponse(response)
 
