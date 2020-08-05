@@ -195,6 +195,7 @@
       });
   </script>
 
+
 <script>
   $('#telefone_edit').blur(function () {
       if ($(this).val().length === 0) {
@@ -262,4 +263,41 @@
       $('#telefone_edit').mask('(00) 0000-00009');
     }
   });
+</script>
+
+<script>
+  jQuery("#send-answer").click(function () {
+
+      let username =  jQuery("#username").val();
+      console.log("username : ", username)
+
+      let admissao = jQuery("#admissao").val();
+      console.log("admissao : ", admissao)
+                                      
+      let url = "/verifica_senha/" + username + "/";
+      jQuery.ajax({
+        url: url,
+        type: 'POST',
+        data: {
+          username : username,
+          admissao : admissao
+          
+        },
+
+        beforeSend: function (xhr) {
+        },
+
+        success: function (data) {
+          
+        },
+
+        error: function (xhr) {
+          console.log('url : ', url)
+          
+        },
+        complete: function () {
+          // body...
+        }
+      })
+    });
 </script>

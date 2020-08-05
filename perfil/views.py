@@ -117,17 +117,24 @@ def meu_logout(request):
 
 
 def reset_password(request):
-    form = ResetPasswordFormCustom(data=request.POST, user=None)
     unidade  = Unidade.objects.all()
-    # re = Funcionario.objects.all().filter(unidade=unidade)
+    if request.method == 'POST':
+        form = ResetPasswordFormCustom(data=request.POST, user=None)
+        usuario = request.GET.get("id_username")
+        print("Usuario : ", usuario)
+        funcionario = Funcionario.objects.get(id=1)
+        print("Funcionario : ", funcionario)
+        form.user = funcionario.usuario
+        # re = Funcionario.objects.all().filter(unidade=unidade)
 
-    if form.is_valid():
-        form.save()
-        return redirect('perfil:enviar')
-    else:
-        return render(request, 'perfil/reset_senha.html', {'form': form, 'unidade': unidade}) 
-        
-    
+        if form.is_valid():
+            form.save()
+            return redirect('chamados:enviar')
+        else:
+            print(form.errors)
+            return render(request, 'perfil/reset_senha.html', {'form': form, 'unidade': unidade})
+    return render(request, 'perfil/reset_senha.html', {'unidade': unidade})
+
 
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm

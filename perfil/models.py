@@ -47,7 +47,7 @@ class Funcionario(models.Model):
     admissao = models.CharField(max_length=20, blank=True, verbose_name="Data de Admissão : ", default="")
     demissao = models.CharField(max_length=20, blank=True, verbose_name="Data de Demissão : ", default="")
     ramal = models.CharField(max_length=9, blank=True, verbose_name="Ramal", default="")
-    telefone = models.CharField(max_length=11, blank=True, verbose_name="Telefone", default="")
+    telefone = models.CharField(max_length=15, blank=True, verbose_name="Telefone", default="")
     email_corporativo = models.EmailField(max_length=254, verbose_name="Email Corporativo", blank=True, default="")
     email = models.EmailField(max_length=254, verbose_name="Email Pessoal", blank=True, default="")
     primeiro_acesso = models.BooleanField(verbose_name="Primeiro Acesso", default=True)
@@ -61,7 +61,7 @@ class Funcionario(models.Model):
     def get_photo_url(self):
         path = f'{PHOTOS_FOLDER}/{self.usuario}.JPG'
 
-        if default_storage.exists(path): # Default of get url
+        if default_storage.exists(path): # Default of get url\
             return default_storage.url(path)
         
         print(f'{PHOTOS_FOLDER}/{DEFAULT}')
