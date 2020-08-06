@@ -90,6 +90,11 @@ RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo_link}\n\t
             elif str(unidade) == 'Ponta Grossa':
                 from_email = settings.EMAIL_HOST_USER
                 recipient_list = ['']
+            
+            elif str(unidade) == 'Jundiaí':
+                from_email = settings.EMAIL_HOST_USER
+                recipient_list = ['']
+                
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
@@ -141,7 +146,7 @@ def finalizar_chamado(request, id):
                 from_email = settings.EMAIL_HOST_USER
                 to_list = [ticket.funcionario.email_corporativo, settings.EMAIL_HOST_USER]
             elif ticket.funcionario.email is not None:
-                from_email = settings.EMAIL_HOST_USER
+                from_email = settings.EMAIL_HOST_USER # Verificando erro!
                 to_list = [ticket.funcionario.email, settings.EMAIL_HOST_USER]
             else:
                 form.to_list = ['', settings.EMAIL_HOST_USER]
