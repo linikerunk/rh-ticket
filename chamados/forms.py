@@ -14,7 +14,6 @@ BOOL_CHOICES = ((True, 'Sim'), (False, 'Não'))
 
 
 class TicketForm(forms.ModelForm):
-
     
     upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(
         attrs={'multiple': True}), required=False, label="Anexar Arquivo : ")
@@ -28,7 +27,7 @@ class TicketForm(forms.ModelForm):
             'categoria': 'Categoria : ',
             'subcategoria': 'Subcategoria : ',
             'texto': 'Descrição : ',
-            'upload_arquivo': "Anexar arquivos : "
+            'upload_arquivo': 'Anexar arquivos : '
         }
         
         widgets={
