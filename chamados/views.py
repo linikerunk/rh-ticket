@@ -17,6 +17,7 @@ from perfil.models import Funcionario, Unidade
 from .forms import TicketForm, TicketUpdateForm
 from perfil.forms import FuncionarioForm
 from perfil.decorators import *
+import json
 
 
 # AJAX
@@ -31,6 +32,23 @@ def funcionario_login_ajax(request, id):
     re_funcionario = request.GET.get('funcionario-login')
     response = {'re_funcionario': re_funcionario}
     return JsonResponse(response)
+
+
+def verificar_senha_ajax(request, id):
+    try: 
+        campo_usuario = request.GET.get('username')
+        campo_admissao = request.GET.get('admissao')
+        usuario = User.objects.get(username=campo_usuario)
+        funcionario = Funcionario.objects.get(usuario=usuario)
+        usuario, admissao = funcionario.usuario, funcionario.admissao
+        usuario = str(usuario)
+        response = {'usuario': usuario,
+                    'campo_admissao': campo_admissao}
+    except User.DoesNotExist:
+        response = {'erro': 'Usuário inexistente.'}
+        print(response)
+    return JsonResponse(response)
+    
 
 
 def funcionario_ajax(request, id):

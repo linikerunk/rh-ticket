@@ -14,6 +14,7 @@
     <script src="{% static 'assets\bootstrap\bootstrap.bundle.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
    
+
     <script>
       var message_ele = document.getElementById("message_container");
       
@@ -264,6 +265,7 @@
 </script>
 
 <script>
+  const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
   jQuery("#send-answer").click(function () {
 
       let username =  jQuery("#username").val();
@@ -275,22 +277,27 @@
       let url = "/verifica_senha/" + username + "/";
       jQuery.ajax({
         url: url,
-        type: 'POST',
+        type: 'GET',
         data: {
           username : username,
-          admissao : admissao
+          admissao : admissao,
           
         },
 
         beforeSend: function (xhr) {
+          console.log(admissao)
         },
 
         success: function (data) {
+          console.log(username)
+          console.log(admissao)
+          console.log('url : ', url)
+
           
         },
 
         error: function (xhr) {
-          console.log('url : ', url)
+          console.log(xhr.error)
           
         },
         complete: function () {
