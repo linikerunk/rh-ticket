@@ -16,6 +16,7 @@ FuncionarioForm,
 UnidadeForm,
 CustomAuthenticationForm,
 PasswordChangeFormCustom,
+VerificaAdmissao
 )
 from .models import Funcionario, Unidade
 from perfil.decorators import verificar_funcionario
@@ -116,24 +117,33 @@ def meu_logout(request):
 #         return super().post(request, *args, **kwargs)
 
 
+def verifica_admissao(request):
+    unidade = Unidade.objects.all()
+    form = VerificaAdmissao() 
+    if request.method == "POST":
+        form = VerificaAdmissao(request.POST or None)
+
+        if form.is_valid():
+            form.save()
+            redirect('reset_password')
+        else:
+            print(form.errors)
+        return render(request, 'perfil/verifica_senha.html', {'form': form,
+                                                          'unidade': unidade})
+    return render(request, 'perfil/verifica_senha.html', {'form': form,
+                                                        'unidade': unidade})
+
+
 def reset_password(request):
-    unidade  = Unidade.objects.all()
     if request.method == 'POST':
         form = ResetPasswordFormCustom(data=request.POST, user=None)
-        usuario = request.GET.get("id_username")
-        print("Usuario : ", usuario)
-        funcionario = Funcionario.objects.get(id=1)
-        print("Funcionario : ", funcionario)
-        form.user = funcionario.usuario
-        # re = Funcionario.objects.all().filter(unidade=unidade)
-
         if form.is_valid():
             form.save()
             return redirect('chamados:enviar')
         else:
             print(form.errors)
-            return render(request, 'perfil/reset_senha.html', {'form': form, 'unidade': unidade})
-    return render(request, 'perfil/reset_senha.html', {'unidade': unidade})
+            return render(request, 'perfil/reset_senha.html', {'form': form})
+    return render(request, 'perfil/reset_senha.html', {})
 
 
 class Login(auth_views.LoginView):

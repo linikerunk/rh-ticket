@@ -104,6 +104,22 @@ class SetPasswordFormCustom(SetPasswordForm):
         return self.cleaned_data
 
 
+class VerificaAdmissao(forms.Form):
+    unidade = forms.ModelChoiceField(label="Unidade : ",
+    queryset=Unidade.objects.all(), to_field_name="nome")
+
+    re_funcionario = forms.CharField(label=("Registro do Funcionário : "),
+    widget=TextInput(attrs={'class': 'validate', 'name': 'id_username',
+    'placeholder': 'Digite o Registro de Funcionário'}))
+    
+    login = forms.CharField(widget=TextInput())
+    
+    admissao = forms.CharField(label=("Digite sua data da admissão :"),
+    widget=forms.TextInput(
+        attrs={'placeholder': 'Digite a data de sua Admissão'})
+    )
+
+
 class ResetPasswordFormCustom(SetPasswordForm):
     print("Reset PasswordChangeFormCustom")
     error_messages = {
@@ -127,14 +143,10 @@ class ResetPasswordFormCustom(SetPasswordForm):
 class PasswordChangeFormCustom(PasswordChangeForm):
     admissao = forms.CharField(
         label=("Digite sua data da admissão :"),
-        widget=forms.TextInput(attrs={'placeholder':'Digite a data de sua Admissão'})
-        
-    )
+        widget=forms.TextInput(attrs={'placeholder':'Digite a data de sua Admissão'}) )
 
     old_password = forms.CharField(
-        label=("Número de Registro : "),
-    )
-
+        label=("Número de Registro : "),)
 
     field_order = ['old_password', 'admissao', 'new_password1', 'new_password2']
 

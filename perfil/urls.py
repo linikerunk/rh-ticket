@@ -11,6 +11,7 @@ logout,
 perfil,
 espelho,
 atualizar_perfil,
+verifica_admissao,
 set_password,
 )
 
@@ -23,6 +24,7 @@ urlpatterns = [
     path('perfil/set_password/', set_password, name="set_password"),
     path("login/", Login.as_view(), name="login", kwargs={"authentication_form":CustomAuthenticationForm}),
     path("logout/", auth_views.LogoutView.as_view(template_name="perfil/logout.html"), name="meu_logout"),
-    path("resetar_senha/", reset_password, name="reset_password"),
+    path("resetar_senha/<int:id>/", reset_password, name="reset_password"),
+    path("verifica_admissao/", verifica_admissao, name="verifica_admissao"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -15,7 +15,7 @@ from django.utils import timezone
 from .models import Ticket, Categoria, SubCategoria, HistoricoTicket
 from perfil.models import Funcionario, Unidade
 from .forms import TicketForm, TicketUpdateForm
-from perfil.forms import FuncionarioForm
+from perfil.forms import FuncionarioForm, ResetPasswordFormCustom
 from perfil.decorators import *
 import json
 
@@ -42,12 +42,28 @@ def verificar_senha_ajax(request, id):
         funcionario = Funcionario.objects.get(usuario=usuario)
         usuario, admissao = funcionario.usuario, funcionario.admissao
         usuario = str(usuario)
+    except User.DoesNotExist:
+        print("Usuário inexistente.")
+        response = {'erro': 'Usuário inexistente.'}
+        return JsonResponse(response)
+    if campo_admissao == funcionario.admissao:
+        form = ResetPasswordFormCustom(data=request.POST, user=None)
+        form.user = usuario
+        print("Form : ", form.data)
+        print("FormField : ", form.fields)
+        if form.is_valid():
+            form.save()
+            return redirect('chamados:enviar')
+        print("Campos são iguais")
         response = {'usuario': usuario,
                     'campo_admissao': campo_admissao}
-    except User.DoesNotExist:
-        response = {'erro': 'Usuário inexistente.'}
-        print(response)
-    return JsonResponse(response)
+        return JsonResponse(response)
+    else:
+        print("Campos são diferentes..")
+        print(f"Data é {funcionario.admissao}")
+        response = {'erro': 'Data admissão são diferentes..'}
+        return JsonResponse(response)
+    
     
 
 

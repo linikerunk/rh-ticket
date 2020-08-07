@@ -14,40 +14,6 @@
       <hr>
   </div>
 
-  <div id="tela-verificacao" class="row">
-  <div class="form-group col-md-8 offset-md-2">
-  
-    <p> Selecione sua Unidade : </p>
-    <select id="unidade" name="unidade" class="select form-control form-control">
-      <option value="" selected="">----------</option>
-      {% for unidade in unidade %}
-      <option value="{{ unidade.id }}"> {{ unidade }}</option>
-      {% endfor %}
-    </select>
-  </div>
-
-  <div class="form-group col-md-8 offset-md-2">
-    <p> Digite seu número de registro : </p>
-      <input type="text" id="funcionario-login-reset" name="funcionario-login-reset" class="form-control">
-  </div>
-
-  <div class="form-group col-md-8 offset-md-2">
-    <p> Login : </p>
-    <input type="text" id="username" name="id_username" class="form-control">
-  </div>
-
-  <div class="form-group col-md-8 offset-md-2">
-    <p> Qual a data de sua admissão : </p>
-    <input type="text" id="admissao" name="admissao" class="form-control" data-mask="00/00/0000" placeholder="DD/MM/AAAA">
-  </div>
-
-  <div class="form-group col-md-8 offset-md-2">
-    <a href="{% url 'chamados:enviar' %}" class="btn btn-warning ml-3 float-right w-25" role="button">Voltar</a>
-    <button type="submit" id="send-answer" class="btn btn-success ml-3 float-right w-25">Enviar</button>
-  </div>
-
-  </div>
-
   <div class="form-group col-md-8 offset-md-2" id="reset-password">
     <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:reset_password' %}">
       {% csrf_token %}
