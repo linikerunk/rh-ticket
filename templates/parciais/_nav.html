@@ -11,9 +11,12 @@
        <li class="nav-item">
           <a class="nav-link" href="{% url 'perfil:perfil' %}">Perfil</a>
           </li>
+          {% comment %} {% if request.user.funcionario.unidade in espelho %} {% endcomment %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'perfil:espelho' %}">Espelho</a>
           </li>
+          {% comment %} {% else %}
+          {% endif %} {% endcomment %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'chamados:enviar' %}">Chamado</a>
           </li>

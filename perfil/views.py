@@ -18,7 +18,7 @@ CustomAuthenticationForm,
 PasswordChangeFormCustom,
 VerificaAdmissao
 )
-from .models import Funcionario, Unidade
+from .models import Funcionario, Unidade, Acesso
 from perfil.decorators import verificar_funcionario
 
 
