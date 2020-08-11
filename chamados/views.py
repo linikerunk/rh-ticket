@@ -231,16 +231,19 @@ def finalizar_chamado(request, id):
             send_mail(subject, message, from_email, to_list, fail_silently=True)
 
             if ticket.funcionario.email_corporativo and ticket.finalizado:
-                messages.success(request, f' Ticket finalizado e e-mail enviado com sucesso para {email_corporativo}')
+                messages.success(request, 'Chamado finalizado com sucesso.')
+                messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
 
             elif ticket.funcionario.email and ticket.finalizado:
-                messages.success(request, f' Ticket finalizado e e-mail enviado com sucesso para {email}')
+                messages.success(request, 'Chamado finalizado com sucesso.')
+                messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
             
             elif ticket.funcionario.email_corporativo or ticket.funcionario.email and ticket.finalizado == False:
-                messages.success(request, f' Ticket atualizado e e-mail enviado com sucesso para {email}')
+                messages.success(request, 'Chamado respondido com sucesso.')
                 messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
             else:
-                messages.warning(request, f' Ticket finalizado, porém funcionário : {ticket.funcionario.nome} não tem um e-mail.')
+                messages.success(request, 'Chamado finalizado com sucesso.')
+                messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
             
             return redirect('chamados:listar')
 
