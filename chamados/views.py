@@ -18,9 +18,8 @@ from .forms import TicketForm, TicketUpdateForm
 from perfil.forms import FuncionarioForm, ResetPasswordFormCustom
 from perfil.decorators import *
 import json
-
-
 # AJAX
+
 
 def funcionario_login_reset_ajax(request, id):
     re_funcionario = request.GET.get('username')
@@ -63,8 +62,6 @@ def verificar_senha_ajax(request, id):
         print(f"Data é {funcionario.admissao}")
         response = {'erro': 'Data admissão são diferentes..'}
         return JsonResponse(response)
-    
-    
 
 
 def funcionario_ajax(request, id):
@@ -88,7 +85,6 @@ def carregar_subcategorias(request, id):
 @login_required
 def enviar(request):
     categoria = Categoria.objects.all()
-    print("OPÇOES : ", dir(request.user))
     # ------------------------------------------------------------------------ #
     unidade = request.user.funcionario.unidade
     funcionario = request.user.funcionario
@@ -140,6 +136,7 @@ RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo_link}\n\t
                                                     'categoria': categoria,
                                                     })
 
+
 @verificar_funcionario()
 @login_required
 def finalizar_chamado(request, id):
@@ -186,7 +183,8 @@ def finalizar_chamado(request, id):
                 form.to_list = ['', settings.EMAIL_HOST_USER]
                 messages.success(request, f'Ticket respondido com sucesso, mas funcionário não tem e-mail')
             send_mail(subject, message, from_email, to_list, fail_silently=True)
-            messages.success(request, f'Ticket respondido com sucesso, logo o RH te responderá.')
+            messages.success(request, 'Chamado respondido com sucesso.')
+            messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
     
         
             return render(request, 'chamados/tickets_por_funcionarios.html', {'ticket': ticket,
@@ -240,9 +238,9 @@ def finalizar_chamado(request, id):
             
             elif ticket.funcionario.email_corporativo or ticket.funcionario.email and ticket.finalizado == False:
                 messages.success(request, f' Ticket atualizado e e-mail enviado com sucesso para {email}')
+                messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
             else:
                 messages.warning(request, f' Ticket finalizado, porém funcionário : {ticket.funcionario.nome} não tem um e-mail.')
-            
             
             return redirect('chamados:listar')
 
