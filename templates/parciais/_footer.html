@@ -130,8 +130,8 @@
   jQuery("#funcionario-login").change(function () {
         let funcionario_login = jQuery(this).val();
         console.log("login : ", funcionario_login)
-        console.log("To aqui?")
         let unidade = jQuery("#unidade").val();
+        console.log("unidade : ", unidade)
         let url = "/funcionario_login/" + funcionario_login + "/";
         jQuery.ajax({
           url: url,
@@ -146,7 +146,7 @@
 
           success: function (data) {
           console.log(unidade)
-          concatenar = Query("#id_username").val(unidade + funcionario_login)
+          concatenar = jQuery("#id_username").val(unidade + funcionario_login)
           },
   
           error: function (xhr) {
