@@ -99,22 +99,17 @@ def create_user(sender, instance, created, **kwargs):
 post_save.connect(create_user, sender=Funcionario)
 
 
-# def update_func(sender, instance, created, **kwargs):
-#     if created:
-#         print("Fui criado !")
-#     else:
-#         registro = RegistroAutorizacao.objects.create(funcionario=instance, acao=instance.termo_dados, campos=instance.termo_dados + "")
-#         registro.save()
+class Item(models.Model):
+    nome = models.CharField(max_length=150, verbose_name="Nome")
 
-# post_save.connect(update_func, sender=Funcionario)
-    
+    def __str__(self):
+        return self.nome
 
-# class RegistroAutorizacao(models.Model):
-#     funcionario = models.ForeignKey(Funcionario, related_name="logs", on_delete=models.PROTECT)
-#     data_atualizacao = models.DateTimeField(verbose_name='Atualização', auto_now_add=True)     
-#     acao = models.CharField(verbose_name="Ação", max_length=9, choices=TERMO, default=1)
-#     campos = models.CharField(verbose_name="Status de campo", max_length=50)
 
-#     class Meta:
-#         verbose_name = 'Registro de Autorizações'
-#         verbose_name_plural = 'Registro de Autorizações'
+class Acesso(models.Model):
+    item = models.ForeignKey(Item, "Item")
+    grupo = models.ManyToManyField(Group, "Grupo")
+    unidade = models.ManyToManyField(Unidade, "Unidade")
+
+    def __str__(self):
+        return f"Id :{self.id} Item :{self.item}"

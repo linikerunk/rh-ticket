@@ -14,6 +14,7 @@
     <script src="{% static 'assets\bootstrap\bootstrap.bundle.min.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
    
+
     <script>
       var message_ele = document.getElementById("message_container");
       
@@ -129,6 +130,7 @@
   jQuery("#funcionario-login").change(function () {
         let funcionario_login = jQuery(this).val();
         console.log("login : ", funcionario_login)
+        console.log("To aqui?")
         let unidade = jQuery("#unidade").val();
         let url = "/funcionario_login/" + funcionario_login + "/";
         jQuery.ajax({
@@ -144,10 +146,11 @@
 
           success: function (data) {
           console.log(unidade)
-          concatenar = jQuery("#id_username").val(unidade + funcionario_login)
+          concatenar = Query("#id_username").val(unidade + funcionario_login)
           },
   
           error: function (xhr) {
+            console.log("erro inexperado.")
             // body... xhr.statusText + xhr.responseText
           },
           complete: function () {
@@ -264,6 +267,7 @@
 </script>
 
 <script>
+  const csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
   jQuery("#send-answer").click(function () {
 
       let username =  jQuery("#username").val();
@@ -275,10 +279,10 @@
       let url = "/verifica_senha/" + username + "/";
       jQuery.ajax({
         url: url,
-        type: 'POST',
+        type: 'GET',
         data: {
           username : username,
-          admissao : admissao
+          admissao : admissao,
           
         },
 
@@ -286,11 +290,10 @@
         },
 
         success: function (data) {
-          
         },
 
         error: function (xhr) {
-          console.log('url : ', url)
+          console.log(xhr.error)
           
         },
         complete: function () {

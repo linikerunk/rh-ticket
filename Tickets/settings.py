@@ -8,8 +8,6 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
-
-
 """
 
 
@@ -179,9 +177,9 @@ MESSAGE_TAGS = {
     constants.INFO: 'alert-info',
 }
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/perfil/perfil/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
