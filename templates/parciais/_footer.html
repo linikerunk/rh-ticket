@@ -130,6 +130,7 @@
   jQuery("#funcionario-login").change(function () {
         let funcionario_login = jQuery(this).val();
         console.log("login : ", funcionario_login)
+        console.log("To aqui?")
         let unidade = jQuery("#unidade").val();
         let url = "/funcionario_login/" + funcionario_login + "/";
         jQuery.ajax({
@@ -145,10 +146,11 @@
 
           success: function (data) {
           console.log(unidade)
-          concatenar = jQuery("#id_username").val(unidade + funcionario_login)
+          jconcatenar = Query("#id_username").val(unidade + funcionario_login)
           },
   
           error: function (xhr) {
+            console.log("erro inexperado.")
             // body... xhr.statusText + xhr.responseText
           },
           complete: function () {
