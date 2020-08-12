@@ -177,7 +177,7 @@ MESSAGE_TAGS = {
     constants.INFO: 'alert-info',
 }
 
-LOGIN_URL = '/'
+LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/'
 
