@@ -17,10 +17,12 @@ def belong_group(user, group_name):
     return True if group in user.groups.all() else False
 
 
-@register.filter(name='group_name')
-def group_name(user):
-    # group = Group.objects.get(name=)
-    pass
+@register.filter(name='has_group')
+def is_manager(user, group_name):
+    manager = user.groups.filter(name="GESTORES")
+    if len(manager) > 0:
+        return "GESTORES"
+    return ''
 
 
 @register.filter(name='photo_view')

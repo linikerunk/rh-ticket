@@ -236,13 +236,14 @@
 <script>
  
     $("#subcategoria").change(function () {
+      var gestores = jQuery("#user-group").text()
       var selectedSubCategory = $(this).children("option:selected").text();
       var selectedCategory = $('#categoria').children("option:selected").text();
       if(selectedSubCategory == 'Justificativa de Ausência' ){
        $('#justificativa_ausencia_link')[0].click();
       }
       else if(selectedSubCategory == 'Férias'){
-
+        $('#agendamento_ferias_link')[0].click();
       }
 
     });
@@ -302,3 +303,19 @@
       })
     });
 </script>
+
+<script>
+  $(document).ready(function(){
+    var i = 1;
+    $("#add-ferias").click(function(){
+      i++;
+      $("#dinamic-lines").append("<tr id='row"+i+"'><td><input type='text' class='form-control' id='registro-re-ferias' name='registro-funcionario' placeholder='RE'></td><td><input type='text' class='form-control' id='nome-ferias' name='registro-funcionario' placeholder='Nome do Funcionário'></td><td> <input type='text' class='form-control' id='data-ferias' name='registro-funcionario' placeholder='DD/MM/AAAA'></td><td><input type='text' class='form-control' id='quantidade-ferias' name='registro-funcionario' placeholder='5 a 30 dias'></td><td><input type='text' class='form-control' id='abono-ferias' name='registro-funcionario' placeholder='Sim/Não'> </td><td><input type='text' class='form-control' id='decimo-terceiro-ferias'name='registro-funcionario' placeholder='Sim/Não'></td><td style='text-align : center;'><a type='button' id='remove-ferias' ><img src='{% static 'assets\icons\minus.png' %}' width='26'> </a></td></tr>");
+    });
+    $(".remove-ferias").click(function(){
+      // var button_id = $(this).attr("id");
+      console.log("To clicando")
+      // $("#row"+button_id).remove();
+    })
+  });
+</script>
+

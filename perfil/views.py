@@ -18,7 +18,7 @@ CustomAuthenticationForm,
 PasswordChangeFormCustom,
 VerificaAdmissao
 )
-from .models import Funcionario, Unidade, Acesso
+from .models import Funcionario, Unidade
 from perfil.decorators import verificar_funcionario
 
 
@@ -36,6 +36,7 @@ def espelho(request):
     funcionario = Funcionario.objects.get(usuario = request.user)
     context = {'funcionario': funcionario}
     return render(request, 'perfil/espelho.html', context)
+
 
 @verificar_funcionario()
 @login_required
