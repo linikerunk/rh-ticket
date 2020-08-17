@@ -179,7 +179,7 @@ MESSAGE_TAGS = {
 
 LOGIN_URL = '/login/'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/perfil/perfil/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
