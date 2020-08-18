@@ -23,7 +23,7 @@
     {% else %}
     {% endif %}
     <li>
-        <a href="#">{{ request.user.funcionario.nome }}</a>
+        <a href="#" id="li-user">{{ request.user.funcionario.nome }}</a>
         <span>
           <a href="{% url 'perfil:perfil' %}">Perfil</a>
           <a href="{% url 'perfil:espelho' %}">Espelho</a>
@@ -39,75 +39,10 @@
       <img id="logo" src="{% static 'img/logo2.png' %}" alt="Continental" width="100" height="50">
     </div>
       {% else %}
-      <div class="float-right mr-2">
+      <div class="float-right mr-3">
       <img src="{% static 'img/logo.png' %}" alt="Vitesco" width="100" height="50">
       <img id="logo" src="{% static 'img/logo2.png' %}" alt="Continental" width="100" height="50">
     </div>
       {% endif %}
   </ul>
-
-  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    {% if user.is_authenticated %}
-
-    <ul class="navbar-nav mr-auto"  style="font-size: 17px;">
-      {% if request.user|belong_group:"ADMINISTRADORES" %}
-      <li class="nav-item">
-        <a class="nav-link" href="#">Administrador</a>
-        </li>
-          {% else %}
-          {% endif %}
-
-        {% if request.user|belong_group:"RH" %}
-        <li class="nav-item">
-          <a class="nav-link" href="#">RH</a>
-          </li>
-        {% else %}
-        {% endif %}
-        <li class="nav-item">
-          <div class="dropdown">
-              <a class="nav-link mr-5"  type="button" data-toggle="dropdown"  data-target="#dropdownMenu" 
-              href="#">{{ request.user.funcionario.nome }}</a>
-              <div class="dropdown-menu" id="dropdownMenu">
-                  <a class="dropdown-item p-2" href="{% url 'perfil:perfil' %}"><p class="lead">Perfil</p></a>
-                  <a class="dropdown-item p-2" href="{% url 'perfil:espelho' %}"><p class="lead">Espelho</p></a>
-                  <a class="dropdown-item p-2" href="{% url 'chamados:enviar' %}"><p class="lead">Chamado</p></a>
-                  <a class="dropdown-item p-2" href="{% url 'chamados:listar' %}"><p class="lead">Tickets</p></a>
-              </div>
-          </div>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav mr-auto">
-        
-          <img id="logo" src="{% static 'img/logo.png' %}" alt="Vitesco" width="100" height="50">
-          <img id="logo" src="{% static 'img/logo2.png' %}" alt="Continental" width="100" height="50">
-       
-        </ul>
-        <ul class="nav navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'perfil:meu_logout' %}"><i class="fas fa-power-off"></i></a>
-          </li>
-          <p class="text-light" id="user-group" hidden>{{ request.user|has_group:"GESTORES" }}</p>
-        </li> 
-        </ul>
-        {% else %}
-        <ul class="nav navbar-nav ml-auto pl-5" >
-          <img src="{% static 'img/logo.png' %}" alt="Vitesco" width="100" height="50">
-          <img src="{% static 'img/logo2.png' %}" alt="Continental" width="100" height="50">
-      </ul>
-
-        <ul class="nav navbar-nav ml-auto" style="font-size: 18px;">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'perfil:login' %}">Login</a>
-          </li>
-
-        
-        {% endif %}
-    </ul>
-  </div> -->
-</nav>
-
-<!-- Fails xD-->
+</nav>>

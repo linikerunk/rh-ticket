@@ -329,10 +329,13 @@
     $(this).css({ 'background' : 'none'}); //Ditch the background
     $(this).find("span").hide(); //Hide the subnav
   });
-  if($(this).find("span").hide()){
-    $(this).find("span").show(); //Show the subnav
-  }
+  $('ul#topnav li').find("span").show(); //Show the subnav
+  $("#li-user").css({'background': '#555'});
+
   });
+  if($("#li-user").hover(function () {
+    $(this).css({ 'background' : 'none'}); //Ditch the background
+  }));
   </script>
   </head>
 
