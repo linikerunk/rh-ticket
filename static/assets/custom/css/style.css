@@ -78,7 +78,6 @@ input[type="radio"] + label {
     font-size:15px;
 }
 
-
 .history-field {
     overflow-y: auto;
     height:200px;
@@ -86,5 +85,49 @@ input[type="radio"] + label {
     border: 1px solid #cecece;
 }
 
+ul#topnav {
+    margin: 0;
+	float: left;
+	width: 100%;
+	list-style: none;
+	font-size: 1.0em;
+	background:url(static/img/topnav_s.gif) repeat-x;
+}
 
+ul#topnav li {
+	float: left;
+    border-right: 1px solid #555;
+}
+
+ul#topnav li a {
+	padding: 10px 15px;
+	display: block;
+	color: #f0f0f0;
+    text-decoration: none;
+    padding-top: 5px;
+}
+ul#topnav li:hover a{
+    background:  #555;}
+
+ul#topnav li span {
+	float: left;
+    padding: 1px 0;
+    width: 60%;
+    position: absolute;
+    display: none;
+    left: 0; top:35px;
+	padding: 7.5px;
+	background:  #555;
+	color: #fff;
+	-moz-border-radius-bottomright: 5px;
+	-khtml-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-khtml-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+}
+
+ul#topnav li:hover span { display: visible; }
+ul#topnav li span a { display: inline; }
+ul#topnav li span a:hover {text-decoration: underline;}
 
