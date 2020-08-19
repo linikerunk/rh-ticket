@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-
 import os
 from decouple import config
 from dj_database_url import parse as dburl
@@ -26,15 +25,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-# DEBUG = config('DEBUG', default=False, cast=bool)
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.218.24.22', 'rhticket.gs.conti', 'rhticket', 'sltm202x', 'sltm203x', '10.218.23.31', 'centralrh.conti.de']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Email information
 
@@ -44,7 +42,6 @@ EMAIL_HOST_USER = EMAIL_HOST_USER
 EMAIL_PORT = EMAIL_PORT
 
 # Application definition
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -101,23 +98,32 @@ WSGI_APPLICATION = 'Tickets.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 
-
 default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 # DATABASES = {
 #     'default': config('DATABASE_URL', default=default_dburl, cast=dburl)
 #     }
+# }
 
 DATABASES = {
 'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'RHTicket_PROD',
-        'USER': 'RHTicket',
-        'PASSWORD': 'Vitesco1*',
-        'HOST': '10.218.24.114',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': 'SET innodb_strict_mode=1',
-        },
+          'ENGINE': 'django.db.backends.mysql',
+          'NAME': 'RHTicket',
+          'USER': 'root',
+          'PASSWORD': 'Padrao1*',
+          'HOST': 'localhost',
+          'PORT': '3306',
+          'OPTIONS': {
+              'init_command': 'SET innodb_strict_mode=1',
+         }
+        #'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'RHTicket',
+        #'USER': 'RHTicket',
+        #'PASSWORD': 'Vitesco1*',
+        #'HOST': '10.218.24.114',
+        #'PORT': '3306',
+        #'OPTIONS': {
+        #    'init_command': 'SET innodb_strict_mode=1',
+        # }
     }
 }
 
@@ -163,7 +169,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'templates/static')
+    os.path.join(BASE_DIR, 'static')
 ]
 
 MEDIA_URL = '/media/'
@@ -183,3 +189,5 @@ LOGIN_REDIRECT_URL = '/perfil/perfil/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+

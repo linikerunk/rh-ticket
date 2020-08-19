@@ -147,6 +147,15 @@ def reset_password(request):
     return render(request, 'perfil/reset_senha.html', {})
 
 
+def unidade_admin(request):
+    unidade = Unidade.objects.order_by('-id').all()
+    if request.method == "POST":
+        pass
+    context = {'unidade': unidade}
+
+    return render(request, 'perfil/unidade_admin.html', context)
+
+
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm
     template_name= 'perfil/login.html'
@@ -165,3 +174,4 @@ class Login(auth_views.LoginView):
                         're': re,
                       })
         return context
+
