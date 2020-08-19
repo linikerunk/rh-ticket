@@ -312,30 +312,51 @@
       $("#dinamic-lines").append("<tr id='row"+i+"'><td><input type='text' class='form-control' id='registro-re-ferias' name='registro-funcionario' placeholder='RE'></td><td><input type='text' class='form-control' id='nome-ferias' name='registro-funcionario' placeholder='Nome do Funcionário'></td><td> <input type='text' class='form-control' id='data-ferias' name='registro-funcionario' placeholder='DD/MM/AAAA'></td><td><input type='text' class='form-control' id='quantidade-ferias' name='registro-funcionario' placeholder='5 a 30 dias'></td><td><input type='text' class='form-control' id='abono-ferias' name='registro-funcionario' placeholder='Sim/Não'> </td><td><input type='text' class='form-control' id='decimo-terceiro-ferias'name='registro-funcionario' placeholder='Sim/Não'></td><td style='text-align : center;'><a type='button' id='remove-ferias' ><img src='{% static 'assets\icons\minus.png' %}' width='26'> </a></td></tr>");
     });
     $(".remove-ferias").click(function(){
-      // var button_id = $(this).attr("id");
-      console.log("To clicando")
-      // $("#row"+button_id).remove();
+      console.log("xD")
     })
   });
 </script>
 
 <script type="text/javascript">
   $(document).ready(function() {
-    
-  $("ul#topnav li").hover(function() { //Hover over event on list item
-    $(this).css({ 'background' : '#555'}); //Add background color + image on hovered list item
-    $(this).find("span").show(); //Show the subnav
-  } , function() { //on hover out...
-    $(this).css({ 'background' : 'none'}); //Ditch the background
-    $(this).find("span").hide(); //Hide the subnav
-  });
-  $('ul#topnav li').find("span").show(); //Show the subnav
-  $("#li-user").css({'background': '#555'});
 
+    $("#li-admin").click(function (){
+      $(this).addClass("li-active");
+      $('#li-admin').find('span').show();
+      $('#li-rh').removeClass("li-active");
+      $('#li-rh').find("span").hide();
+      $('#li-user').removeClass("li-active");
+      $('#li-user').find('span').hide();
+    })
+
+    $("#li-rh").click(function (){
+      $(this).addClass("li-active");
+      $('#li-rh').find('span').show();
+      $('#li-admin').removeClass("li-active");
+      $('#li-admin').find("span").hide();
+      $('#li-user').removeClass("li-active");
+      $('#li-user').find('span').hide();
+    })
+
+    $("#li-user").click(function() {
+      $(this).addClass("li-active");
+      $('#li-user').find('span').show();
+      $('#li-admin').removeClass("li-active");
+      $('#li-admin').find("span").hide();
+      $('#li-rh').removeClass("li-active");
+      $('#li-rh').find('span').hide();
+    })
+
+    $('#li-power').mouseover(function (){
+      $(this).addClass("li-active");
+    })
+    $('#li-power').mouseleave(function (){
+      $(this).removeClass("li-active");
+    })
+
+
+    
   });
-  if($("#li-user").hover(function () {
-    $(this).css({ 'background' : 'none'}); //Ditch the background
-  }));
   </script>
   </head>
 

@@ -70,7 +70,6 @@ main {
     }
 }
 
-
 /* Radios buttons */
 
 input[type="radio"] + label {
@@ -106,17 +105,15 @@ ul#topnav li a {
     text-decoration: none;
     padding-top: 5.5px;
 }
-ul#topnav li:hover a{
-    background:  #555;}
+
 
 ul#topnav li span {
 	float: left;
     padding: 1px 0;
-    width: 60%;
     position: absolute;
     display: none;
     left: 0; top:35px;
-	padding: 5px;
+	padding: 9px;
 	background:  #555;
 	color: #fff;
 	-moz-border-radius-bottomright: 5px;
@@ -127,7 +124,11 @@ ul#topnav li span {
 	-webkit-border-bottom-left-radius: 5px;
 }
 
-ul#topnav li:hover span { display: visible; }
+ul#topnav li span { display: block; }
 ul#topnav li span a { display: inline; }
 ul#topnav li span a:hover {text-decoration: underline;}
 
+.li-active {
+    display: visible;
+    background-color: #555;
+}

@@ -5,7 +5,7 @@
   <ul id="topnav" class="mb-4">
     {% if user.is_authenticated %}
     {% if request.user|belong_group:"ADMINISTRADORES" %}
-    <li>
+    <li id="li-admin">
       <a href="#">Administrador</a>
         <span> 
           <a href="#"></a>
@@ -14,7 +14,7 @@
     {% else %}
     {% endif %}
     {% if request.user|belong_group:"RH" %}
-    <li>
+    <li id="li-rh">
         <a href="#">RH</a>
         <span>
           <a href="#"></a>
@@ -22,26 +22,26 @@
     </li>
     {% else %}
     {% endif %}
-    <li>
-        <a href="#" id="li-user">{{ request.user.funcionario.nome }}</a>
-        <span>
+    <li id="li-user" class="li-active">
+        <a href="#">{{ request.user.funcionario.nome }}</a>
+        <span class="li-active">
           <a href="{% url 'perfil:perfil' %}">Perfil</a>
           <a href="{% url 'perfil:espelho' %}">Espelho</a>
           <a href="{% url 'chamados:enviar' %}">Chamado</a>
           <a href="{% url 'chamados:listar' %}">Tickets</a>
         </span>
     </li>
-    <li>
+    <li id="li-power">
       <a  href="{% url 'perfil:meu_logout' %}"><i  class="fas fa-power-off"></i></a>
     </li>
-    <div class="float-right mr-2">
-      <img src="{% static 'img/logo.png' %}" alt="Vitesco" width="100" height="50">
-      <img id="logo" src="{% static 'img/logo2.png' %}" alt="Continental" width="100" height="50">
+    <div class="float-right mr-2 mt-2">
+      <img src="{% static 'img/logo.png' %}" alt="Vitesco" width="100" height="45">
+      <img id="logo" src="{% static 'img/logo2.png' %}" alt="Continental" width="100" height="45">
     </div>
       {% else %}
       <div class="float-right mr-3">
-      <img src="{% static 'img/logo.png' %}" alt="Vitesco" width="100" height="50">
-      <img id="logo" src="{% static 'img/logo2.png' %}" alt="Continental" width="100" height="50">
+      <img src="{% static 'img/logo.png' %}" alt="Vitesco" width="100" height="40">
+      <img id="logo" src="{% static 'img/logo2.png' %}" alt="Continental" width="100" height="40">
     </div>
       {% endif %}
   </ul>
