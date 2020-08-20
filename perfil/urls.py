@@ -14,6 +14,8 @@ atualizar_perfil,
 verifica_admissao,
 set_password,
 unidade_admin,
+update_unidade_admin,
+delete_unidade_admin,
 )
 
 app_name = "perfil"
@@ -21,12 +23,20 @@ app_name = "perfil"
 urlpatterns = [
     path("perfil/perfil/", perfil, name="perfil"),
     path("perfil/espelhos/", espelho, name="espelho"),
-    path("perfil/atualizar_perfil/<int:id>/", atualizar_perfil, name="atualizar_perfil"),
+    path("perfil/atualizar_perfil/<int:id>/", atualizar_perfil,
+    name="atualizar_perfil"),
     path('perfil/set_password/', set_password, name="set_password"),
-    path("login/", Login.as_view(), name="login", kwargs={"authentication_form":CustomAuthenticationForm}),
-    path("logout/", auth_views.LogoutView.as_view(template_name="perfil/logout.html"), name="meu_logout"),
+    path("login/", Login.as_view(), name="login",
+    kwargs={"authentication_form":CustomAuthenticationForm}),
+    path("logout/",
+    auth_views.LogoutView.as_view(template_name="perfil/logout.html"),
+    name="meu_logout"),
     path("resetar_senha/<int:id>/", reset_password, name="reset_password"),
     path("verifica_admissao/", verifica_admissao, name="verifica_admissao"),
     path("perfil/unidade_admin/", unidade_admin, name="unidade_admin"),
+    path("perfil/update_unidade_admin/<int:id>/", update_unidade_admin,
+    name="update_unidade_admin"),
+    path("perfil/delete_unidade_admin/<int:id>/", delete_unidade_admin,
+    name="delete_unidade_admin"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

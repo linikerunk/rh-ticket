@@ -24,6 +24,7 @@ class CustomLogEntry(LogEntry):
 
 class Unidade(models.Model):
     nome = models.CharField(max_length=64, unique=True)
+    email = models.EmailField(max_length=250, verbose_name="E-mail", default="")
 
     def __str__(self):
         return self.nome

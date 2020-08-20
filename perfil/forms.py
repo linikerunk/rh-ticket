@@ -47,6 +47,13 @@ class UnidadeForm(forms.ModelForm):
         fields = ['nome',]
 
 
+class UnidadeEmailForm(forms.ModelForm):
+
+    class Meta:
+        model = Unidade
+        fields = ['nome', 'email']
+
+
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(widget=TextInput(
         attrs={'class':'validate','placeholder': 'O Registro de usuário é conhecido como RE também.'}))

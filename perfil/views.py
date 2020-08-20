@@ -14,6 +14,7 @@ SetPasswordFormCustom,
 ResetPasswordFormCustom,
 FuncionarioForm,
 UnidadeForm,
+UnidadeEmailForm,
 CustomAuthenticationForm,
 PasswordChangeFormCustom,
 VerificaAdmissao
@@ -149,11 +150,44 @@ def reset_password(request):
 
 def unidade_admin(request):
     unidade = Unidade.objects.order_by('-id').all()
+    form = UnidadeForm(request.POST or None)
     if request.method == "POST":
-        pass
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Unidade adicionada com sucesso!')
+            return redirect('perfil:unidade_admin')
+        else:
+            messages.error(request, 'Erro ao adicionar Unidade.')
+            print("errors : ", form.errors)
+            print("fields : ", form.fields)
     context = {'unidade': unidade}
+    return render(request, 'unidade/unidade_admin.html', context)
 
-    return render(request, 'perfil/unidade_admin.html', context)
+
+def update_unidade_admin(request, id):
+    unidade = get_object_or_404(Unidade, pk=id)
+    form = UnidadeEmailForm(request.POST,  request.FILES or None, instance=unidade)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Unidade {unidade.nome} alterada com sucesso!')
+            return redirect('perfil:unidade_admin')
+        else:
+            messages.error(request, 'Erro campos inválidos.')
+            print('erro: ', form.errors)
+    context = {'unidade': unidade, 'form': form}
+    return render(request, 'unidade/unidade_update.html', context)
+
+
+def delete_unidade_admin(request, id):
+    unidade = get_object_or_404(Unidade, pk=id)
+    if request.method == "POST":
+        messages.success(request, 
+        f'Unidade {unidade.nome} removida com sucesso!')
+        unidade.delete()
+        return redirect('perfil:unidade_admin')
+    context = {'unidade': unidade}
+    return render(request, 'unidade/unidade_delete.html', context)
 
 
 class Login(auth_views.LoginView):

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Unidade Administrador {% endblock %}
+
+{% block conteudo %}
+
+<h2 class="mb-4">Gerenciador de Unidade </h2>
+<hr>
+<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:unidade_admin' %}">
+{% csrf_token %}
+<div class="form-row">
+    <div class="col-md-12">
+    <div class="col-md-7 offset-md-1">
+    <label>Insira o nome da Unidade:</label>
+    </div>
+    </div>
+    <div class="col-md-5 offset-md-1">
+      <input type="text" class="form-control" name="nome" id="nome_unidade" placeholder="Ex: Salto, Jundiaí, Camaçari, Várzea Paulista">
+    </div>
+<div class="col-md-2">
+    <button type="submit" class="btn btn-success pl-5 pr-5">Adicionar</button>
+</div>
+</div>
+</form>
+
+<div class="form-row">
+<div class="col-md-12">
+    <div class="col-md-7 offset-md-1">
+    <h3 class="mt-4">Tabelas de Unidades Registradas </h3>
+    </div>
+    <span class="mt-2"></span>
+
+    <div class="row">
+        <div class="col-md-9 offset-md-1">
+        <table class="table table-striped table-responsive border rounded bg-light shadow">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col" style="width: 3%;">#ID</th>
+              <th scope="col" style="width: 10%; text-align : left;">Nome da Unidade</th>
+              <th scope="col" style="width: 1%; text-align : left;">Opções</th>
+              <th scope="col" style="width: 1%;"></th>
+            </tr>
+          </thead>
+          <tbody> 
+            {% for unidade in unidade %}  
+            <tr>
+              <td>{{ unidade.id }}</td>
+              <td>{{ unidade.nome }}</td>
+              <td><a style="color: green;" href="{% url 'perfil:update_unidade_admin' unidade.id %}">Alterar</a></td>
+              <td><a style="color: red;" href="{% url 'perfil:delete_unidade_admin' unidade.id %}">Remover</a></td>
+              </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+        <tfoot>
+        {% include 'parciais/_pagination.html'%}
+            </tfoot>
+            
+        </div>
+        </div>
+
+</div>
+</div>
+{% endblock %}

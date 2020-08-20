@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Alterar Unidade {% endblock %}
+
+{% block conteudo %}
+
+<h2 class="mb-4">Alterar Unidade de <strong>{{ unidade.nome }} </strong></h2>
+<hr>
+<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_unidade_admin' unidade.id %}">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="col-md-12">
+        <label>Insira o nome da Unidade:</label>
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" name="nome" id="nome_unidade" value="{{ unidade.nome }}"
+        placeholder="Ex: Salto, Jundiaí, Camaçari, Várzea Paulista">
+        </div>
+        <div class="col-md-12 mt-3">
+            <label>E-mail para disparo:</label>
+        </div>
+        <div class="col-md-6">
+            <input type="email" class="form-control" name="email" id="email" value="{{ unidade.email }}"
+          placeholder="Ex: rhsalto.au_gs_fa@continental-corporation.com">
+          </div>
+          <div class="col-md-12 mt-4">
+              <button type="submit" class="btn btn-success w-25">Alterar</button>
+              <a href="{% url 'perfil:unidade_admin' %}" class="btn btn-warning w-25">Voltar</a>
+          </div>
+    </div>
+    </form>
+{% endblock %}
