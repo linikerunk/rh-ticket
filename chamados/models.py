@@ -8,8 +8,6 @@ from django.utils import timezone
 from model_utils.models import TimeStampedModel
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
-
-
 from perfil.models import Funcionario
 
 BOOL_CHOICES = ((True, 'Sim'), (False, 'Não'))
@@ -77,10 +75,8 @@ class Ticket(models.Model):
                 tempo_finalizada = 1
                 return abs(tempo_finalizada)
             return abs(tempo_finalizado.days)
-        return 1
-        
+        return 1 
 
-    
     def __str__(self):
         return  f'Ticket Número {self.id}, Funcionário {self.funcionario.re_funcionario}'
 
