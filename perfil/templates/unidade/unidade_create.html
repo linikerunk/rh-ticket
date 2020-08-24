@@ -65,15 +65,50 @@
         <div class="col-md-12 mt-3">
         <a href="#" id="adicionar-grupo"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
         <label>Grupo (Define grupo para pessoas):</label>
-        <div id="grupo" class="col-md-6">
+        <div id="grupo" class="col-md-8">
       <div class="card">
       <ul class="list-group list-group-horizontal">
-          <li class="list-group-item active">Administrador</li>
-          <li class="list-group-item">Gestor</li>
-          <li class="list-group-item">RH</li>
+          <li class="list-group-item" id="group-administrador" style="width: 22%;"><span class="mr-1 ml-1">Administrador</span></li>
+          <li class="list-group-item" id="group-gestor" style="width: 20%;"><span class="mr-4 ml-4"> Gestor </span></li>
+          <li class="list-group-item" id="group-rh" style="width: 20%;"><span class="mr-4 ml-4">RH </span></li>
+          <form class="form-inline">
+          <li class="list-group-item" id="pesquisar-membro" style="width: 25%;">
+          <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar" aria-label="Search">
+          </li>
+          <li class="list-group-item" id="button-submit" style="width: 18%;">
+          <button class="btn btn-success" type="submit">Enviar&nbsp;</button>
+          </li>
+          </form>
       </ul>
-  <div class="card-body">
-    This is some text within a panel body.
+  <div class="card-body" id="administrador">
+  <ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <span id="re" style="width: 30%;">7499</span>
+    <span id="nome" style="width: 60%;">Pedro Melo</span>
+    <span id="remove-administrador" style="width: 10%;"><img src="{% static 'assets\icons\cancel.png' %}"></span>
+  </li>
+</ul>
+
+  </div>
+
+  <div class="card-body" id="gestor">
+    <ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <span id="re" style="width: 30%;">81945</span>
+    <span id="nome" style="width: 60%;">Liniker Oliveira</span>
+    <span id="remove-administrador" style="width: 10%;"><img src="{% static 'assets\icons\cancel.png' %}"></span>
+  </li>
+</ul>
+  </div>
+
+  <div class="card-body" id="rh">
+    <ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <span id="re" style="width: 30%;">6465</span>
+    <span id="nome" style="width: 60%;">Fabiana Carvalho</span>
+    <span id="remove-administrador" style="width: 10%;"><img src="{% static 'assets\icons\cancel.png' %}"></span>
+  </li>
+</ul>
   </div>
 </div>
       

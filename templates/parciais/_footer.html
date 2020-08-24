@@ -357,10 +357,9 @@
   </script>
 
 <script>
-$('#email-disparador').hide()
-$('#check-menu').hide()
-$('#grupo').hide();
-$('#mostrar-categoria').hide();
+$('#email-disparador').hide(); $('#check-menu').hide();
+$('#grupo').hide(); $('#mostrar-categoria').hide();
+$('#administrador').hide(); $("#gestor").hide(); $('#rh').hide();
 
 $('#adicionar-email').click(function() {
   $('#email-disparador').toggle('slow');   
@@ -372,10 +371,43 @@ $('#adicionar-menu').click(function() {
 
 $('#adicionar-grupo').click(function(){
   $('#grupo').toggle('slow');
+  $('#group-administrador').addClass("active");
+  $('#group-gestor').removeClass("active");
+  $('#group-rh').removeClass("active");
+  $('#administrador').show();
+  $('#rh').hide();
+  $('#gestor').hide();
 })
 
 $('#adicionar-categoria').click(function(){
   $('#mostrar-categoria').toggle('slow');
+})
+
+$('#group-administrador').click(function(){
+  $('#rh').hide();
+  $('#gestor').hide()
+  $('#administrador').toggle('slow');
+  $('#group-rh').removeClass("active");
+  $('#group-gestor').removeClass("active");
+  $('#group-administrador').addClass("active");
+})
+
+$('#group-gestor').click(function(){
+  $('#administrador').hide();
+  $('#rh').hide();
+  $('#gestor').toggle('slow')
+  $('#group-rh').removeClass("active");
+  $('#group-administrador').removeClass("active");
+  $('#group-gestor').addClass("active");
+})
+
+$('#group-rh').click(function(){
+  $('#administrador').hide();
+  $('#gestor').hide();
+  $('#rh').toggle('slow');
+  $('#group-rh').addClass("active");
+  $('#group-administrador').removeClass("active");
+  $('#group-gestor').removeClass("active");
 })
 
 </script>
