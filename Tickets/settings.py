@@ -109,34 +109,15 @@ default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 
 DATABASES = {
 'default': {
-<<<<<<< HEAD:Tickets/settings_prod.py
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'RHTicket_PROD',
-=======
-        #   'ENGINE': 'django.db.backends.mysql',
-        #   'NAME': 'RHTicket',
-        #   'USER': 'root',
-        #   'PASSWORD': 'Padrao1*',
-        #   'HOST': 'localhost',
-        #   'PORT': '3306',
-        #   'OPTIONS': {
-        #       'init_command': 'SET innodb_strict_mode=1',
-        #  }
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'RHTicket',
->>>>>>> e05cb652d45b1014f6e5628d54f72de4a652b7ff:Tickets/settings_dev.py
         'USER': 'RHTicket',
         'PASSWORD': 'Vitesco1*',
         'HOST': '10.218.24.114',
         'PORT': '3306',
         'OPTIONS': {
-<<<<<<< HEAD:Tickets/settings_prod.py
             'init_command': 'SET innodb_strict_mode=1',
         },
-=======
-           'init_command': 'SET innodb_strict_mode=1',
-        }
->>>>>>> e05cb652d45b1014f6e5628d54f72de4a652b7ff:Tickets/settings_dev.py
     }
 }
 
