@@ -5,7 +5,7 @@
 
 {% block conteudo %}
 
-<h2 class="mb-4">Alterar Unidade de <strong>{{ unidade.nome }} </strong></h2>
+<h2 class="mb-4"><strong>{{ unidade.nome }}</strong></h2>
 <hr>
 <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_unidade_admin' unidade.id %}">
     {% csrf_token %}

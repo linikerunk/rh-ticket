@@ -353,10 +353,31 @@
     $('#li-power').mouseleave(function (){
       $(this).removeClass("li-active");
     })
-
-
-    
   });
   </script>
-  </head>
+
+<script>
+$('#email-disparador').hide()
+$('#check-menu').hide()
+$('#grupo').hide();
+$('#mostrar-categoria').hide();
+
+$('#adicionar-email').click(function() {
+  $('#email-disparador').toggle('slow');   
+});
+
+$('#adicionar-menu').click(function() {
+  $('#check-menu').toggle('slow'); 
+});
+
+$('#adicionar-grupo').click(function(){
+  $('#grupo').toggle('slow');
+})
+
+$('#adicionar-categoria').click(function(){
+  $('#mostrar-categoria').toggle('slow');
+})
+
+</script>
+</head>
 

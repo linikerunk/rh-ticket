@@ -164,6 +164,21 @@ def unidade_admin(request):
     return render(request, 'unidade/unidade_admin.html', context)
 
 
+def create_unidade_admin(request):
+    form = UnidadeForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Unidade adicionada com sucesso!')
+            return redirect('perfil:unidade_admin')
+        else:
+            messages.error(request, 'Erro ao adicionar Unidade.')
+            print("errors : ", form.errors)
+            print("fields : ", form.fields)
+    context = {}
+    return render(request, 'unidade/unidade_create.html', context)
+
+
 def update_unidade_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     form = UnidadeEmailForm(request.POST,  request.FILES or None, instance=unidade)

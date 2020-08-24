@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %} Adicionar Unidade {% endblock %}
+
+{% block conteudo %}
+
+<h2 class="mb-4">Adicionar Unidade</h2>
+<hr>
+<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:create_unidade_admin' %}">
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="col-md-12">
+        <label>Nome da Unidade:</label>
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" name="nome" id="nome_unidade" value="{{ unidade.nome }}"
+        placeholder="Ex: Salto, Jundiaí, Camaçari, Várzea Paulista">
+        </div>
+        <div class="col-md-12 mt-3">
+        <a href="#" id="adicionar-email"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
+            <label>E-mail (define endereço disparador) : </label>
+        </div>
+        <div class="col-md-6" id="email-disparador">
+            <input type="email" class="form-control" name="email" id="email" value="{{ unidade.email }}"
+          placeholder="Ex: rhsalto.au_gs_fa@continental-corporation.com">
+          </div>
+        <div class="col-md-12 mt-3">
+        <a href="#" id="adicionar-menu"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
+        <label>Menu (define menus visualizados) :</label>
+
+        <div id="check-menu">
+
+        <div class="form-check">
+        <div class="m-1">
+        <input type="checkbox" class="form-check-input" id="perfil" name="perfil" >
+        <label class="form-check-label" for="materialChecked2">Perfil</label>
+        </div>
+        </div>
+
+        <div class="form-check">
+        <div class="m-1">
+        <input type="checkbox" class="form-check-input" id="espelho" name="espelho">
+        <label class="form-check-label" for="materialChecked2">Espelho</label>
+        </div>
+        </div>
+
+        <div class="form-check">
+        <div class="m-1">
+        <input type="checkbox" class="form-check-input" id="chamado" name="chamado">
+        <label class="form-check-label" for="materialChecked2">Chamado</label>
+        </div>
+        </div>
+
+        <div class="form-check">
+        <div class="m-1">
+        <input type="checkbox" class="form-check-input" id="ticket" name="ticket"> 
+        <label class="form-check-label" for="materialChecked2">Ticket</label>
+        </div>
+        </div>
+
+        </div>
+        </div>
+
+        <div class="col-md-12 mt-3">
+        <a href="#" id="adicionar-grupo"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
+        <label>Grupo (Define grupo para pessoas):</label>
+        <div id="grupo" class="col-md-6">
+      <div class="card">
+      <ul class="list-group list-group-horizontal">
+          <li class="list-group-item active">Administrador</li>
+          <li class="list-group-item">Gestor</li>
+          <li class="list-group-item">RH</li>
+      </ul>
+  <div class="card-body">
+    This is some text within a panel body.
+  </div>
+</div>
+      
+        </div>
+        </div>
+
+        <div class="col-md-12 mt-3">
+        <a href="#" id="adicionar-categoria"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
+        <label>Categoria (Define categoria para pessoas):</label>
+        <div id="mostrar-categoria">
+        <p> Something times I feel i little wrong. </p>
+        </div>
+        </div>
+
+          <div class="col-md-12 mt-4">
+              <button type="submit" class="btn btn-success w-25">Adicionar</button>
+              <a href="{% url 'perfil:unidade_admin' %}" class="btn btn-warning w-25">Voltar</a>
+          </div>
+
+    </div>
+    </form>
+{% endblock %}
