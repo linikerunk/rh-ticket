@@ -357,9 +357,11 @@
   </script>
 
 <script>
+// hide elements of DOM
 $('#email-disparador').hide(); $('#check-menu').hide();
 $('#grupo').hide(); $('#mostrar-categoria').hide();
 $('#administrador').hide(); $("#gestor").hide(); $('#rh').hide();
+$('#mostrar-subcategoria').hide();
 
 $('#adicionar-email').click(function() {
   $('#email-disparador').toggle('slow');   
@@ -369,6 +371,15 @@ $('#adicionar-menu').click(function() {
   $('#check-menu').toggle('slow'); 
 });
 
+$('#adicionar-categoria').click(function(){
+  $('#mostrar-categoria').toggle('slow');
+})
+
+$('#categoria-admin').blur(function(){
+  $('#mostrar-subcategoria').show('slow');
+})
+
+// Rules of Groups
 $('#adicionar-grupo').click(function(){
   $('#grupo').toggle('slow');
   $('#group-administrador').addClass("active");
@@ -377,10 +388,6 @@ $('#adicionar-grupo').click(function(){
   $('#administrador').show();
   $('#rh').hide();
   $('#gestor').hide();
-})
-
-$('#adicionar-categoria').click(function(){
-  $('#mostrar-categoria').toggle('slow');
 })
 
 $('#group-administrador').click(function(){
