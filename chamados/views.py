@@ -104,19 +104,21 @@ RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo_link}\n\t
             if str(unidade) == 'Salto':
                 from_email = unidade.email
                 recipient_list = ['pedro.melo@continental.com', 
-                'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com']
+                'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com', 'liniker.oliveira@continental-corporation.com',
+                f'{funcionario.email_corporativo}']
             elif str(unidade) == 'Camaçari':
                 from_email = unidade.email
                 recipient_list = ['Cristhiane.nascimento@continental.com', 'Elissandra.magalhaes@continental.com',
 'Eloah.jesus@continental.com', 'evelyn.aguiar@continental.com', 'fabio.pinho@continental.com', 'Ila.cerqueira@continental.com', 
 'Jorrelrison.tanan@continental.com', 'Leila.tavares@continental.com', 'Lelia.lima@continental.com', 'Olivia.figueiredo@conti.com.br',
-'rayssa.santos@continental.com', 'Tatiane.custodio@continental.com', 'Thaissa.juliao@conti.com']
+'rayssa.santos@continental.com', 'Tatiane.custodio@continental.com', 'Thaissa.juliao@conti.com', 'liniker.oliveira@continental-corporation.com']
             elif str(unidade) == 'Ponta Grossa':
                 from_email = unidade.email
-                recipient_list = ['']
+                recipient_list = ['liniker.oliveira@continental-corporation.com']
             elif str(unidade) == 'Jundiaí':
                 from_email = unidade.email
-                recipient_list = ['']
+                recipient_list = ['liniker.oliveira@continental-corporation.com']
+            print("Email : ", unidade.email)
             send_mail(subject, message, from_email, recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')

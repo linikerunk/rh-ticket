@@ -36,6 +36,10 @@ class FuncionarioForm(forms.ModelForm):
 
 
 class UnidadeForm(forms.ModelForm):
+    menu = forms.ModelMultipleChoiceField(
+            queryset=Menu.objects,
+            widget=forms.CheckboxSelectMultiple,
+            required=True)
 
     class Meta:
         model = Unidade
