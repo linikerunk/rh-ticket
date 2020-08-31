@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views import View
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth.models import User # Chamados
+from django.contrib.auth.models import User  # Chamados
 from django.core.mail import send_mail, send_mass_mail
 from django.core import serializers
 from django.core.paginator import Paginator
@@ -32,7 +32,7 @@ def funcionario_login_ajax(request, id):
 
 
 def verificar_senha_ajax(request, id):
-    try: 
+    try:
         campo_usuario = request.GET.get('username')
         campo_admissao = request.GET.get('admissao')
         usuario = User.objects.get(username=campo_usuario)
@@ -64,16 +64,16 @@ def verificar_senha_ajax(request, id):
 
 def funcionario_ajax(request, id):
     re_func = request.GET.get('re_func')
-    funcionario  = Funcionario.objects.filter(re_funcionario=re_func).first()
+    funcionario = Funcionario.objects.filter(re_funcionario=re_func).first()
     response = {}
     if funcionario:
         response = {"nome": funcionario.nome, 'email': funcionario.email}
     return JsonResponse(response)
-        
+
 
 def carregar_subcategorias(request, id):
     subcategoria = SubCategoria.objects.filter(categoria=id)
-    data = serializers.serialize("json", subcategoria, fields=('id','nome'))
+    data = serializers.serialize("json", subcategoria, fields=('id', 'nome'))
     response = {'data': data}
     return JsonResponse(response, safe=False)
 
@@ -87,7 +87,8 @@ def enviar(request):
     if request.method == 'POST':
         form = TicketForm(request.POST,  request.FILES or None)
         email = request.POST.get('email')
-        categoria_field = request.POST.get('categoria')
+        categoria_id = request.POST.get('categoria')
+        categoria = Categoria.objects.get(id=categoria_id)
         subcategoria = request.POST.get('subcategoria')
         subcategoria = SubCategoria.objects.get(pk=subcategoria)
         form.instance.funcionario = funcionario
@@ -98,28 +99,32 @@ def enviar(request):
             save_it = form.save()
             save_it.save()
             subject = "Novo chamado aberto"
-            message = f"\tCategoria : {categoria_field}\n\tSubcategoria : {subcategoria}\n\t\
+            message = f"\tCategoria : {categoria}\n\tSubcategoria : {subcategoria}\n\t\
 RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo_link}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
             if str(unidade) == 'Salto':
                 from_email = unidade.email
-                recipient_list = ['pedro.melo@continental.com', 
-                'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com', 'liniker.oliveira@continental-corporation.com',
-                f'{funcionario.email_corporativo}']
+                recipient_list = ['pedro.melo@continental.com',
+                                  'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com', 'liniker.oliveira@continental-corporation.com',
+                                  f'{funcionario.email_corporativo}']
             elif str(unidade) == 'Camaçari':
                 from_email = unidade.email
                 recipient_list = ['Cristhiane.nascimento@continental.com', 'Elissandra.magalhaes@continental.com',
-'Eloah.jesus@continental.com', 'evelyn.aguiar@continental.com', 'fabio.pinho@continental.com', 'Ila.cerqueira@continental.com', 
-'Jorrelrison.tanan@continental.com', 'Leila.tavares@continental.com', 'Lelia.lima@continental.com', 'Olivia.figueiredo@conti.com.br',
-'rayssa.santos@continental.com', 'Tatiane.custodio@continental.com', 'Thaissa.juliao@conti.com', 'liniker.oliveira@continental-corporation.com']
+                                  'Eloah.jesus@continental.com', 'evelyn.aguiar@continental.com', 'fabio.pinho@continental.com', 'Ila.cerqueira@continental.com',
+                                  'Jorrelrison.tanan@continental.com', 'Leila.tavares@continental.com', 'Lelia.lima@continental.com', 'Olivia.figueiredo@conti.com.br',
+                                  'rayssa.santos@continental.com', 'Tatiane.custodio@continental.com', 'Thaissa.juliao@conti.com', 'liniker.oliveira@continental-corporation.com']
             elif str(unidade) == 'Ponta Grossa':
                 from_email = unidade.email
-                recipient_list = ['liniker.oliveira@continental-corporation.com']
+                recipient_list = [
+                    'liniker.oliveira@continental-corporation.com']
             elif str(unidade) == 'Jundiaí':
                 from_email = unidade.email
-                recipient_list = ['liniker.oliveira@continental-corporation.com']
+                recipient_list = [
+                    'liniker.oliveira@continental-corporation.com']
+            print("Categoria : ", categoria)
             print("Email : ", unidade.email)
-            send_mail(subject, message, from_email, recipient_list, fail_silently=True)
+            send_mail(subject, message, from_email,
+                      recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
             return redirect('chamados:enviar')
         print(form.errors)
@@ -127,7 +132,7 @@ RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo_link}\n\t
     else:
         form = TicketForm()
     return render(request, 'chamados/enviar.html', {'form': form,
-                                                    'categoria': categoria,})
+                                                    'categoria': categoria, })
 
 
 @verificar_funcionario()
@@ -141,16 +146,17 @@ def finalizar_chamado(request, id):
 
     if request.method == 'POST':
         if not request.user.groups.filter(name="RH") or ticket.funcionario == request.user.funcionario:
-            form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
+            form = TicketUpdateForm(
+                request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
 
             if form.is_valid():
                 historico_ticket = HistoricoTicket.objects.create(
-                           data_mensagem = timezone.now(),
-                           mensagem = form.instance.resposta,
-                           ticket_id = form.instance.id,
-                           funcionario = request.user.funcionario)
+                    data_mensagem=timezone.now(),
+                    mensagem=form.instance.resposta,
+                    ticket_id=form.instance.id,
+                    funcionario=request.user.funcionario)
                 historico_ticket.save()
-                
+
                 subject = f"Resposta do funcionário {ticket.funcionario.nome} do registro {ticket.funcionario.re_funcionario}."
                 message = f"\t Resposta : {ticket.resposta} \n \
  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
@@ -164,32 +170,36 @@ def finalizar_chamado(request, id):
                 from_email = unidade.email
                 to_list = [ticket.funcionario.email_corporativo, unidade.email]
             elif ticket.funcionario.email is not None:
-                from_email = unidade.email 
+                from_email = unidade.email
                 to_list = [ticket.funcionario.email, unidade.email]
             else:
                 form.to_list = ['', unidade.email]
-                messages.success(request, f'Ticket respondido com sucesso, mas funcionário não tem e-mail')
-            send_mail(subject, message, from_email, to_list, fail_silently=True)
+                messages.success(
+                    request, f'Ticket respondido com sucesso, mas funcionário não tem e-mail')
+            send_mail(subject, message, from_email,
+                      to_list, fail_silently=True)
             messages.success(request, 'Chamado respondido com sucesso.')
-            messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
-        
+            messages.warning(
+                request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
+
             return render(request, 'chamados/tickets_por_funcionarios.html', {'ticket': ticket,
-                                                                            'historico': historico} )
+                                                                              'historico': historico})
         elif not request.user.groups.filter(name="RH"):
-            return render(request, 'chamados/listar_erro.html' )
-        
+            return render(request, 'chamados/listar_erro.html')
+
         email = request.POST.get('email')
         email_corporativo = request.POST.get('email_corporativo')
         categoria = request.POST.get('categoria')
-        #Ajustar para ticket que está aberto
-        form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
+        # Ajustar para ticket que está aberto
+        form = TicketUpdateForm(
+            request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
 
         if form.is_valid():
             historico_ticket = HistoricoTicket.objects.create(
-                           data_mensagem = timezone.now(),
-                           mensagem = form.instance.resposta,
-                           ticket_id = form.instance.id,
-                           funcionario = request.user.funcionario)
+                data_mensagem=timezone.now(),
+                mensagem=form.instance.resposta,
+                ticket_id=form.instance.id,
+                funcionario=request.user.funcionario)
             historico_ticket.save()
             form.instance.resposta = ''
             form.save()
@@ -205,30 +215,36 @@ def finalizar_chamado(request, id):
 
             if ticket.funcionario.email_corporativo is not None:
                 from_email = settings.EMAIL_HOST_USER
-                to_list = [ticket.funcionario.email_corporativo, settings.EMAIL_HOST_USER]
+                to_list = [ticket.funcionario.email_corporativo,
+                           settings.EMAIL_HOST_USER]
                 print("email : ", ticket.funcionario.email_corporativo)
             elif ticket.funcionario.email is not None:
                 from_email = settings.EMAIL_HOST_USER
                 to_list = [ticket.funcionario.email, settings.EMAIL_HOST_USER]
             else:
                 to_list = ['', settings.EMAIL_HOST_USER]
-            send_mail(subject, message, from_email, to_list, fail_silently=True)
+            send_mail(subject, message, from_email,
+                      to_list, fail_silently=True)
 
             if ticket.funcionario.email_corporativo and ticket.finalizado:
                 messages.success(request, 'Chamado finalizado com sucesso.')
-                messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
+                messages.warning(
+                    request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
 
             elif ticket.funcionario.email and ticket.finalizado:
                 messages.success(request, 'Chamado finalizado com sucesso.')
-                messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
-            
+                messages.warning(
+                    request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
+
             elif ticket.funcionario.email_corporativo or ticket.funcionario.email and ticket.finalizado == False:
                 messages.success(request, 'Chamado respondido com sucesso.')
-                messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
+                messages.warning(
+                    request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
             else:
                 messages.success(request, 'Chamado finalizado com sucesso.')
-                messages.warning(request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
-            
+                messages.warning(
+                    request, 'Alerta: o disparo de e-mail é restrito a endereços corporativos.')
+
             return redirect('chamados:listar')
 
         elif ticket.finalizado and ticket.data_finalizada != None:
@@ -244,7 +260,8 @@ def finalizar_chamado(request, id):
         print(f"Forms errors : {form.errors}")
         print(f"Forms data : {form.data}")
 
-    form = TicketUpdateForm(request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
+    form = TicketUpdateForm(
+        request.POST,  request.FILES or None, instance=ticket, initial=initial_data)
     return render(request, 'chamados/tickets_por_funcionarios.html', {'form': form, 'ticket': ticket, 'historico': historico})
 
 
@@ -253,17 +270,18 @@ def finalizar_chamado(request, id):
 def listar(request):
     if request.user.groups.filter(name="RH"):
         unidade = request.user.funcionario.unidade
-        tickets = Ticket.objects.filter(funcionario__unidade=unidade).order_by('-data')
+        tickets = Ticket.objects.filter(
+            funcionario__unidade=unidade).order_by('-data')
         paginator = Paginator(tickets, 10)
         page = request.GET.get('page', 1)
         obj = paginator.get_page(page)
-        return render(request, 'chamados/listar.html', {'tickets': tickets, 
+        return render(request, 'chamados/listar.html', {'tickets': tickets,
                                                         'obj': obj})
     else:
         funcionario = request.user.funcionario
-        tickets = Ticket.objects.filter(funcionario=funcionario).order_by('-data')
+        tickets = Ticket.objects.filter(
+            funcionario=funcionario).order_by('-data')
         paginator = Paginator(tickets, 10)
         page = request.GET.get('page', 1)
         tickets = paginator.get_page(page)
         return render(request, 'chamados/listar.html', {'tickets': tickets})
-               

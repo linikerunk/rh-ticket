@@ -104,7 +104,7 @@ default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 # }
 
 DATABASES = {
-'default': {
+    'default': {
         #   'ENGINE': 'django.db.backends.mysql',
         #   'NAME': 'RHTicket',
         #   'USER': 'root',
@@ -121,7 +121,7 @@ DATABASES = {
         'HOST': '10.218.24.114',
         'PORT': '3306',
         'OPTIONS': {
-           'init_command': 'SET innodb_strict_mode=1',
+            'init_command': 'SET innodb_strict_mode=1',
         }
     }
 }
@@ -188,5 +188,3 @@ LOGIN_REDIRECT_URL = '/perfil/perfil/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
-
