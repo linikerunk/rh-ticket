@@ -98,7 +98,7 @@ def enviar(request):
             save_it = form.save()
             save_it.save()
             subject = "Novo chamado aberto"
-            message = f"\tCategoria : {categoria}\n\tSubcategoria : {subcategoria}\n\t\
+            message = f"\tCategoria : {categoria_field}\n\tSubcategoria : {subcategoria}\n\t\
 RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo_link}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
             if str(unidade) == 'Salto':
