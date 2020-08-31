@@ -33,7 +33,7 @@
   </thead>
   <tbody>   
     <tr>
-    {% for ticket in tickets %}
+    {% for ticket in obj %}
       <td style="text-align : center;">{{ ticket.data|date:"d/m/Y  H:i" }}</td>
       <td scope="row" style="text-align : center;">{{ ticket.funcionario.re_funcionario }}</th>
       <td style="text-align : left;"><h6><a href="{% url 'chamados:finalizar_chamado' ticket.id %}"> {{ ticket.funcionario.nome }}</a></h6></td>

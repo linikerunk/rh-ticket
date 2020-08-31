@@ -320,20 +320,20 @@
 <script type="text/javascript">
   $(document).ready(function() {
 
-    $("#li-admin").click(function (){
+    $("#li-ADMINISTRADORES").click(function (){
       $(this).addClass("li-active");
-      $('#li-admin').find('span').show();
-      $('#li-rh').removeClass("li-active");
-      $('#li-rh').find("span").hide();
+      $('#li-ADMINISTRADORES').find('span').show();
+      $('#li-RH').removeClass("li-active");
+      $('#li-RH').find("span").hide();
       $('#li-user').removeClass("li-active");
       $('#li-user').find('span').hide();
     })
 
-    $("#li-rh").click(function (){
+    $("#li-RH").click(function (){
       $(this).addClass("li-active");
-      $('#li-rh').find('span').show();
-      $('#li-admin').removeClass("li-active");
-      $('#li-admin').find("span").hide();
+      $('#li-RH').find('span').show();
+      $('#li-ADMINISTRADORES').removeClass("li-active");
+      $('#li-ADMINISTRADORES').find("span").hide();
       $('#li-user').removeClass("li-active");
       $('#li-user').find('span').hide();
     })
@@ -341,10 +341,10 @@
     $("#li-user").click(function() {
       $(this).addClass("li-active");
       $('#li-user').find('span').show();
-      $('#li-admin').removeClass("li-active");
-      $('#li-admin').find("span").hide();
-      $('#li-rh').removeClass("li-active");
-      $('#li-rh').find('span').hide();
+      $('#li-ADMINISTRADORES').removeClass("li-active");
+      $('#li-ADMINISTRADORES').find("span").hide();
+      $('#li-RH').removeClass("li-active");
+      $('#li-RH').find('span').hide();
     })
 
     $('#li-power').mouseover(function (){
@@ -355,6 +355,7 @@
     })
   });
   </script>
+
 
 <script>
 // hide elements of DOM
@@ -373,10 +374,6 @@ $('#adicionar-menu').click(function() {
 
 $('#adicionar-categoria').click(function(){
   $('#mostrar-categoria').toggle('slow');
-})
-
-$('#categoria-admin').blur(function(){
-  $('#mostrar-subcategoria').show('slow');
 })
 
 // Rules of Groups

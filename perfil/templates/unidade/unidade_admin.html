@@ -8,20 +8,20 @@
 <h2 class="mb-4">Gerenciador de Unidade </h2>
 <hr>
 <div class="form-row">
-<div class="col-md-7 offset-md-1">
+<div class="col-md-7">
 <a href="{% url 'perfil:create_unidade_admin' %}" type="button" class="btn btn-success pl-5 pr-5">Clique aqui para adicionar uma Unidade</a>
 </div>
 </div>
 
 <div class="form-row">
 <div class="col-md-12">
-    <div class="col-md-7 offset-md-1">
+    <div class="col-md-7">
     <h3 class="mt-4">Tabelas de Unidades Registradas </h3>
     </div>
     <span class="mt-2"></span>
 
     <div class="row">
-        <div class="col-md-9 offset-md-1">
+        <div class="col-md-9">
         <table class="table table-striped table-responsive border rounded bg-light shadow">
           <thead class="thead-dark">
             <tr>
@@ -31,7 +31,7 @@
             </tr>
           </thead>
           <tbody> 
-            {% for unidade in unidade %}  
+            {% for unidade in obj %}  
             <tr>
               <td>{{ unidade.id }}</td>
               <td><a href="{% url 'perfil:update_unidade_admin' unidade.id %}">{{ unidade.nome }}</a></td>
@@ -41,8 +41,8 @@
           </tbody>
         </table>
         <tfoot>
-        {% include 'parciais/_pagination.html'%}
-            </tfoot>
+          {% include 'parciais/_pagination.html'%}
+              </tfoot>
             
         </div>
         </div>

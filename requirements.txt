@@ -9,12 +9,14 @@ django-bootstrap-form==3.4
 django-crispy-forms==1.9.0
 django-import-export==2.0.2
 django-jsonfield==1.4.0
+django-model-utils==4.0.0
 et-xmlfile==1.0.1
 jdcal==1.4.1
 MarkupPy==1.14
 mysqlclient==1.4.6
 odfpy==1.4.1
 openpyxl==3.0.3
+Pillow==7.2.0
 python-dateutil==2.6.0
 python-decouple==3.3
 pytz==2019.3

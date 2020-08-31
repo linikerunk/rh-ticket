@@ -1,6 +1,6 @@
 from django.forms import ModelForm, RadioSelect
 from django.core.exceptions import ValidationError
-from django.forms.widgets import PasswordInput, TextInput
+from django.forms.widgets import PasswordInput, TextInput, CheckboxSelectMultiple
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import (
 PasswordChangeForm,
@@ -9,7 +9,7 @@ UsernameField,
 SetPasswordForm,
 )
 from django.contrib.auth import authenticate
-from .models import Funcionario, Unidade
+from .models import Funcionario, Unidade, Menu
 from django import forms
 
 
@@ -37,22 +37,47 @@ class FuncionarioForm(forms.ModelForm):
 
 class UnidadeForm(forms.ModelForm):
 
-    # unidade = forms.ModelChoiceField(
-    #     label="Unidade : ",
-    #     queryset=Unidade.objects.all(),
-    #     to_field_name="nome")
+    class Meta:
+        model = Unidade
+        fields = ['nome', 'email', 'menu', 'grupo']
+        
+        label = {
+            'nome': 'Nome:',
+            'email': 'E-mail:',
+            'menu': 'Menu:',
+            'grupo': 'Grupo',
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super(UnidadeForm, self).__init__(*args, **kwargs)
+        self.fields["menu"].widget = CheckboxSelectMultiple()
+        self.fields["menu"].queryset = Menu.objects.all()
+
+    def clean_grupo(self):
+        grupo = self.cleaned_data['grupo']
+        if not grupo:
+            raise forms.ValidationError("Você deve informar os Grupos " \
+            "existentes.")
+        return grupo
+
+
+
+class UnidadeUpdateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UnidadeUpdateForm, self).__init__(*args, **kwargs)
+        self.fields["menu"].widget = CheckboxSelectMultiple()
+        self.fields["menu"].queryset = Menu.objects.all()
 
     class Meta:
         model = Unidade
-        fields = ['nome',]
-
-
-class UnidadeEmailForm(forms.ModelForm):
-
-    class Meta:
-        model = Unidade
-        fields = ['nome', 'email']
-
+        fields = ['nome', 'email', 'menu']
+        
+        label = {
+            'nome': 'Nome:',
+            'email': 'E-mail:',
+            'menu': 'Menu:'
+        }
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(widget=TextInput(

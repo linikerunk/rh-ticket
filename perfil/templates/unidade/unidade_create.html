@@ -5,6 +5,7 @@
 
 {% block conteudo %}
 
+
 <h2 class="mb-4">Adicionar Unidade</h2>
 <hr>
 <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:create_unidade_admin' %}">
@@ -28,123 +29,32 @@
         <div class="col-md-12 mt-3">
         <a href="#" id="adicionar-menu"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
         <label>Menu (define menus visualizados) :</label>
-
         <div id="check-menu">
-
-        <div class="form-check">
-        <div class="m-1">
-        <input type="checkbox" class="form-check-input" id="perfil" name="perfil" >
-        <label class="form-check-label" for="materialChecked2">Perfil</label>
-        </div>
-        </div>
-
-        <div class="form-check">
-        <div class="m-1">
-        <input type="checkbox" class="form-check-input" id="espelho" name="espelho">
-        <label class="form-check-label" for="materialChecked2">Espelho</label>
-        </div>
-        </div>
-
-        <div class="form-check">
-        <div class="m-1">
-        <input type="checkbox" class="form-check-input" id="chamado" name="chamado">
-        <label class="form-check-label" for="materialChecked2">Chamado</label>
-        </div>
-        </div>
-
-        <div class="form-check">
-        <div class="m-1">
-        <input type="checkbox" class="form-check-input" id="ticket" name="ticket"> 
-        <label class="form-check-label" for="materialChecked2">Ticket</label>
-        </div>
-        </div>
-
-        </div>
+          <div class="form-check">
+            <div class="m-1">
+          {{ form.menu }}
+            </div>
+            </div>
+            </div>
         </div>
 
         <div class="col-md-12 mt-3">
-        <a href="#" id="adicionar-grupo"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
-        <label>Grupo (Define grupo para pessoas):</label>
-        <div id="grupo" class="col-md-8">
-      <div class="card">
-      <ul class="list-group list-group-horizontal">
-          <li class="list-group-item" id="group-administrador" style="width: 22%;"><span class="mr-1 ml-1">Administrador</span></li>
-          <li class="list-group-item" id="group-gestor" style="width: 20%;"><span class="mr-4 ml-4"> Gestor </span></li>
-          <li class="list-group-item" id="group-rh" style="width: 20%;"><span class="mr-4 ml-4">RH </span></li>
-          <form class="form-inline">
-          <li class="list-group-item" id="pesquisar-membro" style="width: 25%;">
-          <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar" aria-label="Search">
-          </li>
-          <li class="list-group-item" id="button-submit" style="width: 24%;">
-          <button class="btn btn-success" type="submit">Enviar</button>
-          </li>
-          </form>
-      </ul>
-  <div class="card-body" id="administrador">
-  <ul class="list-group">
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <span id="re" style="width: 30%;">7499</span>
-    <span id="nome" style="width: 60%;">Pedro Melo</span>
-    <span id="remove-administrador" style="width: 10%;"><img src="{% static 'assets\icons\cancel.png' %}"></span>
-  </li>
-</ul>
-
-  </div>
-
-  <div class="card-body" id="gestor">
-    <ul class="list-group">
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <span id="re" style="width: 30%;">81945</span>
-    <span id="nome" style="width: 60%;">Liniker Oliveira</span>
-    <span id="remove-administrador" style="width: 10%;"><img src="{% static 'assets\icons\cancel.png' %}"></span>
-  </li>
-</ul>
-  </div>
-
-  <div class="card-body" id="rh">
-    <ul class="list-group">
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <span id="re" style="width: 30%;">6465</span>
-    <span id="nome" style="width: 60%;">Fabiana Carvalho</span>
-    <span id="remove-administrador" style="width: 10%;"><img src="{% static 'assets\icons\cancel.png' %}"></span>
-  </li>
-</ul>
-  </div>
-</div>
-      
-        </div>
-        </div>
-
-        <div class="col-md-12 mt-3">
-        <a href="#" id="adicionar-categoria"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
-        <label>Categoria (Define categoria para pessoas):</label>
-        <div class="form-group col-md-6">
-
-        <div id="mostrar-categoria">
-            <p> Categorias : </p>
-            <select name="categoria" class="select form-control form-control mt-0" id="categoria-admin">
-              <option value="" selected="">----------</option>
-              <option value="1">Benéficios</option>
+          <a href="#" id="adicionar-grupo"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
+          <label>Grupo (Define grupo para pessoas):</label>
+          <div class="col-md-6" id="grupo">
+            
+            <select class="form-control" name="grupo" multiple>
+              {% for item  in grupo %}
+              <option value="{{ item.id }}">{{ item }}</option>
+              {% endfor %}
               </select>
-        </div>
-      </div>
-
-        <div class="form-group col-md-6">
-
-        <div id="mostrar-subcategoria">
-            <p> Subcategoria : </p>
-            <select name="subcategoria" class="select form-control form-control mt-0" id="subcategoria-admin">
-              <option value="48">Cesta Básica</option>
-              <option value="49">Compra Pneu</option>
-              <option value="50">Convênio Médico</option>
-          </div>
-        </div>
-
-          <div class="col-md-12 mt-4">
-              <button type="submit" class="btn btn-success w-25">Adicionar</button>
-              <a href="{% url 'perfil:unidade_admin' %}" class="btn btn-warning w-25">Voltar</a>
           </div>
 
-    </div>
+        </div>
+    
+    <div class="col-md-12 mt-4">
+      <button type="submit" class="btn btn-success w-25">Salvar Configuração</button>
+      <a href="{% url 'perfil:unidade_admin' %}" class="btn btn-warning w-25">Voltar</a>
+  </div>
     </form>
 {% endblock %}

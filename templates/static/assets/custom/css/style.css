@@ -140,3 +140,14 @@ ul#topnav li span a:hover {
     display: visible;
     background-color: #555;
 }
+
+@media screen and (max-width: 1200px){
+    div.card{
+        display: flex;
+        width: 450px;
+    }
+}
+
+ul#id_menu{
+    list-style: none;
+}

@@ -1,25 +1,28 @@
+import logging
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth import (
+authenticate, login, logout, update_session_auth_hash)
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic.edit import FormView
+from django.core.paginator import Paginator
 from django.contrib import messages
 from perfil.forms import (
 SetPasswordFormCustom,
 ResetPasswordFormCustom,
 FuncionarioForm,
 UnidadeForm,
-UnidadeEmailForm,
+UnidadeUpdateForm,
 CustomAuthenticationForm,
 PasswordChangeFormCustom,
 VerificaAdmissao
 )
-from .models import Funcionario, Unidade
+from .models import Funcionario, Unidade, Menu
 from perfil.decorators import verificar_funcionario
 
 
@@ -43,7 +46,8 @@ def espelho(request):
 @login_required
 def atualizar_perfil(request, id):
     funcionario = get_object_or_404(Funcionario, pk=id)
-    form = FuncionarioForm(request.POST,  request.FILES or None, instance=funcionario)
+    form = FuncionarioForm(request.POST,  request.FILES or None,
+                           instance=funcionario)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -53,7 +57,8 @@ def atualizar_perfil(request, id):
             messages.error(request, 'Erro campos inválidos.')
             print('erro: ', form.errors)
 
-    return render(request, 'perfil/perfil.html', {'form': form, 'funcionario': funcionario})
+    return render(request, 'perfil/perfil.html', {'form': form,
+                                                 'funcionario': funcionario})
 
 
 @login_required
@@ -68,19 +73,24 @@ def set_password(request):
 
         if not request.user.check_password(old_password):
             messages.error(request, "O número de registro não é válido.")
-            return render(request, "perfil/modificar_senha.html", {'form': form})
+            return render(request, "perfil/modificar_senha.html",
+                                   {'form': form})
 
         elif admissao.replace('/', '') != admissao_banco_dados.replace('/', ''):
             messages.error(request, "A data de admissão está inválida")
-            return render(request, "perfil/modificar_senha.html", {'form': form})
+            return render(request, "perfil/modificar_senha.html",
+                                    {'form': form})
         
         elif len(form.data['new_password1']) < 8:
-            messages.error(request, "A senha precisa ser maior que 8 dígitos ser composta por letras e números e uma letra maiúscula ")
-            return render(request, "perfil/modificar_senha.html", {'form': form})
+            messages.error(request, "A senha precisa ser maior que 8 dígitos " / 
+            "ser composta por letras e números e uma letra maiúscula ")
+            return render(request, "perfil/modificar_senha.html",
+                                   {'form': form})
 
         elif str(form.data['new_password1']) != str(form.data['new_password2']):
             messages.error(request, "As senha não se combinam.")
-            return render(request, "perfil/modificar_senha.html", {'form': form})
+            return render(request, "perfil/modificar_senha.html", 
+                                    {'form': form})
         
         if form.is_valid():
             form.save()
@@ -150,21 +160,16 @@ def reset_password(request):
 
 def unidade_admin(request):
     unidade = Unidade.objects.order_by('-id').all()
-    form = UnidadeForm(request.POST or None)
-    if request.method == "POST":
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Unidade adicionada com sucesso!')
-            return redirect('perfil:unidade_admin')
-        else:
-            messages.error(request, 'Erro ao adicionar Unidade.')
-            print("errors : ", form.errors)
-            print("fields : ", form.fields)
-    context = {'unidade': unidade}
+    paginator = Paginator(unidade, 10)
+    page = request.GET.get('page', 1)
+    obj = paginator.get_page(page)
+    context = {'obj': obj}
     return render(request, 'unidade/unidade_admin.html', context)
 
 
 def create_unidade_admin(request):
+    unidade = Unidade.objects.all()
+    grupo = Group.objects.all()
     form = UnidadeForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
@@ -172,25 +177,27 @@ def create_unidade_admin(request):
             messages.success(request, 'Unidade adicionada com sucesso!')
             return redirect('perfil:unidade_admin')
         else:
-            messages.error(request, 'Erro ao adicionar Unidade.')
-            print("errors : ", form.errors)
-            print("fields : ", form.fields)
-    context = {}
+            messages.error(request, f'{form.errors}')
+    context = {'form': form, 'unidade': unidade, 'grupo': grupo}
+    print(form.errors)
     return render(request, 'unidade/unidade_create.html', context)
 
 
 def update_unidade_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
-    form = UnidadeEmailForm(request.POST,  request.FILES or None, instance=unidade)
+    form = UnidadeUpdateForm(request.POST,  request.FILES or None,
+                             instance=unidade)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            messages.success(request, f'Unidade {unidade.nome} alterada com sucesso!')
+            messages.success(request, f'Unidade {unidade.nome} ' /
+            'alterada com sucesso!')
             return redirect('perfil:unidade_admin')
         else:
             messages.error(request, 'Erro campos inválidos.')
             print('erro: ', form.errors)
-    context = {'unidade': unidade, 'form': form}
+    context = {'unidade': unidade, 'form': form, "menus" : Menu.objects.all()}
+    logging.debug(dir(unidade.grupo))
     return render(request, 'unidade/unidade_update.html', context)
 
 

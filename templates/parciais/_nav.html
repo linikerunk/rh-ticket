@@ -5,7 +5,7 @@
   <ul id="topnav" class="mb-4">
     {% if user.is_authenticated %}
     {% if request.user|belong_group:"ADMINISTRADORES" %}
-    <li id="li-admin">
+    <li id="li-ADMINISTRADORES">
       <a href="#">Administrador</a>
         <span> 
           <a href="{% url 'perfil:unidade_admin' %}">Unidade</a>
@@ -14,7 +14,7 @@
     {% else %}
     {% endif %}
     {% if request.user|belong_group:"RH" %}
-    <li id="li-rh">
+    <li id="li-RH">
         <a href="#">RH</a>
         <span>
           <a href="#"></a>

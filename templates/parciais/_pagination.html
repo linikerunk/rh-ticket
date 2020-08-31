@@ -4,22 +4,22 @@
 
 <div class="pagination" >
     <ul class="pagination">
-        {% if tickets.has_previous %}
+        {% if obj.has_previous %}
         <li class="page-item">
             <a class="page-link" href="?page=1">Início</a>
         </li>
         <li class="page-item">
-            <a class="page-link" href="?page={{ tickets.previous_page_number }}">Anterior</a>
+            <a class="page-link" href="?page={{ obj.previous_page_number }}">Anterior</a>
         </li>
         {% endif %}
 
-        {% for page in tickets.paginator.page_range %}
+        {% for page in obj.paginator.page_range %}
 
-        {% if tickets.number == page %}
+        {% if obj.number == page %}
         <li class="page-item active">
             <a class="page-link" href="?page={{ page }}">{{ page }}</a>
         </li>
-        {% elif page > tickets.number|add:'-3' and page < tickets.number|add:'3' %}
+        {% elif page > obj.number|add:'-3' and page < obj.number|add:'3' %}
         <li class="page-item">
             <a class="page-link" href="?page={{ page }}">{{ page }}</a>
         </li>
@@ -27,12 +27,12 @@
 
         {% endfor %}
 
-        {% if tickets.has_next %}
+        {% if obj.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ tickets.next_page_number }}">Próximo</a>
+            <a class="page-link" href="?page={{ obj.next_page_number }}">Próximo</a>
         </li>
         <li class="page-item">
-            <a class="page-link" href="?page={{ tickets.paginator.num_pages }}">Último</a>
+            <a class="page-link" href="?page={{ obj.paginator.num_pages }}">Último</a>
         </li>
         {% endif %}
     </ul>

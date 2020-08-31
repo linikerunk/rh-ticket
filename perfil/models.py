@@ -22,9 +22,19 @@ class CustomLogEntry(LogEntry):
         proxy = True
 
 
+class Menu(models.Model):
+    nome = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.nome
+
+
 class Unidade(models.Model):
     nome = models.CharField(max_length=64, unique=True)
-    email = models.EmailField(max_length=250, verbose_name="E-mail", default="")
+    email = models.EmailField(max_length=250, verbose_name="E-mail",
+                              blank=True, default="")
+    menu = models.ManyToManyField("Menu")
+    grupo = models.ManyToManyField(Group)
 
     def __str__(self):
         return self.nome

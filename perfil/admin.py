@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from django.contrib.auth.admin import UserAdmin as BaseAdmin
 from django.contrib.auth.models import User 
-from .models import Unidade, Funcionario, CentroDeCusto, Acesso, Item
+from .models import Unidade, Funcionario, CentroDeCusto, Acesso, Item, Menu
 
 from auditlog.admin import LogEntryAdmin
 from auditlog.models import LogEntry
@@ -17,6 +17,12 @@ class CustomLogEntryAdmin(LogEntryAdmin, ImportExportModelAdmin):
     list_display_links = None
 
 admin.site.unregister(LogEntry)
+
+
+@admin.register(Menu)
+class MenuAdmin(admin.ModelAdmin):
+    list_display = ['nome']
+    list_filter = ['nome']
 
 
 @admin.register(Unidade)
