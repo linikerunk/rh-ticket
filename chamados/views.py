@@ -283,5 +283,6 @@ def listar(request):
             funcionario=funcionario).order_by('-data')
         paginator = Paginator(tickets, 10)
         page = request.GET.get('page', 1)
-        tickets = paginator.get_page(page)
-        return render(request, 'chamados/listar.html', {'tickets': tickets})
+        obj = paginator.get_page(page)
+        return render(request, 'chamados/listar.html', {'tickets': tickets,
+                                                        'obj': obj})
