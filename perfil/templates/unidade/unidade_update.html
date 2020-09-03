@@ -5,9 +5,10 @@
 
 {% block conteudo %}
 
+
 <h2 class="mb-4"><strong>{{ unidade.nome }}</strong></h2>
 <hr>
-<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:create_unidade_admin' %}">
+<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_unidade_admin' unidade.id %}">
     {% csrf_token %}
 
     <div class="form-row">
@@ -37,10 +38,10 @@
           <div class="form-check">
             <div class="m-1">
               <ul id="id_menu">
-                {% for menu  in menus %}
-                <li><label><input type="checkbox" name="{{ menu.nome }}"
-                  value="{{ menu }}" {% if menu in unidade.menus.all %} {% else %} checked {% endif %}>
-                  {{ menu.nome }}</label>
+                {% for menu in menus %}
+                <li>
+                  <input type="checkbox" name="{{ menu.nome }}" id="menu_{{ menu.id }}" value="{{ menu.id }}"
+                  {% if menu in unidade.menu.all %}checked {% else %} {% endif %}/><label><b>{{ menu.nome }}</b></label><br />
                  </li> 
                 {% endfor %}
                 </ul>
@@ -68,6 +69,7 @@
               </li>
               </form>
           </ul>
+        
         <div class="card-body" id="administrador">
         <ul class="list-group">
         <li class="list-group-item d-flex justify-content-between align-items-center">

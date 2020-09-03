@@ -67,6 +67,10 @@ class UnidadeForm(forms.ModelForm):
 
 
 class UnidadeUpdateForm(forms.ModelForm):
+    menu = forms.ModelMultipleChoiceField(
+            queryset=Menu.objects.all(),
+            widget=forms.CheckboxSelectMultiple,
+            required=True)
 
     def __init__(self, *args, **kwargs):
         super(UnidadeUpdateForm, self).__init__(*args, **kwargs)

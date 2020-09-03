@@ -183,7 +183,7 @@ def create_unidade_admin(request):
     return render(request, 'unidade/unidade_create.html', context)
 
 
-def update_unidade_admin(request, id):
+def update_unidade_admin(request, id): 
     unidade = get_object_or_404(Unidade, pk=id)
     form = UnidadeUpdateForm(request.POST,  request.FILES or None,
                              instance=unidade)
