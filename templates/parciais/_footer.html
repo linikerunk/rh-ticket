@@ -319,7 +319,6 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-
     $("#li-ADMINISTRADORES").click(function (){
       $(this).addClass("li-active");
       $('#li-ADMINISTRADORES').find('span').show();
@@ -377,41 +376,62 @@ $('#adicionar-categoria').click(function(){
 })
 
 // Rules of Groups
+// This events occurs when is clicked..
 $('#adicionar-grupo').click(function(){
   $('#grupo').toggle('slow');
-  $('#group-administrador').addClass("active");
-  $('#group-gestor').removeClass("active");
-  $('#group-rh').removeClass("active");
+  $('#list-RH').addClass("active");
+  $('#rh').show();
+  $('#gestor').hide();
+  $("#funcionario").hide();
+  $('#administrador').hide();
+})
+
+// List of HR ...
+$('#list-RH').click(function() {
+  $('#list-RH').addClass("active");
+  $('#list-GESTORES').removeClass("active");
+  $('#list-ADMINISTRADORES').removeClass("active");
+  $('#list-FUNCIONARIOS').removeClass("active");
+  $('#rh').show();
+  $('#gestor').hide();
+  $("#funcionario").hide();
+  $('#administrador').hide();
+})
+
+// List of GESTORES..
+$('#list-GESTORES').click(function(){
+  $('#list-GESTORES').addClass("active");
+  $('#list-RH').removeClass("active");
+  $('#list-ADMINISTRADORES').removeClass("active");
+  $('#list-FUNCIONARIOS').removeClass("active");
+  $('#rh').hide();
+  $('#gestor').show();
+  $("#funcionario").hide();
+  $('#administrador').hide();
+})
+
+// List of ADMINISTRADORES
+$('#list-ADMINISTRADORES').click(function(){
+  $('#list-ADMINISTRADORES').addClass("active");
+  $('#list-RH').removeClass("active");
+  $('#list-GESTORES').removeClass("active");
+  $('#list-FUNCIONARIOS').removeClass("active");
   $('#administrador').show();
+  $("#funcionario").hide();
   $('#rh').hide();
   $('#gestor').hide();
 })
 
-$('#group-administrador').click(function(){
-  $('#rh').hide();
-  $('#gestor').hide()
-  $('#administrador').toggle('slow');
-  $('#group-rh').removeClass("active");
-  $('#group-gestor').removeClass("active");
-  $('#group-administrador').addClass("active");
-})
-
-$('#group-gestor').click(function(){
+//List of FUNCIONARIOS
+$('#list-FUNCIONARIOS').click(function(){
+  $('#list-FUNCIONARIOS').addClass("active");
+  $('#list-RH').removeClass("active");
+  $('#list-GESTORES').removeClass("active");
+  $('#list-ADMINISTRADORES').removeClass("active");
+  $("#funcionario").show();
   $('#administrador').hide();
   $('#rh').hide();
-  $('#gestor').toggle('slow')
-  $('#group-rh').removeClass("active");
-  $('#group-administrador').removeClass("active");
-  $('#group-gestor').addClass("active");
-})
-
-$('#group-rh').click(function(){
-  $('#administrador').hide();
   $('#gestor').hide();
-  $('#rh').toggle('slow');
-  $('#group-rh').addClass("active");
-  $('#group-administrador').removeClass("active");
-  $('#group-gestor').removeClass("active");
 })
 
 </script>

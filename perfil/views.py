@@ -184,6 +184,10 @@ def create_unidade_admin(request):
 
 
 def update_unidade_admin(request, id): 
+    group_list_RH = Group.objects.filter(name="RH")
+    group_list_ADMINISTRADORES = Group.objects.filter(name="ADMINISTRADORES")
+    group_list_GESTORES = Group.objects.filter(name="GESTORES")
+    group_list_FUNCIONARIOS = Group.objects.filter(name="FUNCIONARIOS")
     unidade = get_object_or_404(Unidade, pk=id)
     form = UnidadeUpdateForm(request.POST,  request.FILES or None,
                              instance=unidade)
@@ -196,8 +200,14 @@ def update_unidade_admin(request, id):
         else:
             messages.error(request, 'Erro campos inválidos.')
             print('erro: ', form.errors)
-    context = {'unidade': unidade, 'form': form, "menus" : Menu.objects.all()}
-    logging.debug(dir(unidade.grupo))
+
+
+    context = {'unidade': unidade, 'form': form, "menus" : Menu.objects.all(),
+                'group_list_RH': group_list_RH,
+                'group_list_ADMINISTRADORES': group_list_ADMINISTRADORES,
+                'group_list_GESTORES': group_list_GESTORES,
+                'group_list_FUNCIONARIOS': group_list_FUNCIONARIOS}
+
     return render(request, 'unidade/unidade_update.html', context)
 
 
@@ -227,7 +237,6 @@ class Login(auth_views.LoginView):
         unidade  = Unidade.objects.all()
         re = Funcionario.objects.filter(unidade=unidade)
         context.update({'unidade': unidade,
-                        're': re,
-                      })
+                        're': re, })
         return context
 

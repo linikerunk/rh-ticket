@@ -5,7 +5,6 @@
 
 {% block conteudo %}
 
-
 <h2 class="mb-4"><strong>{{ unidade.nome }}</strong></h2>
 <hr>
 <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_unidade_admin' unidade.id %}">
@@ -41,7 +40,7 @@
                 {% for menu in menus %}
                 <li>
                   <input type="checkbox" name="{{ menu.nome }}" id="menu_{{ menu.id }}" value="{{ menu.id }}"
-                  {% if menu in unidade.menu.all %}checked {% else %} {% endif %}/><label><b>{{ menu.nome }}</b></label><br />
+                  {% if menu in unidade.menu.all %}checked {% else %} {% endif %}/><label><b>&nbsp; &nbsp; {{ menu.nome }}</b></label><br />
                  </li> 
                 {% endfor %}
                 </ul>
@@ -58,7 +57,7 @@
           <div class="card">
           <ul class="list-group list-group-horizontal">
             {% for name in unidade.grupo.all %}
-              <li class="list-group-item" id="li-{{ name }}" style="width: 22%;"><span class="mr-1 ml-1">{{ name }}</span></li>
+              <li class="list-group-item" id="list-{{ name }}" style="width: 22%;"><span class="mr-1 ml-1">{{ name }}</span></li>
             {% endfor %}
               <form class="form-inline">
               <li class="list-group-item" id="pesquisar-membro" style="width: 25%;">
@@ -69,37 +68,64 @@
               </li>
               </form>
           </ul>
+
+          <div class="card-body" id="rh">
+            <ul class="list-group">
+              {% for group in group_list_RH %}
+                  {% for user in group.user_set.all %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span id="re" style="width: 30%;">{{ user.funcionario.re_funcionario }}</span>
+                  <span id="nome" style="width: 60%;">{{ user.funcionario.nome }}</span>
+                  <a href="#" id="remove-rh"><img src="{% static 'assets\icons\cancel.png' %}"></a>
+                  </li>
+                  {% endfor %}
+                  {% endfor %}
+            </ul>
+            </div>
+
+            <div class="card-body" id="gestor">
+              <ul class="list-group">
+                {% for group in group_list_GESTORES %}
+                  {% for user in group.user_set.all %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span id="re" style="width: 30%;">{{ user.funcionario.re_funcionario }}</span>
+                  <span id="nome" style="width: 60%;">{{ user.funcionario.nome }}</span>
+                  <a href="#" id="remove-gestor"><img src="{% static 'assets\icons\cancel.png' %}"></a>
+                  </li>
+                  {% endfor %}
+                  {% endfor %}
+              </ul>
+              </div>
         
         <div class="card-body" id="administrador">
         <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-        <span id="re" style="width: 30%;">7499</span>
-        <span id="nome" style="width: 60%;">Pedro Melo</span>
-        <span id="remove-administrador" style="width: 10%;"><img src="{% static 'assets\icons\cancel.png' %}"></span>
-        </li>
+          {% for group in group_list_ADMINISTRADORES %}
+          {% for user in group.user_set.all %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span id="re" style="width: 30%;">{{ user.funcionario.re_funcionario }}</span>
+            <span id="nome" style="width: 60%;">{{ user.funcionario.nome }}</span>
+            <a href="#" id="remove-administradores"><img src="{% static 'assets\icons\cancel.png' %}"></a>
+            </li>
+            {% endfor %}
+            {% endfor %}
         </ul>
         
         </div>
-        
-        <div class="card-body" id="gestor">
-        <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-        <span id="re" style="width: 30%;">81945</span>
-        <span id="nome" style="width: 60%;">Liniker Oliveira</span>
-        <span id="remove-administrador" style="width: 10%;"><img src="{% static 'assets\icons\cancel.png' %}"></span>
-        </li>
-        </ul>
-        </div>
-        
-        <div class="card-body" id="rh">
-        <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-        <span id="re" style="width: 30%;">6465</span>
-        <span id="nome" style="width: 60%;">Fabiana Carvalho</span>
-        <span id="remove-administrador" style="width: 10%;"><img src="{% static 'assets\icons\cancel.png' %}"></span>
-        </li>
-        </ul>
-        </div>
+
+        <div class="card-body" id="funcionario">
+          <ul class="list-group">
+            {% for group in group_list_FUNCIONARIOS %}
+            {% for user in group.user_set.all %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span id="re" style="width: 30%;">{{ user.funcionario.re_funcionario }}</span>
+              <span id="nome" style="width: 60%;">{{ user.funcionario.nome }}</span>
+              <a href="#" id="remove-funcionarios"><img src="{% static 'assets\icons\cancel.png' %}"></a>
+              </li>
+              {% endfor %}
+              {% endfor %}
+          </ul>
+          </div>
+
         </div>
           
             </div>
