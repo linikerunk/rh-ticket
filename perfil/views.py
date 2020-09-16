@@ -58,8 +58,7 @@ def atualizar_perfil(request, id):
             messages.error(request, 'Erro campos inválidos.')
             print('erro: ', form.errors)
 
-    return render(request, 'perfil/perfil.html', {'form': form,
-                                                  'funcionario': funcionario})
+    return render(request, 'perfil/perfil.html', {'form': form,                                              'funcionario': funcionario})
 
 
 @login_required
@@ -147,6 +146,7 @@ def verifica_admissao(request):
                                                           'unidade': unidade})
 
 
+@login_required
 def reset_password(request):
     if request.method == 'POST':
         form = ResetPasswordFormCustom(data=request.POST, user=None)
@@ -159,6 +159,7 @@ def reset_password(request):
     return render(request, 'perfil/reset_senha.html', {})
 
 
+@login_required
 def unidade_admin(request):
     unidade = Unidade.objects.order_by('-id').all()
     paginator = Paginator(unidade, 10)
@@ -168,6 +169,7 @@ def unidade_admin(request):
     return render(request, 'unidade/unidade_admin.html', context)
 
 
+@login_required
 def create_unidade_admin(request):
     unidade = Unidade.objects.all()
     grupo = Group.objects.all()
@@ -184,6 +186,7 @@ def create_unidade_admin(request):
     return render(request, 'unidade/unidade_create.html', context)
 
 
+@login_required
 def update_unidade_admin(request, id):
     group = Group.objects.all()
     unidade = get_object_or_404(Unidade, pk=id)
@@ -195,22 +198,31 @@ def update_unidade_admin(request, id):
     return render(request, 'unidade/unidade_update.html', context)
 
 
+@login_required
 def update_email_admin(request, id):
-    pass
+    print("46%")
+    return render(request, 'unidade/unidade_update.html', context)
 
 
+@login_required
 def update_menu_admin(request, id):
-    pass
+    print("63%")
+    return render(request, 'unidade/unidade_update.html', context)
 
 
+@login_required
 def update_grupo_admin(request, id):
-    pass
+    print("70%")
+    return render(request, 'unidade/unidade_update.html', context)
 
 
+@login_required
 def update_categoria_admin(request, id):
-    pass
+    print("76%")
+    return render(request, 'unidade/unidade_update.html', context)
 
 
+@login_required
 def delete_unidade_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     if request.method == "POST":

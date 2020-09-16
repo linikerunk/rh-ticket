@@ -9,7 +9,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver  # receiver PostSignal 2
 from django.core.files.storage import default_storage
 from django.conf import settings
-from chamados.models import ResponsavelCategoria
+
 
 PHOTOS_FOLDER = 'espelhos'
 DEFAULT = '0000.JPG'
@@ -35,7 +35,7 @@ class Unidade(models.Model):
                               blank=True, default="")
     menu = models.ManyToManyField("Menu")
     grupo = models.ManyToManyField(Group)
-    responsaveis_categoria = models.ManyToManyField(ResponsavelCategoria)
+    responsaveis_categoria = models.ManyToManyField("chamados.ResponsavelCategoria")
 
     def __str__(self):
         return self.nome

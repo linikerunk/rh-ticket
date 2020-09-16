@@ -6,6 +6,7 @@ from .models import (
 Ticket,
 Categoria,
 SubCategoria,
+ResponsavelCategoria,
 HistoricoTicket,
 )
 from perfil.models import Funcionario
@@ -46,6 +47,9 @@ class HistoricoTicketAdmin(ImportExportModelAdmin):
     list_display = ['funcionario', 'ticket', 'data_mensagem']
     fields = ['data_mensagem', 'mensagem', 'ticket', 'funcionario']
 
+@admin.register(ResponsavelCategoria)
+class ResponsavelCategoria(ImportExportModelAdmin):
+    list_display = ['responsavel', 'subcategoria']
 
 
 # class ModeloFormularioCampoInline(admin.TabularInline):

@@ -15,8 +15,12 @@ verifica_admissao,
 set_password,
 unidade_admin,
 create_unidade_admin,
-update_unidade_admin,
 delete_unidade_admin,
+update_unidade_admin,
+update_email_admin,
+update_menu_admin,
+update_grupo_admin,
+update_categoria_admin,
 )
 
 app_name = "perfil"
@@ -39,7 +43,13 @@ urlpatterns = [
     name="create_unidade_admin"),
     path("perfil/update_unidade_admin/<int:id>/", update_unidade_admin,
     name="update_unidade_admin"),
-    path("perfil/delete_unidade_admin/<int:id>/", delete_unidade_admin,
-    name="delete_unidade_admin"),
+    path("perfil/update_email_admin/<int:id>/", update_email_admin,
+    name="update_email_admin"),
+    path("perfil/update_menu_admin/<int:id>/", update_menu_admin,
+    name="update_menu_admin"),
+    path("perfil/update_grupo_admin/<int:id>/", update_grupo_admin,
+    name="update_grupo_admin"),
+    path("perfil/update_categoria_admin/<int:id>/", update_categoria_admin,
+    name="update_categoria_admin"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
