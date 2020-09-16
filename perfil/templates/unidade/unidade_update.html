@@ -30,16 +30,16 @@
             <input type="email" class="form-control" name="email" id="email" value="{{ unidade.email }}"
           placeholder="Ex: rhsalto.au_gs_fa@continental-corporation.com">
         
-      </form>
-      <div class="col-md-12 mt-4">
-      <button type="submit" class="btn btn-success w-50">Salvar novo e-mail</button>
-      <a href="{% url 'perfil:unidade_admin' %}" class="btn btn-warning pr-5 pl-5 ">Voltar</a>
+          <div class="col-md-12 mt-4">
+            <button type="submit" class="btn btn-success w-50">Salvar novo e-mail</button>
+            <a href="{% url 'perfil:unidade_admin' %}" class="btn btn-warning pr-5 pl-5 ">Voltar</a>
+</form>
       </div>
 
         </div>
 
-        <div class="col-md-12 mt-3">
-<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_unidade_admin' unidade.id %}">
+<div class="col-md-12 mt-3">
+<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_menu_admin' unidade.id %}">
       {% csrf_token %}
         <a href="#" id="adicionar-menu"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
         <label>Menu (Define menus visualizados) :</label>
@@ -57,10 +57,10 @@
                 </ul>
             </div>
             </div>
-            </form>
-        <div class="col-md-12 mt-4">
-        <button type="submit" class="btn btn-success w-25">Salvar menus</button>
-        <a href="{% url 'perfil:unidade_admin' %}" class="btn btn-warning pr-5 pl-5 ">Voltar</a>
+            <div class="col-md-12 mt-4">
+              <button type="submit" class="btn btn-success w-25">Salvar menus</button>
+              <a href="{% url 'perfil:unidade_admin' %}" class="btn btn-warning pr-5 pl-5 ">Voltar</a>
+</form>
         </div>
         </div>
         

@@ -18,6 +18,7 @@ from perfil.forms import (
     FuncionarioForm,
     UnidadeForm,
     UnidadeUpdateForm,
+    UnidadeMenuForm,
     CustomAuthenticationForm,
     PasswordChangeFormCustom,
     VerificaAdmissao
@@ -200,25 +201,36 @@ def update_unidade_admin(request, id):
 
 @login_required
 def update_email_admin(request, id):
-    print("46%")
+    unidade = get_object_or_404(Unidade, pk=id)
+    context = {'unidade': unidade}
     return render(request, 'unidade/unidade_update.html', context)
 
 
 @login_required
 def update_menu_admin(request, id):
-    print("63%")
+    unidade = get_object_or_404(Unidade, pk=id)
+    form = UnidadeMenuForm(request.POST or None, instance=unidade)
+    print("Formulário : ", form)
+    if form.is_valid():
+        form.save()
+        context = {'form': form}
+        return render()
+    else:
+        print("form errors : ", form.errors)
+        print("form fields : ", form.fields)
+    context = {'form': form}
     return render(request, 'unidade/unidade_update.html', context)
 
 
 @login_required
 def update_grupo_admin(request, id):
-    print("70%")
+    context = {}
     return render(request, 'unidade/unidade_update.html', context)
 
 
 @login_required
 def update_categoria_admin(request, id):
-    print("76%")
+    context = {}
     return render(request, 'unidade/unidade_update.html', context)
 
 

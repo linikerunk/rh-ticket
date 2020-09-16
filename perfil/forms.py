@@ -110,7 +110,7 @@ class UnidadeMenuForm(forms.ModelForm):
         required=True)
 
     def __init__(self, *args, **kwargs):
-        super(UnidadeUpdateForm, self).__init__(*args, **kwargs)
+        super(UnidadeMenuForm, self).__init__(*args, **kwargs)
         self.fields["menu"].widget = CheckboxSelectMultiple()
         self.fields["menu"].queryset = Menu.objects.all()
 
