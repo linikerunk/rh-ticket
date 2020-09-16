@@ -43,6 +43,8 @@ urlpatterns = [
     name="create_unidade_admin"),
     path("perfil/update_unidade_admin/<int:id>/", update_unidade_admin,
     name="update_unidade_admin"),
+    path("perfil/delete_unidade_admin/<int:id>/", delete_unidade_admin,
+    name="delete_unidade_admin"),
     path("perfil/update_email_admin/<int:id>/", update_email_admin,
     name="update_email_admin"),
     path("perfil/update_menu_admin/<int:id>/", update_menu_admin,
