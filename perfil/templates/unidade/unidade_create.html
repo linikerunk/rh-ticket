@@ -12,7 +12,7 @@
     {% csrf_token %}
     <div class="form-row">
         <div class="col-md-12">
-        <label>Nome da Unidade:</label>
+        <label>Nome da Unidade : </label>
         </div>
         <div class="col-md-6">
           <input type="text" class="form-control" name="nome" id="nome_unidade" value="{{ unidade.nome }}"
@@ -28,7 +28,7 @@
           </div>
         <div class="col-md-12 mt-3">
         <a href="#" id="adicionar-menu"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
-        <label>Menu (define menus visualizados) :</label>
+        <label>Menu (define menus visualizados) : </label>
         <div id="check-menu">
           <div class="form-check">
             <div class="m-1">
@@ -40,7 +40,7 @@
 
         <div class="col-md-12 mt-3">
           <a href="#" id="adicionar-grupo"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
-          <label>Grupo (Define grupo para pessoas):</label>
+          <label>Grupo (Define grupo para pessoas): </label>
           <div class="col-md-6" id="grupo">
             
             <select class="form-control" name="grupo" multiple>

@@ -379,61 +379,39 @@ $('#adicionar-categoria').click(function(){
 // This events occurs when is clicked..
 $('#adicionar-grupo').click(function(){
   $('#grupo').toggle('slow');
-  $('#list-RH').addClass("active");
-  $('#rh').show();
-  $('#gestor').hide();
-  $("#funcionario").hide();
-  $('#administrador').hide();
 })
 
-// List of HR ... 2.0
-$('#list-RH').click(function() {
-  $('#list-RH').addClass("active");
-  $('#list-GESTORES').removeClass("active");
-  $('#list-ADMINISTRADORES').removeClass("active");
-  $('#list-FUNCIONARIOS').removeClass("active");
-  $('#rh').show();
-  $('#gestor').hide();
-  $("#funcionario").hide();
-  $('#administrador').hide();
-})
+// This action occurs when I select the select-options of group ... 
+$('#grupo_unidade').change(function () {
+    var selectedGroup = $(this).children("option:selected").val();
+    var grupo_atual = $("#grupo_atual")
+    var url = '/seleciona_grupo/' + selectedGroup + "/"
+     jQuery.ajax({
+        url: url,
+        type: 'GET',
+        data: {
+          selectedGroup : selectedGroup,
+        },
 
-// List of GESTORES..
-$('#list-GESTORES').click(function(){
-  $('#list-GESTORES').addClass("active");
-  $('#list-RH').removeClass("active");
-  $('#list-ADMINISTRADORES').removeClass("active");
-  $('#list-FUNCIONARIOS').removeClass("active");
-  $('#rh').hide();
-  $('#gestor').show();
-  $("#funcionario").hide();
-  $('#administrador').hide();
-})
+        beforeSend: function (xhr) {
+        },
 
-// List of ADMINISTRADORES
-$('#list-ADMINISTRADORES').click(function(){
-  $('#list-ADMINISTRADORES').addClass("active");
-  $('#list-RH').removeClass("active");
-  $('#list-GESTORES').removeClass("active");
-  $('#list-FUNCIONARIOS').removeClass("active");
-  $('#administrador').show();
-  $("#funcionario").hide();
-  $('#rh').hide();
-  $('#gestor').hide();
-})
+        success: function (data) {
+          console.log(data)
+        },
 
-//List of FUNCIONARIOS
-$('#list-FUNCIONARIOS').click(function(){
-  $('#list-FUNCIONARIOS').addClass("active");
-  $('#list-RH').removeClass("active");
-  $('#list-GESTORES').removeClass("active");
-  $('#list-ADMINISTRADORES').removeClass("active");
-  $("#funcionario").show();
-  $('#administrador').hide();
-  $('#rh').hide();
-  $('#gestor').hide();
+        error: function (xhr) {
+          console.log(xhr.error)
+          
+        },
+        complete: function () {
+          // body...
+        }
+      })
+    
 })
 
 </script>
+
 </head>
 

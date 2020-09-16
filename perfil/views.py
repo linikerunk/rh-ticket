@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import (
-authenticate, login, logout, update_session_auth_hash)
+    authenticate, login, logout, update_session_auth_hash)
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserChangeForm
@@ -13,16 +13,17 @@ from django.views.generic.edit import FormView
 from django.core.paginator import Paginator
 from django.contrib import messages
 from perfil.forms import (
-SetPasswordFormCustom,
-ResetPasswordFormCustom,
-FuncionarioForm,
-UnidadeForm,
-UnidadeUpdateForm,
-CustomAuthenticationForm,
-PasswordChangeFormCustom,
-VerificaAdmissao
+    SetPasswordFormCustom,
+    ResetPasswordFormCustom,
+    FuncionarioForm,
+    UnidadeForm,
+    UnidadeUpdateForm,
+    CustomAuthenticationForm,
+    PasswordChangeFormCustom,
+    VerificaAdmissao
 )
 from .models import Funcionario, Unidade, Menu
+from chamados.models import Categoria, SubCategoria
 from perfil.decorators import verificar_funcionario
 
 
@@ -30,14 +31,14 @@ from perfil.decorators import verificar_funcionario
 @login_required
 def perfil(request):
     funcionario = Funcionario.objects.get(id=request.user.funcionario.id)
-    context = {'funcionario': funcionario} 
+    context = {'funcionario': funcionario}
     return render(request, 'perfil/perfil.html', context)
 
 
 @verificar_funcionario()
 @login_required
 def espelho(request):
-    funcionario = Funcionario.objects.get(usuario = request.user)
+    funcionario = Funcionario.objects.get(usuario=request.user)
     context = {'funcionario': funcionario}
     return render(request, 'perfil/espelho.html', context)
 
@@ -58,14 +59,14 @@ def atualizar_perfil(request, id):
             print('erro: ', form.errors)
 
     return render(request, 'perfil/perfil.html', {'form': form,
-                                                 'funcionario': funcionario})
+                                                  'funcionario': funcionario})
 
 
 @login_required
 def set_password(request):
     funcionario = request.user.funcionario
     if request.method == 'POST':
-        form =  PasswordChangeFormCustom(data=request.POST,  user=request.user)
+        form = PasswordChangeFormCustom(data=request.POST,  user=request.user)
 
         old_password = form.data["old_password"]
         admissao = str(form.data["admissao"])
@@ -79,19 +80,19 @@ def set_password(request):
         elif admissao.replace('/', '') != admissao_banco_dados.replace('/', ''):
             messages.error(request, "A data de admissão está inválida")
             return render(request, "perfil/modificar_senha.html",
-                                    {'form': form})
-        
+                          {'form': form})
+
         elif len(form.data['new_password1']) < 8:
-            messages.error(request, "A senha precisa ser maior que 8 dígitos " / 
-            "ser composta por letras e números e uma letra maiúscula ")
+            messages.error(request, "A senha precisa ser maior que 8 dígitos " /
+                           "ser composta por letras e números e uma letra maiúscula ")
             return render(request, "perfil/modificar_senha.html",
                                    {'form': form})
 
         elif str(form.data['new_password1']) != str(form.data['new_password2']):
             messages.error(request, "As senha não se combinam.")
-            return render(request, "perfil/modificar_senha.html", 
-                                    {'form': form})
-        
+            return render(request, "perfil/modificar_senha.html",
+                          {'form': form})
+
         if form.is_valid():
             form.save()
             funcionario.primeiro_acesso = False
@@ -123,7 +124,7 @@ def meu_logout(request):
 #         # This method is called when valid form data has been POSTed.
 #         # It should return an HttpResponse.
 #         return super().form_valid(form)
-    
+
 #     def post(self, request, *args, **kwargs):
 #         self.object = None
 #         return super().post(request, *args, **kwargs)
@@ -131,7 +132,7 @@ def meu_logout(request):
 
 def verifica_admissao(request):
     unidade = Unidade.objects.all()
-    form = VerificaAdmissao() 
+    form = VerificaAdmissao()
     if request.method == "POST":
         form = VerificaAdmissao(request.POST or None)
 
@@ -141,9 +142,9 @@ def verifica_admissao(request):
         else:
             print(form.errors)
         return render(request, 'perfil/verifica_senha.html', {'form': form,
-                                                          'unidade': unidade})
+                                                              'unidade': unidade})
     return render(request, 'perfil/verifica_senha.html', {'form': form,
-                                                        'unidade': unidade})
+                                                          'unidade': unidade})
 
 
 def reset_password(request):
@@ -183,39 +184,38 @@ def create_unidade_admin(request):
     return render(request, 'unidade/unidade_create.html', context)
 
 
-def update_unidade_admin(request, id): 
-    group_list_RH = Group.objects.filter(name="RH")
-    group_list_ADMINISTRADORES = Group.objects.filter(name="ADMINISTRADORES")
-    group_list_GESTORES = Group.objects.filter(name="GESTORES")
-    group_list_FUNCIONARIOS = Group.objects.filter(name="FUNCIONARIOS")
+def update_unidade_admin(request, id):
+    group = Group.objects.all()
     unidade = get_object_or_404(Unidade, pk=id)
-    form = UnidadeUpdateForm(request.POST,  request.FILES or None,
-                             instance=unidade)
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            messages.success(request, f'Unidade {unidade.nome} ' /
-            'alterada com sucesso!')
-            return redirect('perfil:unidade_admin')
-        else:
-            messages.error(request, 'Erro campos inválidos.')
-            print('erro: ', form.errors)
-
-
-    context = {'unidade': unidade, 'form': form, "menus" : Menu.objects.all(),
-                'group_list_RH': group_list_RH,
-                'group_list_ADMINISTRADORES': group_list_ADMINISTRADORES,
-                'group_list_GESTORES': group_list_GESTORES,
-                'group_list_FUNCIONARIOS': group_list_FUNCIONARIOS}
-
+    menus = Menu.objects.all()
+    categoria = Categoria.objects.all()
+    subcategoria = SubCategoria.objects.all()
+    context = {'unidade': unidade, "menus": menus, 'group': group,
+               'categoria': categoria, 'subcategoria': subcategoria}
     return render(request, 'unidade/unidade_update.html', context)
+
+
+def update_email_admin(request, id):
+    pass
+
+
+def update_menu_admin(request, id):
+    pass
+
+
+def update_grupo_admin(request, id):
+    pass
+
+
+def update_categoria_admin(request, id):
+    pass
 
 
 def delete_unidade_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     if request.method == "POST":
-        messages.success(request, 
-        f'Unidade {unidade.nome} removida com sucesso!')
+        messages.success(request,
+                         f'Unidade {unidade.nome} removida com sucesso!')
         unidade.delete()
         return redirect('perfil:unidade_admin')
     context = {'unidade': unidade}
@@ -224,19 +224,17 @@ def delete_unidade_admin(request, id):
 
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm
-    template_name= 'perfil/login.html'
-    
+    template_name = 'perfil/login.html'
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        unidade  = Unidade.objects.all()
+        unidade = Unidade.objects.all()
         re = Funcionario.objects.filter(unidade=unidade)
         context.update({'unidade': unidade,
                         're': re, })
         return context
-

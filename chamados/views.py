@@ -4,12 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.views import View
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth.models import User  # Chamados
+from django.contrib.auth.models import User, Group  # Chamados
 from django.core.mail import send_mail, send_mass_mail
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.utils import timezone
+from django.template import Context
 
 from .models import Ticket, Categoria, SubCategoria, HistoricoTicket
 from perfil.models import Funcionario, Unidade
@@ -23,6 +24,12 @@ def funcionario_login_reset_ajax(request, id):
     re_funcionario = request.GET.get('username')
     response = {'re_funcionario': re_funcionario}
     return JsonResponse(response)
+
+
+def seleciona_grupo_ajax(request, id):
+    group_selected = Group.objects.filter(id=id)
+    response = Context({'group_selected': group_selected})
+    return HttpResponse(response)
 
 
 def funcionario_login_ajax(request, id):
