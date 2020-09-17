@@ -50,8 +50,8 @@
               <ul id="id_menu">
                 {% for menu in menus %}
                 <li>
-                  <input type="checkbox" name="{{ menu.nome }}" id="menu_{{ menu.id }}" value="{{ menu.id }}"
-                  {% if menu in unidade.menu.all %}checked {% else %} {% endif %}/><label><b>&nbsp; &nbsp; {{ menu.nome }}</b></label><br />
+                  <input type="checkbox" name="{{ menu.nome }}" id="menu_{{ menu.id }}" value="{{ menu }}"
+                  {% if menu in unidade.menu.all %} checked {% else %} {% endif %}/><label><b>&nbsp; &nbsp; {{ menu.nome }}</b></label><br />
                  </li> 
                 {% endfor %}
                 </ul>

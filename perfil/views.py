@@ -59,7 +59,8 @@ def atualizar_perfil(request, id):
             messages.error(request, 'Erro campos inválidos.')
             print('erro: ', form.errors)
 
-    return render(request, 'perfil/perfil.html', {'form': form,                                              'funcionario': funcionario})
+    return render(request, 'perfil/perfil.html', {'form': form,
+                                                  'funcionario': funcionario})
 
 
 @login_required
@@ -201,8 +202,7 @@ def update_unidade_admin(request, id):
 
 @login_required
 def update_email_admin(request, id):
-    unidade = get_object_or_404(Unidade, pk=id)
-    context = {'unidade': unidade}
+    context = {}
     return render(request, 'unidade/unidade_update.html', context)
 
 
@@ -210,16 +210,14 @@ def update_email_admin(request, id):
 def update_menu_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     form = UnidadeMenuForm(request.POST or None, instance=unidade)
-    print("Formulário : ", form)
     if form.is_valid():
         form.save()
         context = {'form': form}
-        return render()
-    else:
-        print("form errors : ", form.errors)
-        print("form fields : ", form.fields)
+        return redirect('perfil:unidade_admin')
+    print("form errors : ", form.errors)
+    print("form datas : ", form.data)
     context = {'form': form}
-    return render(request, 'unidade/unidade_update.html', context)
+    return redirect('perfil:unidade_admin')
 
 
 @login_required
