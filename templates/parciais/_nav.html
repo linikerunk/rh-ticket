@@ -25,11 +25,18 @@
     <li id="li-user" class="li-active">
         <a href="#">{{ request.user.funcionario.nome }}</a>
         <span class="li-active">
-          {{ request.user.funcionario.unidade.menu.all }}
+          {% if request.user.funcionario.unidade.menu.values_list|unity_menu:"Perfil" %}
           <a href="{% url 'perfil:perfil' %}">Perfil</a>
+          {% endif %}
+          {% if request.user.funcionario.unidade.menu.values_list|unity_menu:"Espelho" %}
           <a href="{% url 'perfil:espelho' %}">Espelho</a>
+          {% endif %}
+          {% if request.user.funcionario.unidade.menu.values_list|unity_menu:"Chamado" %}
           <a href="{% url 'chamados:enviar' %}">Chamado</a>
-          <a href="{% url 'chamados:listar' %}">Tickets</a>
+          {% endif %}
+          {% if request.user.funcionario.unidade.menu.values_list|unity_menu:"Ticket"  %}
+          <a href="{% url 'chamados:listar' %}">Ticket</a>
+          {% endif %}
         </span>
     </li>
     <li id="li-power">

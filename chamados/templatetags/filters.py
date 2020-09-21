@@ -1,5 +1,6 @@
 from django import template
 from django.contrib.auth.models import Group
+from perfil.models import Menu, Unidade
 
 register = template.Library()
 
@@ -31,3 +32,11 @@ def photo_view(image):
     if image == "0000.JPG":
         return True
     return False
+
+
+@register.filter(name='unity_menu')
+def unity_menu(list_menu, menu):
+    list_menu = map(lambda menu: menu[1], list_menu)
+    if menu in list_menu:
+        return menu
+    return ''

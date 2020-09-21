@@ -180,6 +180,7 @@ def create_unidade_admin(request):
     if request.method == "POST":
         if form.is_valid():
             form.save()
+
             messages.success(request, 'Unidade adicionada com sucesso!')
             return redirect('perfil:unidade_admin')
         else:
@@ -192,7 +193,7 @@ def create_unidade_admin(request):
 @login_required
 def update_unidade_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
-    context = {'unidade': unidade,}
+    context = {'unidade': unidade, }
     return render(request, 'unidade/unidade_update.html', context)
 
 
