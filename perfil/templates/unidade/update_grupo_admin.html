@@ -4,5 +4,62 @@
 {% block titulo %} Alteração de Grupo {% endblock %}
 
 {% block conteudo %}
-<h1> Alteração de Grupo </h1>
+
+
+<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_grupo_admin' unidade.id %}">
+        {% csrf_token %}
+            <a href="#" id="adicionar-grupo"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
+            <label>Grupo (Define grupo para pessoas):</label>
+         
+            <div id="grupo" class="col-md-12">
+              
+          <div class="row p-2">
+                <table class="table table-striped table-responsive border rounded bg-light shadow">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col" style="width: 20%; text-align : left;">Grupo</th>
+                      <th scope="col" style="width: 25%; text-align : left;">Funcionário</th>
+                      <th scope="col" style="width: 8%; text-align : left;"></th>
+                    </tr>
+                  </thead>
+                  <tbody>   
+                    <tr>
+                      <td style="text-align : left;">
+                        <select name="grupo" id="grupo_unidade" class="select form-control form-control">
+                          <option value="" selected>----------</option>
+                          {% for group in group %}
+                          <option name="selected_group" value="{{ group.id }}">{{ group.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                      <td scope="row" style="text-align : left;">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Digite o RE do Funcionário" name="adiciona_funcionario" id="adiciona_funcionario" aria-label="Search">
+                      </td>
+                      <td style="text-align : left;">
+                        </form>
+                        <button class="btn btn-success pr-5 pl-5 w-100">Adicionar</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+
+                 <table class="table table-striped table-responsive border rounded bg-light shadow">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col" style="width: 19%; text-align : left;">RE</th>
+                      <th scope="col" style="width: 29%; text-align : left;">Funcionário</th>
+                      <th scope="col" style="width: 8%; text-align : left;">Opções</th>
+                    </tr>
+                  </thead>
+                  <tbody>   
+                    <tr>
+                      <td style="text-align : left;">{{ user.funcionario.re_funcionario }}</td>
+                      <td scope="row" style="text-align : left;"> {{ user.funcionario.nome }}</td>
+                      <td><a style="color: red;" href="#">Remover</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+          </div>
+          </div>
 {% endblock %}

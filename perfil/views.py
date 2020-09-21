@@ -20,6 +20,7 @@ from perfil.forms import (
     UnidadeUpdateForm,
     UnidadeEmailForm,
     UnidadeMenuForm,
+    UnidadeGrupoForm,
     CustomAuthenticationForm,
     PasswordChangeFormCustom,
     VerificaAdmissao
@@ -233,7 +234,9 @@ def update_menu_admin(request, id):
 def update_grupo_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     group = Group.objects.all()
-    context = {'group': group}
+    if request.method == 'POST':
+        form = UnidadeGrupoForm(request.POST or None, instance=unidade)
+    context = {'group': group, 'unidade': unidade}
     return render(request, 'unidade/update_grupo_admin.html', context)
 
 
