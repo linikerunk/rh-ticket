@@ -6,9 +6,43 @@
 {% block conteudo %}
 
 
-<h2 class="mb-4"><strong>{{ unidade.nome }}</strong></h2>
+<h2 class="mb-4">Nome da unidade : {{ unidade.nome }}</h2>
 <hr>
-<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_email_admin' unidade.id %}">
+<div class="row">
+  <div class="col-md-6">
+  <table class="table table-striped table-responsive border rounded bg-light shadow">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" style="width: 10%; text-align : left;">Campo a ser alterado</th>
+        <th scope="col" style="width: 1%; text-align : left;">Opções</th>
+      </tr>
+    </thead>
+    <tbody> 
+      <tr>
+        <td>E-mail</td>
+        <td><a style="color: #29629e;" href="{% url 'perfil:update_email_admin' unidade.id %}">Alterar</a></td>
+        </tr>
+        <td>Menu</td>
+        <td><a style="color: #29629e;" href="{% url 'perfil:update_menu_admin' unidade.id %}">Alterar</a></td>
+        </tr>
+        <td>Grupo</td>
+        <td><a style="color: #29629e;" href="{% url 'perfil:update_grupo_admin' unidade.id %}">Alterar</a></td>
+        </tr>
+        <td>Categoria</td>
+        <td><a style="color: #29629e;" href="{% url 'perfil:update_categoria_admin' unidade.id %}">Alterar</a></td>
+        </tr>
+    </tbody>
+  </table>
+  <tfoot>
+    <p class="lead ml-5 pl-5"><a href="{% url 'perfil:unidade_admin' %}"> Voltar para listagem de unidades</a></p>
+        </tfoot>
+      
+  </div>
+  </div>
+
+{% endblock %}
+
+<!-- <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_email_admin' unidade.id %}">
     {% csrf_token %}
 
     <div class="form-row">
@@ -128,7 +162,7 @@
                     </tbody>
                   </table> {% endcomment %}
 
-                </div> <!-- ./ row -->
+                </div>
       </div>
             
             </div>
@@ -201,7 +235,6 @@
                       </tr>
                     </tbody>
                   </table>
-                </div>
-{% endblock %}
+                </div> -->
 
 

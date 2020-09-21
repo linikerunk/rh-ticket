@@ -25,6 +25,7 @@
     <li id="li-user" class="li-active">
         <a href="#">{{ request.user.funcionario.nome }}</a>
         <span class="li-active">
+          {{ request.user.funcionario.unidade.menu.all }}
           <a href="{% url 'perfil:perfil' %}">Perfil</a>
           <a href="{% url 'perfil:espelho' %}">Espelho</a>
           <a href="{% url 'chamados:enviar' %}">Chamado</a>

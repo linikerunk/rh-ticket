@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+<!-- #UTF-8 -->
+{% block titulo %} Alteração de Grupo {% endblock %}
+
+{% block conteudo %}
+<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_menu_admin' unidade.id %}">
+      {% csrf_token %}
+        <a href="#" id="adicionar-menu"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
+        <label>Menu (Define menus visualizados) :</label>
+
+        <div id="check-menu">
+          <div class="form-check">
+            <div class="m-1">
+              <ul id="id_menu">
+                  {{ form }}
+                </ul>
+            </div>
+            </div>
+            <div class="col-md-12 mt-4">
+              <button type="submit" class="btn btn-success w-25">Salvar menus</button>
+              <a href="{% url 'perfil:unidade_admin' %}" class="btn btn-warning pr-5 pl-5 ">Voltar</a>
+</form>
+        </div>
+        </div>
+{% endblock %}

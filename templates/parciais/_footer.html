@@ -312,7 +312,6 @@
       $("#dinamic-lines").append("<tr id='row"+i+"'><td><input type='text' class='form-control' id='registro-re-ferias' name='registro-funcionario' placeholder='RE'></td><td><input type='text' class='form-control' id='nome-ferias' name='registro-funcionario' placeholder='Nome do Funcionário'></td><td> <input type='text' class='form-control' id='data-ferias' name='registro-funcionario' placeholder='DD/MM/AAAA'></td><td><input type='text' class='form-control' id='quantidade-ferias' name='registro-funcionario' placeholder='5 a 30 dias'></td><td><input type='text' class='form-control' id='abono-ferias' name='registro-funcionario' placeholder='Sim/Não'> </td><td><input type='text' class='form-control' id='decimo-terceiro-ferias'name='registro-funcionario' placeholder='Sim/Não'></td><td style='text-align : center;'><a type='button' id='remove-ferias' ><img src='{% static 'assets\icons\minus.png' %}' width='26'> </a></td></tr>");
     });
     $(".remove-ferias").click(function(){
-      console.log("xD")
     })
   });
 </script>
@@ -357,30 +356,6 @@
 
 
 <script>
-// hide elements of DOM
-$('#email-disparador').hide(); $('#check-menu').hide();
-$('#grupo').hide(); $('#mostrar-categoria').hide();
-$('#administrador').hide(); $("#gestor").hide(); $('#rh').hide();
-$('#mostrar-subcategoria').hide();
-
-$('#adicionar-email').click(function() {
-  $('#email-disparador').toggle('slow');   
-});
-
-$('#adicionar-menu').click(function() {
-  $('#check-menu').toggle('slow'); 
-});
-
-$('#adicionar-categoria').click(function(){
-  $('#mostrar-categoria').toggle('slow');
-})
-
-// Rules of Groups
-// This events occurs when is clicked..
-$('#adicionar-grupo').click(function(){
-  $('#grupo').toggle('slow');
-})
-
 // This action occurs when I select the select-options of group ... 
 $('#grupo_unidade').change(function () {
     var selectedGroup = $(this).children("option:selected").val();

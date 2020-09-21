@@ -98,7 +98,7 @@ class UnidadeEmailForm(forms.ModelForm):
 class UnidadeGrupoForm(forms.ModelForm):
     class Meta:
         model = Unidade
-        fields = ['grupo', ]
+        fields = ['grupo']
 
         label = {'grupo': 'Grupo'}
 
@@ -116,7 +116,7 @@ class UnidadeMenuForm(forms.ModelForm):
 
     class Meta:
         model = Unidade
-        fields = ['menu', ]
+        fields = ['menu']
 
         label = {'menu': 'Menu:'}
 

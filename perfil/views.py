@@ -18,6 +18,7 @@ from perfil.forms import (
     FuncionarioForm,
     UnidadeForm,
     UnidadeUpdateForm,
+    UnidadeEmailForm,
     UnidadeMenuForm,
     CustomAuthenticationForm,
     PasswordChangeFormCustom,
@@ -190,46 +191,59 @@ def create_unidade_admin(request):
 
 @login_required
 def update_unidade_admin(request, id):
-    group = Group.objects.all()
     unidade = get_object_or_404(Unidade, pk=id)
-    menus = Menu.objects.all()
-    categoria = Categoria.objects.all()
-    subcategoria = SubCategoria.objects.all()
-    context = {'unidade': unidade, "menus": menus, 'group': group,
-               'categoria': categoria, 'subcategoria': subcategoria}
+    context = {'unidade': unidade,}
     return render(request, 'unidade/unidade_update.html', context)
 
 
 @login_required
 def update_email_admin(request, id):
-    context = {}
-    return render(request, 'unidade/unidade_update.html', context)
+    unidade = get_object_or_404(Unidade, pk=id)
+    form = UnidadeEmailForm(request.POST or None, instance=unidade)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'E-mail alterado com sucesso!')
+            return redirect('perfil:update_unidade_admin', id=unidade.id)
+        messages.error(request, 'E-mail contém um erro!')
+    context = {'unidade': unidade, 'form': form}
+    return render(request, 'unidade/update_email_admin.html', context)
 
 
 @login_required
 def update_menu_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
+    menus = Menu.objects.all()
     form = UnidadeMenuForm(request.POST or None, instance=unidade)
-    if form.is_valid():
-        form.save()
-        context = {'form': form}
-        return redirect('perfil:unidade_admin')
-    print("form errors : ", form.errors)
-    print("form datas : ", form.data)
-    context = {'form': form}
-    return redirect('perfil:unidade_admin')
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'E-mail alterado com sucesso!')
+            return redirect('perfil:update_unidade_admin', id=unidade.id)
+        else:
+            messages.error(request, 'Erro ao salvar os novos menus')
+            print("form data : ", form.data)
+            print("form errors : ", form.errors)
+    context = {'unidade': unidade, 'form': form, 'menus': menus}
+    return render(request, 'unidade/update_menu_admin.html', context)
 
 
 @login_required
 def update_grupo_admin(request, id):
-    context = {}
-    return render(request, 'unidade/unidade_update.html', context)
+    unidade = get_object_or_404(Unidade, pk=id)
+    group = Group.objects.all()
+    context = {'group': group}
+    return render(request, 'unidade/update_grupo_admin.html', context)
 
 
 @login_required
 def update_categoria_admin(request, id):
-    context = {}
-    return render(request, 'unidade/unidade_update.html', context)
+    unidade = get_object_or_404(Unidade, pk=id)
+    categoria = Categoria.objects.all()
+    subcategoria = SubCategoria.objects.all()
+    context = {'unidade': unidade, 'categoria': categoria,
+               'subcategoria': subcategoria}
+    return render(request, 'unidade/update_categoria_admin.html', context)
 
 
 @login_required
