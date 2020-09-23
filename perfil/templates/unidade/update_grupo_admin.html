@@ -5,14 +5,12 @@
 
 {% block conteudo %}
 
-
 <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_grupo_admin' unidade.id %}">
         {% csrf_token %}
             <a href="#" id="adicionar-grupo"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
             <label>Grupo (Define grupo para pessoas):</label>
          
             <div id="grupo" class="col-md-12">
-              
           <div class="row p-2">
                 <table class="table table-striped table-responsive border rounded bg-light shadow">
                   <thead class="thead-dark">
@@ -43,6 +41,7 @@
                   </tbody>
                 </table>
 
+                <input class="form-control mr-sm-2" type="text" name="troca_grupo" id="troca_grupo">
 
                  <table class="table table-striped table-responsive border rounded bg-light shadow">
                   <thead class="thead-dark">
@@ -52,10 +51,10 @@
                       <th scope="col" style="width: 8%; text-align : left;">Opções</th>
                     </tr>
                   </thead>
-                  <tbody>   
-                    <tr>
-                      <td style="text-align : left;">{{ user.funcionario.re_funcionario }}</td>
-                      <td scope="row" style="text-align : left;"> {{ user.funcionario.nome }}</td>
+                  <tbody id="grupo_table_body">   
+                    <tr id="grupo_estatico">
+                      <td style="text-align : left;">Sem informações</td>
+                      <td scope="row" style="text-align : left;">Sem informações</td>
                       <td><a style="color: red;" href="#">Remover</a></td>
                     </tr>
                   </tbody>

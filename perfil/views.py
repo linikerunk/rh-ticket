@@ -234,11 +234,27 @@ def update_menu_admin(request, id):
 def update_grupo_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     group = Group.objects.all()
+    group_id = request.GET.get('troca_grupo')
+    group_search = request.GET.get('selectedGroup')
+    print(group_search)
+    
+    # group_search = Group.objects.get(id=group_id)
     if request.method == 'POST':
-        form = UnidadeGrupoForm(request.POST or None, instance=unidade)
-    context = {'group': group, 'unidade': unidade}
+        group_id = request.POST.get('grupo')
+        user_group = request.POST.get('adiciona_funcionario')
+        try:
+            group_query = Group.objects.get(id=group_id)
+            user = User.objects.get(username=(str(unidade.id) + user_group))
+            group_query.user_set.add(user.pk)
+            messages.success(request, f"Usuário ' {user.funcionario.nome} ' \
+                adicionado ao grupo ' {group_query.name} ' ")
+            return redirect('perfil:update_unidade_admin', id=unidade.id)
+        except:
+            messages.error(request, "Usuário não encontrado tente novamente.")
+            context = {'group': group, 'unidade': unidade}
+            return render(request, 'unidade/update_grupo_admin.html', context)
+    context = {'group_search': group_search, 'group': group, 'unidade': unidade}
     return render(request, 'unidade/update_grupo_admin.html', context)
-
 
 @login_required
 def update_categoria_admin(request, id):
@@ -261,6 +277,10 @@ def delete_unidade_admin(request, id):
     context = {'unidade': unidade}
     return render(request, 'unidade/unidade_delete.html', context)
 
+
+@login_required
+def delete_grupo_admin(request, id):
+    pass
 
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm

@@ -11,6 +11,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 from django.utils import timezone
 from django.template import Context
+from django.core import serializers
 
 from .models import Ticket, Categoria, SubCategoria, HistoricoTicket
 from perfil.models import Funcionario, Unidade
@@ -26,10 +27,11 @@ def funcionario_login_reset_ajax(request, id):
     return JsonResponse(response)
 
 
-def seleciona_grupo_ajax(request, id):
-    group_selected = Group.objects.filter(id=id)
-    response = Context({'group_selected': group_selected})
-    return HttpResponse(response)
+def show_user_by_group_ajax(request, id):
+    user_belong_group = User.objects.filter(groups=id)
+    user_group = [item for item in user_belong_group]
+    print(serializers.serialize('json', user_group))
+    return JsonResponse(serializers.serialize('json', user_group), safe=False)
 
 
 def funcionario_login_ajax(request, id):

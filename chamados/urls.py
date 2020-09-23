@@ -12,7 +12,7 @@ from .views import (
     funcionario_login_ajax,
     funcionario_login_reset_ajax,
     verificar_senha_ajax,
-    seleciona_grupo_ajax
+    show_user_by_group_ajax
 )
 
 app_name = "chamados"
@@ -29,8 +29,8 @@ urlpatterns = [
          name="funcionario_login_ajax"),
     path("funcionario_login_reset/<int:id>/",
          funcionario_login_reset_ajax, name="funcionario_login_reset_ajax"),
-    path("seleciona_grupo/<int:id>/", seleciona_grupo_ajax,
-         name="seleciona_grupo_ajax"),
+    path("show_user_by_group_ajax/<int:id>/", show_user_by_group_ajax,
+         name="show_user_by_group_ajax"),
     path("verifica_senha/<int:id>/", verificar_senha_ajax,
          name="verificar_senha_ajax"),
     path("chamados/atualizar_chamado/<int:id>/",

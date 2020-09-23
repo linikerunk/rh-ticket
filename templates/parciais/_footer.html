@@ -360,7 +360,7 @@
 $('#grupo_unidade').change(function () {
     var selectedGroup = $(this).children("option:selected").val();
     var grupo_atual = $("#grupo_atual")
-    var url = '/seleciona_grupo/' + selectedGroup + "/"
+    var url = '/show_user_by_group_ajax/' + selectedGroup + "/"
      jQuery.ajax({
         url: url,
         type: 'GET',
@@ -373,6 +373,10 @@ $('#grupo_unidade').change(function () {
 
         success: function (data) {
           console.log(data)
+          console.log(data[1].username)
+          $('#troca_grupo').val(data)
+          $('#grupo_estatico').remove()
+          $('#grupo_table_body').append("<tr><td> oi </td><td> oi </td><td> oi </td></tr>")
         },
 
         error: function (xhr) {

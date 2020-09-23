@@ -80,8 +80,8 @@ class Funcionario(models.Model):
     # centro_de_custo = models.CharField(max_length=12, verbose_name="Centro de Custo")
     centro_de_custo_link = models.ForeignKey(
         CentroDeCusto, verbose_name="Centro de Custo link", null=True, on_delete=models.PROTECT)
-    usuario = models.OneToOneField(
-        settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, blank=True, 
+        null=True, on_delete=models.CASCADE)
     espelho = models.ImageField(max_length=200, upload_to="espelhos",
                                 default="0000.JPG", verbose_name='Fotos Funcionários')
 
