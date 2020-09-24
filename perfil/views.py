@@ -279,8 +279,9 @@ def delete_unidade_admin(request, id):
 
 
 @login_required
-def delete_grupo_admin(request, id):
-    pass
+def delete_user_group(request, id):
+    context = {}
+    return render(request, 'unidade/unidade_delete.html', context)
 
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm

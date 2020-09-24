@@ -357,6 +357,10 @@
 
 <script>
 // This action occurs when I select the select-options of group ... 
+
+function remove_user_group(){
+  alert("Usuário removido.")
+}
 $('#grupo_unidade').change(function () {
     var selectedGroup = $(this).children("option:selected").val();
     var grupo_atual = $("#grupo_atual")
@@ -369,14 +373,18 @@ $('#grupo_unidade').change(function () {
         },
 
         beforeSend: function (xhr) {
+        $('#grupo_table_body').empty()
         },
 
         success: function (data) {
-          console.log(data)
-          console.log(data[1].username)
-          $('#troca_grupo').val(data)
+          var data = JSON.parse(data)
+          console.log((data))
           $('#grupo_estatico').remove()
-          $('#grupo_table_body').append("<tr><td> oi </td><td> oi </td><td> oi </td></tr>")
+          $.each(data, function(){
+              $('#grupo_table_body').append(
+                "<tr><td>" + this.fields.re_funcionario + "</td><td>" + this.fields.nome+ "</td> <td> <a onclick='remove_user_group()' style='color: red;' href='#'>Remover</a> </td></tr>");
+          });
+          
         },
 
         error: function (xhr) {
@@ -387,7 +395,6 @@ $('#grupo_unidade').change(function () {
           // body...
         }
       })
-    
 })
 
 </script>
