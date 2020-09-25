@@ -28,10 +28,9 @@ def funcionario_login_reset_ajax(request, id):
 
 
 def show_user_by_group_ajax(request, id):
-    user_belong_group = Funcionario.objects.filter(usuario__groups=id)
+    unidade = request.GET.get('unidade', None)
+    user_belong_group = Funcionario.objects.filter(unidade=unidade).filter(usuario__groups=id)
     user_group = [item for item in user_belong_group]
-    print("User Before to serialized : ", user_group)
-    print("Serializado : ", serializers.serialize('json', user_group))
     return JsonResponse(serializers.serialize('json', user_group), safe=False)
 
 

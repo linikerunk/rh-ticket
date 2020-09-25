@@ -363,13 +363,14 @@ function remove_user_group(){
 }
 $('#grupo_unidade').change(function () {
     var selectedGroup = $(this).children("option:selected").val();
-    var grupo_atual = $("#grupo_atual")
+    var unidade = $('#unidade').val()
     var url = '/show_user_by_group_ajax/' + selectedGroup + "/"
      jQuery.ajax({
         url: url,
         type: 'GET',
         data: {
           selectedGroup : selectedGroup,
+          unidade: unidade,
         },
 
         beforeSend: function (xhr) {
@@ -378,18 +379,16 @@ $('#grupo_unidade').change(function () {
 
         success: function (data) {
           var data = JSON.parse(data)
-          console.log((data))
           $('#grupo_estatico').remove()
           $.each(data, function(){
               $('#grupo_table_body').append(
-                "<tr><td>" + this.fields.re_funcionario + "</td><td>" + this.fields.nome+ "</td> <td> <a onclick='remove_user_group()' style='color: red;' href='#'>Remover</a> </td></tr>");
+                "<tr><td>" + this.fields.re_funcionario + "</td><td>" + this.fields.nome+ "</td> <td> </td></tr>");
           });
           
         },
 
         error: function (xhr) {
           console.log(xhr.error)
-          
         },
         complete: function () {
           // body...
