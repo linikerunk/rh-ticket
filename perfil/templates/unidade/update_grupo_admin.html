@@ -6,7 +6,7 @@
 {% block conteudo %}
 
 <input type="text" name="unidade" id="unidade" class="form-control" value="{{ unidade.id }}" hidden>
-<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_grupo_admin' unidade.id %}">
+<form method="POST" id="#adiciona_form" enctype="multipart/form-data" action="{% url 'perfil:update_grupo_admin' unidade.id %}">
         {% csrf_token %}
             <a href="#" id="adicionar-grupo"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
             <label>Grupo (Define grupo para pessoas):</label>
@@ -35,9 +35,10 @@
                         <input class="form-control mr-sm-2" type="text" placeholder="Digite o RE do Funcionário" name="adiciona_funcionario" id="adiciona_funcionario" aria-label="Search">
                       </td>
                       <td style="text-align : left;">
-                        </form>
-                        <button class="btn btn-success pr-5 pl-5 ">Adicionar</button>
-                        <button class="btn btn-danger pr-5 pl-5">Remover</button>
+                      </form>
+                        <button type="submit" class="btn btn-success pr-5 pl-5 ">Adicionar</button>
+                        <a href="{% url 'perfil:delete_user_group' unidade.id %}"
+                        onclick='deleteUser()' class="btn btn-danger pr-5 pl-5">Remover</a>
                       </td>
                     </tr>
                   </tbody>

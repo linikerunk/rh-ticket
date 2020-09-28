@@ -1,8 +1,9 @@
-import logging
+import logging, json
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 from django.contrib.auth import (
     authenticate, login, logout, update_session_auth_hash)
 from django.contrib.auth import views as auth_views
@@ -234,14 +235,13 @@ def update_menu_admin(request, id):
 def update_grupo_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     group = Group.objects.all()
-    group_id = request.GET.get('troca_grupo')
-    group_search = request.GET.get('selectedGroup')
-    print(group_search)
     
     # group_search = Group.objects.get(id=group_id)
     if request.method == 'POST':
         group_id = request.POST.get('grupo')
         user_group = request.POST.get('adiciona_funcionario')
+        print("gruop_id post : ", group_id)
+        print("group_search post : ", user_group)
         try:
             group_query = Group.objects.get(id=group_id)
             user = User.objects.get(username=(str(unidade.id) + user_group))
@@ -253,7 +253,7 @@ def update_grupo_admin(request, id):
             messages.error(request, "Usuário não encontrado tente novamente.")
             context = {'group': group, 'unidade': unidade}
             return render(request, 'unidade/update_grupo_admin.html', context)
-    context = {'group_search': group_search, 'group': group, 'unidade': unidade}
+    context = {'group': group, 'unidade': unidade}
     return render(request, 'unidade/update_grupo_admin.html', context)
 
 @login_required
@@ -280,8 +280,12 @@ def delete_unidade_admin(request, id):
 
 @login_required
 def delete_user_group(request, id):
-    context = {}
-    return render(request, 'unidade/unidade_delete.html', context)
+    unidade = get_object_or_404(Unidade, pk=id)
+    group = Group.objects.all()
+    print(group)
+    data = {"menssage": "Usuario removido com sucesso"}
+    return redirect('perfil:update_unidade_admin', id=unidade.id)
+
 
 class Login(auth_views.LoginView):
     authentication_form = CustomAuthenticationForm

@@ -358,14 +358,11 @@
 <script>
 // This action occurs when I select the select-options of group ... 
 
-function remove_user_group(){
-  alert("Usuário removido.")
-}
 $('#grupo_unidade').change(function () {
     var selectedGroup = $(this).children("option:selected").val();
     var unidade = $('#unidade').val()
     var url = '/show_user_by_group_ajax/' + selectedGroup + "/"
-     jQuery.ajax({
+    jQuery.ajax({
         url: url,
         type: 'GET',
         data: {
@@ -398,5 +395,4 @@ $('#grupo_unidade').change(function () {
 
 </script>
 
-</head>
 
