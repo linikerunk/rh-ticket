@@ -6,8 +6,6 @@
 {% block conteudo %}
 
 <input type="text" name="unidade" id="unidade" class="form-control" value="{{ unidade.id }}" hidden>
-<form method="POST" id="#adiciona_form" enctype="multipart/form-data" action="{% url 'perfil:update_grupo_admin' unidade.id %}">
-        {% csrf_token %}
             <a href="#" id="adicionar-grupo"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
             <label>Grupo (Define grupo para pessoas):</label>
          
@@ -22,10 +20,12 @@
                     </tr>
                   </thead>
                   <tbody>   
+                  <form method="POST" id="#adiciona_form" enctype="multipart/form-data" action="{% url 'perfil:update_grupo_admin' unidade.id %}">
+                  {% csrf_token %}
                     <tr>
                       <td style="text-align : left;">
-                        <select name="grupo" id="grupo_unidade" class="select form-control form-control">
-                          <option value="" selected>----------</option>
+                        <select name="grupo" id="grupo_unidade_adicionar" class="select form-control form-control">
+                          <option value="" selected>Selecione o grupo onde o usuário pertence.</option>
                           {% for group in group %}
                           <option name="selected_group" value="{{ group.id }}">{{ group.name }}</option>
                           {% endfor %}
@@ -35,12 +35,30 @@
                         <input class="form-control mr-sm-2" type="text" placeholder="Digite o RE do Funcionário" name="adiciona_funcionario" id="adiciona_funcionario" aria-label="Search">
                       </td>
                       <td style="text-align : left;">
-                      </form>
-                        <button type="submit" class="btn btn-success pr-5 pl-5 ">Adicionar</button>
-                        <a href="{% url 'perfil:delete_user_group' unidade.id %}"
-                        onclick='deleteUser()' class="btn btn-danger pr-5 pl-5">Remover</a>
+                        <button type="submit" class="btn btn-success pr-5 pl-5 w-100 ">Adicionar</button>
                       </td>
                     </tr>
+                    </form>
+                  <!-- Remover Grupo ... -->
+                  <form method="POST" id="#adiciona_form" enctype="multipart/form-data" action="{% url 'perfil:delete_user_group' unidade.id %}">
+                  {% csrf_token %}
+                    <tr>
+                      <td style="text-align : left;">
+                        <select name="grupo" id="grupo_unidade_remove" class="select form-control form-control">
+                          <option value="" selected disabled>Selecione o grupo onde o usuário pertence.</option>
+                          {% for group in group %}
+                          <option name="selected_group" value="{{ group.id }}">{{ group.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </td>
+                      <td scope="row" style="text-align : left;">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Digite o RE do Funcionário" name="remover_funcionario" id="adiciona_funcionario" aria-label="Search">
+                      </td>
+                      <td style="text-align : left;">
+                        <button type="submit" class="btn btn-danger pr-5 pl-5 w-100 ">Remover</button>
+                      </td>
+                    </tr>
+                    </form>
                   </tbody>
                 </table>
 
@@ -49,7 +67,7 @@
                     <tr>
                       <th scope="col" style="width: 20%; text-align : left;">RE</th>
                       <th scope="col" style="width: 30%; text-align : left;">Funcionário</th>
-                      <th scope="col" style="width: 1%; text-align : left;"></th>
+                      <th scope="col" style="width: 1%; text-align : left;">Visualização</th>
                     </tr>
                   </thead>
                   <tbody id="grupo_table_body">   

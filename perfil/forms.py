@@ -1,6 +1,6 @@
 from django.forms import ModelForm, RadioSelect
 from django.core.exceptions import ValidationError
-from django.forms.widgets import PasswordInput, TextInput, CheckboxSelectMultiple
+from django.forms.widgets import PasswordInput, TextInput, CheckboxSelectMultiple, SelectMultiple
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import (
     PasswordChangeForm,
@@ -122,7 +122,12 @@ class UnidadeMenuForm(forms.ModelForm):
 
 
 class UnidadeCategoriaForm(forms.ModelForm):
-    pass
+
+    class Meta:
+        model = Unidade
+        fields = ['responsaveis_categoria']
+
+        label = {'responsaveis_categoria': 'Responsável pela Categoria:'}
 
 
 class CustomAuthenticationForm(AuthenticationForm):

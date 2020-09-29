@@ -46,6 +46,9 @@ class ResponsavelCategoria(models.Model):
     subcategoria = models.ForeignKey(
         SubCategoria, related_name="responsavel", on_delete=models.PROTECT)
 
+    def __str__(self):
+        return f'{self.responsavel.nome} / {self.subcategoria}'
+
 
 class Ticket(models.Model):
     texto = models.TextField(blank=False, verbose_name="Descrição")

@@ -358,7 +358,7 @@
 <script>
 // This action occurs when I select the select-options of group ... 
 
-$('#grupo_unidade').change(function () {
+$('#grupo_unidade_adicionar').change(function () {
     var selectedGroup = $(this).children("option:selected").val();
     var unidade = $('#unidade').val()
     var url = '/show_user_by_group_ajax/' + selectedGroup + "/"
@@ -379,7 +379,42 @@ $('#grupo_unidade').change(function () {
           $('#grupo_estatico').remove()
           $.each(data, function(){
               $('#grupo_table_body').append(
-                "<tr><td>" + this.fields.re_funcionario + "</td><td>" + this.fields.nome+ "</td> <td> </td></tr>");
+                "<tr><td>" + this.fields.re_funcionario + "</td><td>" + this.fields.nome+ "</td> <td> Adicionar </td></tr>");
+          });
+          
+        },
+
+        error: function (xhr) {
+          console.log(xhr.error)
+        },
+        complete: function () {
+          // body...
+        }
+      })
+})
+
+$('#grupo_unidade_remove').change(function () {
+    var selectedGroup = $(this).children("option:selected").val();
+    var unidade = $('#unidade').val()
+    var url = '/show_user_by_group_ajax/' + selectedGroup + "/"
+    jQuery.ajax({
+        url: url,
+        type: 'GET',
+        data: {
+          selectedGroup : selectedGroup,
+          unidade: unidade,
+        },
+
+        beforeSend: function (xhr) {
+        $('#grupo_table_body').empty()
+        },
+
+        success: function (data) {
+          var data = JSON.parse(data)
+          $('#grupo_estatico').remove()
+          $.each(data, function(){
+              $('#grupo_table_body').append(
+                "<tr><td>" + this.fields.re_funcionario + "</td><td>" + this.fields.nome+ "</td> <td> Remover </td></tr>");
           });
           
         },

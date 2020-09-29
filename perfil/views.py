@@ -1,4 +1,5 @@
-import logging, json
+import logging
+import json
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -22,6 +23,7 @@ from perfil.forms import (
     UnidadeEmailForm,
     UnidadeMenuForm,
     UnidadeGrupoForm,
+    UnidadeCategoriaForm,
     CustomAuthenticationForm,
     PasswordChangeFormCustom,
     VerificaAdmissao
@@ -235,13 +237,11 @@ def update_menu_admin(request, id):
 def update_grupo_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     group = Group.objects.all()
-    
+
     # group_search = Group.objects.get(id=group_id)
     if request.method == 'POST':
         group_id = request.POST.get('grupo')
         user_group = request.POST.get('adiciona_funcionario')
-        print("gruop_id post : ", group_id)
-        print("group_search post : ", user_group)
         try:
             group_query = Group.objects.get(id=group_id)
             user = User.objects.get(username=(str(unidade.id) + user_group))
@@ -256,6 +256,7 @@ def update_grupo_admin(request, id):
     context = {'group': group, 'unidade': unidade}
     return render(request, 'unidade/update_grupo_admin.html', context)
 
+
 @login_required
 def update_categoria_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
@@ -264,6 +265,30 @@ def update_categoria_admin(request, id):
     context = {'unidade': unidade, 'categoria': categoria,
                'subcategoria': subcategoria}
     return render(request, 'unidade/update_categoria_admin.html', context)
+
+
+@login_required
+def add_responsavel_categoria(request, id):
+    unidade = get_object_or_404(Unidade, pk=id)
+    form = UnidadeMenuForm(request.POST or None, instance=unidade)
+    if request.method == 'POST':
+        subcategoria = request.POST.get('subcategoria', None)
+        funcionario = request.POST.get('funcionario', None)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request, f'{funcionario} está responsável pela subcategoria : {subcategoria} ')
+            context = {'unidade': unidade, 'form': form}
+            return render(request, 'unidade/update_categoria_admin.html', context)
+        else:
+            messages.danger(
+                request, 'Funcionário inexistente, certifique se o regitro está correto..')
+    context = {'unidade': unidade, 'form': form}
+    return render(request, 'unidade/update_categoria_admin.html', context)
+
+
+def remove_responsavel_categoria(request, id):
+    pass
 
 
 @login_required
@@ -282,9 +307,22 @@ def delete_unidade_admin(request, id):
 def delete_user_group(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     group = Group.objects.all()
-    print(group)
-    data = {"menssage": "Usuario removido com sucesso"}
-    return redirect('perfil:update_unidade_admin', id=unidade.id)
+    if request.method == 'POST':
+        group_id = request.POST.get('grupo')
+        user_group = request.POST.get('remover_funcionario')
+        try:
+            group_query = Group.objects.get(id=group_id)
+            user = User.objects.get(username=(str(unidade.id) + user_group))
+            group_query.user_set.remove(user.pk)
+            messages.success(request, f"Usuário ' {user.funcionario.nome} ' \
+                removido do grupo ' {group_query.name} ' ")
+            return redirect('perfil:update_unidade_admin', id=unidade.id)
+        except:
+            messages.error(request, "Usuário não encontrado tente novamente.")
+            context = {'group': group, 'unidade': unidade}
+            return render(request, 'unidade/update_grupo_admin.html', context)
+    context = {'group': group, 'unidade': unidade}
+    return render(request, 'unidade/update_grupo_admin.html', context)
 
 
 class Login(auth_views.LoginView):
