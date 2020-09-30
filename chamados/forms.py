@@ -4,7 +4,13 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.forms import ModelForm, RadioSelect
 
-from .models import Ticket, Categoria, SubCategoria, HistoricoTicket
+from .models import (
+    Ticket,
+    Categoria,
+    SubCategoria,
+    HistoricoTicket,
+    ResponsavelCategoria,
+)
 from perfil.models import Funcionario, Unidade
 
 from django import forms
@@ -56,6 +62,18 @@ class TicketUpdateForm(forms.ModelForm):
             'subcategoria': 'Subcategoria : ',
             'texto': 'Descrição : ',
         }
+
+
+class ResponsavelCategoriaForm(forms.ModelForm):
+
+    class Meta:
+        model = ResponsavelCategoria
+        fields = '__all__'
+        labels = {
+            'responsavel': 'Responsável : ',
+            'subcategoria': 'Subcategoria : ',
+        }
+
 
 
 

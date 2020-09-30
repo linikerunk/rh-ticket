@@ -5,7 +5,7 @@
 
 {% block conteudo %}
 <div class="col-md-12 mt-3">
-<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:update_unidade_admin' unidade.id %}">
+<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:add_responsavel_categoria' unidade.id %}">
 {% csrf_token %}
             <a href="#" id="adicionar-categoria"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
             <label>Categoria (Define categoria para pessoas):</label>
@@ -32,7 +32,7 @@
                       </td>
                       <td style="text-align : left;">
                         <input class="form-control mr-sm-2" type="text"
-                        placeholder="Digite o RE do Funcionário" name="funcionario" id="funcionario">
+                        placeholder="Digite o RE do Funcionário" name="responsavel" id="funcionario">
                       </td>
                       <td style="text-align : left;">
 </form>

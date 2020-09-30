@@ -22,6 +22,8 @@ update_email_admin,
 update_menu_admin,
 update_grupo_admin,
 update_categoria_admin,
+add_responsavel_categoria,
+remove_responsavel_categoria,
 )
 
 app_name = "perfil"
@@ -56,5 +58,9 @@ urlpatterns = [
     name="update_grupo_admin"),
     path("perfil/update_categoria_admin/<int:id>/", update_categoria_admin,
     name="update_categoria_admin"),
+    path("perfil/add_responsavel_categoria/<int:id>/", add_responsavel_categoria,
+    name="add_responsavel_categoria"),
+    path("perfil/remove_responsavel_categoria/<int:id>/",
+    remove_responsavel_categoria, name="remove_responsavel_categoria"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -23,11 +23,11 @@ from perfil.forms import (
     UnidadeEmailForm,
     UnidadeMenuForm,
     UnidadeGrupoForm,
-    UnidadeCategoriaForm,
     CustomAuthenticationForm,
     PasswordChangeFormCustom,
     VerificaAdmissao
 )
+from chamados.forms import ResponsavelCategoriaForm
 from .models import Funcionario, Unidade, Menu
 from chamados.models import Categoria, SubCategoria
 from perfil.decorators import verificar_funcionario
@@ -268,30 +268,6 @@ def update_categoria_admin(request, id):
 
 
 @login_required
-def add_responsavel_categoria(request, id):
-    unidade = get_object_or_404(Unidade, pk=id)
-    form = UnidadeMenuForm(request.POST or None, instance=unidade)
-    if request.method == 'POST':
-        subcategoria = request.POST.get('subcategoria', None)
-        funcionario = request.POST.get('funcionario', None)
-        if form.is_valid():
-            form.save()
-            messages.success(
-                request, f'{funcionario} está responsável pela subcategoria : {subcategoria} ')
-            context = {'unidade': unidade, 'form': form}
-            return render(request, 'unidade/update_categoria_admin.html', context)
-        else:
-            messages.danger(
-                request, 'Funcionário inexistente, certifique se o regitro está correto..')
-    context = {'unidade': unidade, 'form': form}
-    return render(request, 'unidade/update_categoria_admin.html', context)
-
-
-def remove_responsavel_categoria(request, id):
-    pass
-
-
-@login_required
 def delete_unidade_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     if request.method == "POST":
@@ -323,6 +299,32 @@ def delete_user_group(request, id):
             return render(request, 'unidade/update_grupo_admin.html', context)
     context = {'group': group, 'unidade': unidade}
     return render(request, 'unidade/update_grupo_admin.html', context)
+
+
+@login_required
+def add_responsavel_categoria(request, id):
+    unidade = get_object_or_404(Unidade, pk=id)
+    form = ResponsavelCategoriaForm(request.POST or None)
+    print("Fields : ", form.fields)
+    if request.method == 'POST':
+        subcategoria = request.POST.get('subcategoria', None)
+        funcionario = request.POST.get('funcionario', None)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request, f'{funcionario} está responsável pela subcategoria : {subcategoria} ')
+            context = {'unidade': unidade, 'form': form}
+            return render(request, 'unidade/update_categoria_admin.html', context)
+        else:
+            print("Erro : ", form.errors)
+            messages.error(
+                request, 'Funcionário inexistente, certifique se o regitro está correto..')
+    context = {'unidade': unidade, 'form': form}
+    return render(request, 'unidade/update_categoria_admin.html', context)
+
+
+def remove_responsavel_categoria(request, id):
+    pass
 
 
 class Login(auth_views.LoginView):
