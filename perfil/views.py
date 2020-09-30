@@ -259,11 +259,12 @@ def update_grupo_admin(request, id):
 
 @login_required
 def update_categoria_admin(request, id):
+    form = ResponsavelCategoriaForm(request.POST or None)
     unidade = get_object_or_404(Unidade, pk=id)
     categoria = Categoria.objects.all()
     subcategoria = SubCategoria.objects.all()
     context = {'unidade': unidade, 'categoria': categoria,
-               'subcategoria': subcategoria}
+               'subcategoria': subcategoria, 'form': form}
     return render(request, 'unidade/update_categoria_admin.html', context)
 
 
