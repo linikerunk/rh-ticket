@@ -2,7 +2,7 @@
 from django.utils import timezone
 from datetime import datetime
 from django.contrib.auth.models import User
-from django.forms import ModelForm, RadioSelect
+from django.forms import ModelForm, RadioSelect, ModelChoiceField
 
 from .models import (
     Ticket,
@@ -65,6 +65,7 @@ class TicketUpdateForm(forms.ModelForm):
 
 
 class ResponsavelCategoriaForm(forms.ModelForm):
+    responsavel = forms.ModelChoiceField(queryset=Funcionario.objects.all(), widget=forms.NumberInput, required=False)
 
     class Meta:
         model = ResponsavelCategoria
