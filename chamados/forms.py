@@ -65,8 +65,6 @@ class TicketUpdateForm(forms.ModelForm):
 
 
 class ResponsavelCategoriaForm(forms.ModelForm):
-    responsavel = forms.ModelChoiceField(queryset=Funcionario.objects.all(),
-    required=False)
 
     class Meta:
         model = ResponsavelCategoria

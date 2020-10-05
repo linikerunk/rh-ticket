@@ -305,22 +305,32 @@ def delete_user_group(request, id):
 @login_required
 def add_responsavel_categoria(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
+    categoria = Categoria.objects.all()
+    subcategoria = SubCategoria.objects.all()
     form = ResponsavelCategoriaForm(request.POST or None)
-    print("Fields : ", form.fields)
     if request.method == 'POST':
-        subcategoria = request.POST.get('subcategoria', None)
-        funcionario = request.POST.get('funcionario', None)
+        subcategoria_field = request.POST.get('subcategoria', None)
+        funcionario_field = request.POST.get('responsavel', None)
+        funcionario_field = str(unidade.id) + str(funcionario_field)
+        funcionario_field = int(funcionario_field)
+        funcionario = Funcionario.objects.get(usuario=1)
+        print(dir(funcionario))
+
         if form.is_valid():
             form.save()
             messages.success(
-                request, f'{funcionario} está responsável pela subcategoria : {subcategoria} ')
-            context = {'unidade': unidade, 'form': form}
-            return render(request, 'unidade/update_categoria_admin.html', context)
+                request, f'{funcionario} está responsável pela subcategoria : \
+                {subcategoria_field} ')
+            context = {'unidade': unidade, 'form': form, 'categoria': categoria,
+                       'subcategoria': subcategoria}
+            return render(request, 'unidade/update_categoria_admin.html',
+                          context)
         else:
             print("Erro : ", form.errors)
-            messages.error(
-                request, 'Funcionário inexistente, certifique se o regitro está correto..')
-    context = {'unidade': unidade, 'form': form}
+            messages.error(request, 'Funcionário inexistente, \
+            certifique se o regitro está correto..')
+    context = {'unidade': unidade, 'form': form, 'categoria': categoria,
+                       'subcategoria': subcategoria}
     return render(request, 'unidade/update_categoria_admin.html', context)
 
 
