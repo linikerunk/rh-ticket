@@ -127,7 +127,7 @@ def meu_logout(request):
 #     success_url = '/resetar_senha/'
 
 #     def form_valid(self, form):
-#         # This method is called when valid form data has been POSTed.
+#         # This method is called when valid form data has been POSTED.
 #         # It should return an HttpResponse.
 #         return super().form_valid(form)
 
@@ -313,9 +313,8 @@ def add_responsavel_categoria(request, id):
         funcionario_field = request.POST.get('responsavel', None)
         funcionario_field = str(unidade.id) + str(funcionario_field)
         funcionario_field = int(funcionario_field)
-        funcionario = Funcionario.objects.get(usuario=1)
-        print(dir(funcionario))
-
+        funcionario = Funcionario.objects.filter(usuario_id='17499')
+        # form.fields['responsavel'] = funcionario
         if form.is_valid():
             form.save()
             messages.success(
@@ -330,7 +329,7 @@ def add_responsavel_categoria(request, id):
             messages.error(request, 'Funcionário inexistente, \
             certifique se o regitro está correto..')
     context = {'unidade': unidade, 'form': form, 'categoria': categoria,
-                       'subcategoria': subcategoria}
+               'subcategoria': subcategoria}
     return render(request, 'unidade/update_categoria_admin.html', context)
 
 
