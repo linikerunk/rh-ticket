@@ -309,23 +309,20 @@ def add_responsavel_categoria(request, id):
     subcategoria = SubCategoria.objects.all()
     form = ResponsavelCategoriaForm(request.POST or None)
     if request.method == 'POST':
-        subcategoria_field = request.POST.get('subcategoria', None)
-        funcionario_field = request.POST.get('responsavel', None)
-        funcionario_field = str(unidade.id) + str(funcionario_field)
-        funcionario_field = int(funcionario_field)
-        funcionario = Funcionario.objects.filter(usuario_id='17499')
-        # form.fields['responsavel'] = funcionario
+        subcategoria = request.POST.get('subcategoria', None)
+        funcionario = request.POST.get('responsavel', None)
+        print(subcategoria)
+        print(funcionario)
         if form.is_valid():
             form.save()
             messages.success(
-                request, f'{funcionario} está responsável pela subcategoria : \
-                {subcategoria_field} ')
+                request, f"{funcionario} está responsável pela subcategoria : {subcategoria}")
             context = {'unidade': unidade, 'form': form, 'categoria': categoria,
                        'subcategoria': subcategoria}
-            return render(request, 'unidade/update_categoria_admin.html',
-                          context)
+            return render(request, 'unidade/update_categoria_admin.html', context)
         else:
             print("Erro : ", form.errors)
+            print("Data : ", form.data)
             messages.error(request, 'Funcionário inexistente, \
             certifique se o regitro está correto..')
     context = {'unidade': unidade, 'form': form, 'categoria': categoria,

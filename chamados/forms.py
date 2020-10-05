@@ -20,26 +20,25 @@ BOOL_CHOICES = ((True, 'Sim'), (False, 'Não'))
 
 
 class TicketForm(forms.ModelForm):
-    
+
     upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(
         attrs={'multiple': True}), required=False, label="Anexar Arquivo : ")
 
-
     class Meta:
         model = Ticket
-        fields = [ 'categoria', 'subcategoria', 'data_finalizada',
-        'texto', 'resposta', 'upload_arquivo']
+        fields = ['categoria', 'subcategoria', 'data_finalizada',
+                  'texto', 'resposta', 'upload_arquivo']
         labels = {
             'categoria': 'Categoria : ',
             'subcategoria': 'Subcategoria : ',
             'texto': 'Descrição : ',
             'upload_arquivo': 'Anexar arquivos : '
         }
-        
-        widgets={
+
+        widgets = {
             'texto': forms.Textarea(
                 attrs={'placeholder': 'Informe um telefone e/ou e-mail para retorno do chamado',
-                       'rows': 5}),  
+                       'rows': 5}),
         }
 
 
@@ -47,16 +46,16 @@ class TicketUpdateForm(forms.ModelForm):
     # funcionario = forms.ModelChoiceField(
     #     label="Funcionario",
     #     queryset= User.objects.all(),
-    #     to_field_name="funcionario", 
+    #     to_field_name="funcionario",
     #     widget=forms.TextInput())
-    
+
     upload_arquivo = forms.FileField(widget=forms.ClearableFileInput(
         attrs={'multiple': True}), required=False, label="Anexar Arquivo : ")
-    
 
     class Meta:
         model = Ticket
-        fields = ['resposta', 'data_finalizada', 'upload_arquivo', 'finalizado']
+        fields = ['resposta', 'data_finalizada',
+                  'upload_arquivo', 'finalizado']
         labels = {
             'categoria': 'Categoria : ',
             'subcategoria': 'Subcategoria : ',
@@ -73,9 +72,3 @@ class ResponsavelCategoriaForm(forms.ModelForm):
             'responsavel': 'Responsável : ',
             'subcategoria': 'Subcategoria : ',
         }
-
-
-
-
-
- 
