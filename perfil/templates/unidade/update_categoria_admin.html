@@ -22,7 +22,7 @@
                   <tbody>   
                     <tr>
                       <td scope="row" style="text-align : left;">
-                        <select name="subcategoria" class="select form-control form-control" id="subcategoria">
+                        <select name="subcategoria" class="select form-control form-control" id="subcategoria" required>
                           <option value="" selected disabled>Selecione a Subcategoria</option>
                          {% for subcategoria in subcategoria %}
                           <option name="subcategoria" id="subcategoria" value="{{ subcategoria.id }}"> {{ subcategoria.nome }}</option>

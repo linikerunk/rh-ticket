@@ -65,6 +65,8 @@ class TicketUpdateForm(forms.ModelForm):
 
 
 class ResponsavelCategoriaForm(forms.ModelForm):
+    responsavel = forms.IntegerField(label="Responsável")
+
 
     class Meta:
         model = ResponsavelCategoria
@@ -73,7 +75,26 @@ class ResponsavelCategoriaForm(forms.ModelForm):
             'responsavel': 'Responsável : ',
             'subcategoria': 'Subcategoria : ',
         }
+    
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(ResponsavelCategoriaForm, self).__init__(*args, **kwargs)
 
+    def clean_responsavel(self):
+        unidade = self.user.funcionario.unidade.id
+        responsavel_concatenado = str(unidade) + str(
+                                    self.cleaned_data.get('responsavel'))
+        try:
+            usuario = User.objects.get(username=responsavel_concatenado)
+            print(usuario)
+            self.cleaned_data['responsavel'] = Funcionario.objects.get(
+                usuario=usuario)
+            self.clean_responsavel = self.cleaned_data['responsavel']   
+        except Exception as e:
+            print(f"Erro na query realizada: {e}")
+            self.clean_responsavel = None
+        
+        return self.clean_responsavel
 
 
 

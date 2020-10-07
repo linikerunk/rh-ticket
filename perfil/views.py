@@ -29,7 +29,7 @@ from perfil.forms import (
 )
 from chamados.forms import ResponsavelCategoriaForm
 from .models import Funcionario, Unidade, Menu
-from chamados.models import Categoria, SubCategoria
+from chamados.models import Categoria, SubCategoria, ResponsavelCategoria
 from perfil.decorators import verificar_funcionario
 
 
@@ -305,30 +305,31 @@ def delete_user_group(request, id):
 @login_required
 def add_responsavel_categoria(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
+    user = request.user
     categoria = Categoria.objects.all()
     subcategoria = SubCategoria.objects.all()
-    form = ResponsavelCategoriaForm(request.POST or None)
+    form = ResponsavelCategoriaForm(user, request.POST or None)
+    responsavel_field = request.POST.get('responsavel')
+    subcategoria_field = request.POST.get('subcategoria')
+    subcategoria_field = SubCategoria.objects.get(id=subcategoria_field)
+    responsavel_field = Funcionario.objects.get(re_funcionario=responsavel_field)
     if request.method == 'POST':
-        subcategoria_field = request.POST.get('subcategoria', None)
-        funcionario_field = request.POST.get('responsavel', None)
-        funcionario_field = str(unidade.id) + str(funcionario_field)
-        funcionario_field = int(funcionario_field)
-        funcionario = Funcionario.objects.get(usuario=1)
-        print(dir(funcionario))
-
         if form.is_valid():
             form.save()
-            messages.success(
-                request, f'{funcionario} está responsável pela subcategoria : \
-                {subcategoria_field} ')
+            responsavel_categoria = ResponsavelCategoria.objects.get(
+                responsavel=responsavel_field, subcategoria=subcategoria_field)
+            print("Responsavel categoria : ", responsavel_categoria)
+            unidade.responsaveis_categoria.add(responsavel_categoria) 
+            messages.success(request, f'{responsavel_field} está responsável  \
+                pela subcategoria : {subcategoria_field}')
             context = {'unidade': unidade, 'form': form, 'categoria': categoria,
                        'subcategoria': subcategoria}
+            print("Responsavel : ", form.data['responsavel'])
             return render(request, 'unidade/update_categoria_admin.html',
                           context)
         else:
-            print("Erro : ", form.errors)
             messages.error(request, 'Funcionário inexistente, \
-            certifique se o regitro está correto..')
+            certifique se o regitro está correto.')
     context = {'unidade': unidade, 'form': form, 'categoria': categoria,
                        'subcategoria': subcategoria}
     return render(request, 'unidade/update_categoria_admin.html', context)
