@@ -7,6 +7,7 @@
 <div class="col-md-12 mt-3">
 <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:add_responsavel_categoria' unidade.id %}">
 {% csrf_token %}
+{{ form }}
             <a href="#" id="adicionar-categoria"><img  class="mb-1" src="{% static 'img/add.png' %}" alt="Adicionar"></a>
             <label>Categoria (Define categoria para pessoas):</label>
             <div id="mostrar-categoria" class="col-md-12">
@@ -21,8 +22,13 @@
                   </thead>
                   <tbody>   
                     <tr>
+<<<<<<< HEAD
                       <td scope="row" style="text-align : left;">
                         <select name="subcategoria" class="select form-control form-control" id="subcategoria" required>
+=======
+                      {% comment %} <td scope="row" style="text-align : left;">
+                        <select name="subcategoria" class="select form-control form-control" id="subcategoria">
+>>>>>>> 54815da3533a88e8ea6c2f94115ef82719110463
                           <option value="" selected disabled>Selecione a Subcategoria</option>
                          {% for subcategoria in subcategoria %}
                           <option name="subcategoria" id="subcategoria" value="{{ subcategoria.id }}"> {{ subcategoria.nome }}</option>
@@ -32,13 +38,14 @@
                       <td style="text-align : left;">
                         <input class="form-control mr-sm-2" type="text"
                         placeholder="Digite o RE do Funcionário" name="responsavel" value="{{ responsavel.id }}" id="funcionario">
-                      </td>
+                      </td>  {% endcomment %}
                       <td style="text-align : left;">
 </form>
                         <button class="btn btn-success w-100" type="submit">Adicionar</button>
                       </td>
                     </tr>
                     <!-- Removendo ... -->
+<form method="POST" enctype="multipart/form-data" action="#">
                     <tr>
                       <td scope="row" style="text-align : left;">
                         <select name="subcategoria" class="select form-control form-control" id="subcategoria">
@@ -50,7 +57,7 @@
                       </td>
                       <td style="text-align : left;">
                         <input class="form-control mr-sm-2" type="text"
-                        placeholder="Digite o RE do Funcionário" name="funcionario" id="funcionario">
+                        placeholder="Digite o RE do Funcionário" name="responsavel" id="funcionario">
                       </td>
                       <td style="text-align : left;">
 </form>

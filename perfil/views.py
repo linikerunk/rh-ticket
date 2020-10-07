@@ -127,7 +127,7 @@ def meu_logout(request):
 #     success_url = '/resetar_senha/'
 
 #     def form_valid(self, form):
-#         # This method is called when valid form data has been POSTed.
+#         # This method is called when valid form data has been POSTED.
 #         # It should return an HttpResponse.
 #         return super().form_valid(form)
 
@@ -331,7 +331,7 @@ def add_responsavel_categoria(request, id):
             messages.error(request, 'Funcionário inexistente, \
             certifique se o regitro está correto.')
     context = {'unidade': unidade, 'form': form, 'categoria': categoria,
-                       'subcategoria': subcategoria}
+               'subcategoria': subcategoria}
     return render(request, 'unidade/update_categoria_admin.html', context)
 
 
