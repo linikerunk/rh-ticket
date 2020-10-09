@@ -74,7 +74,6 @@ class ResponsavelCategoriaForm(forms.ModelForm):
             'responsavel': 'Responsável : ',
             'subcategoria': 'Subcategoria : ',
         }
-<<<<<<< HEAD
     
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -100,5 +99,3 @@ class ResponsavelCategoriaForm(forms.ModelForm):
 
 
  
-=======
->>>>>>> 54815da3533a88e8ea6c2f94115ef82719110463

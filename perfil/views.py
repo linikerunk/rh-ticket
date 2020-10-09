@@ -309,17 +309,23 @@ def add_responsavel_categoria(request, id):
     categoria = Categoria.objects.all()
     subcategoria = SubCategoria.objects.all()
     form = ResponsavelCategoriaForm(user, request.POST or None)
-    responsavel_field = request.POST.get('responsavel')
-    subcategoria_field = request.POST.get('subcategoria')
-    subcategoria_field = SubCategoria.objects.get(id=subcategoria_field)
-    responsavel_field = Funcionario.objects.get(re_funcionario=responsavel_field)
+    try:
+        responsavel_field = request.POST.get('responsavel')
+        subcategoria_field = request.POST.get('subcategoria')
+        subcategoria_field = SubCategoria.objects.get(id=subcategoria_field)
+        responsavel_field = Funcionario.objects.get(re_funcionario=responsavel_field)
+    except Exception as e:
+        print(f"Funcionario não encontrado. erro : {e}")
     if request.method == 'POST':
         if form.is_valid():
             form.save()
-            responsavel_categoria = ResponsavelCategoria.objects.get(
-                responsavel=responsavel_field, subcategoria=subcategoria_field)
-            print("Responsavel categoria : ", responsavel_categoria)
-            unidade.responsaveis_categoria.add(responsavel_categoria) 
+            try:
+                responsavel_categoria = ResponsavelCategoria.objects.get(
+                    responsavel=responsavel_field,
+                    subcategoria=subcategoria_field)
+                unidade.responsaveis_categoria.add(responsavel_categoria) 
+            except Exception as e:
+                print(f"Valor obtido no merge não encontrado. erro : {e}")
             messages.success(request, f'{responsavel_field} está responsável  \
                 pela subcategoria : {subcategoria_field}')
             context = {'unidade': unidade, 'form': form, 'categoria': categoria,
@@ -336,6 +342,7 @@ def add_responsavel_categoria(request, id):
 
 
 def remove_responsavel_categoria(request, id):
+    unidade = get_object_or_404(Unidade, pk=id)
     pass
 
 
