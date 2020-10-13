@@ -39,7 +39,8 @@
                       </td>
                     </tr>
                     <!-- Removendo ... -->
-<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:remove_responsavel_categoria' responsavel.id">
+<form method="POST" enctype="multipart/form-data" action="{% url 'perfil:remove_responsavel_categoria' unidade.id %}">
+   {% csrf_token %}
                     <tr>
                       <td scope="row" style="text-align : left;">
                         <select name="remove_subcategoria" class="select form-control form-control" id="subcategoria">

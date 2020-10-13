@@ -29,7 +29,8 @@ def funcionario_login_reset_ajax(request, id):
 
 def show_user_by_group_ajax(request, id):
     unidade = request.GET.get('unidade', None)
-    user_belong_group = Funcionario.objects.filter(unidade=unidade).filter(usuario__groups=id)
+    user_belong_group = Funcionario.objects.filter(
+        unidade=unidade).filter(usuario__groups=id)
     user_group = [item for item in user_belong_group]
     return JsonResponse(serializers.serialize('json', user_group), safe=False)
 
@@ -111,27 +112,12 @@ def enviar(request):
             message = f"\tCategoria : {categoria}\n\tSubcategoria : {subcategoria}\n\t\
 RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo_link}\n\tNome : {funcionario.nome}\n\tDescrição : {texto}\n\
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
-            if str(unidade) == 'Salto':
-                from_email = unidade.email
-                recipient_list = ['pedro.melo@continental.com',
-                                  'andreia.nogueira@continental.com', 'fabiana.carvalho@continental.com', 'liniker.oliveira@continental-corporation.com',
-                                  f'{funcionario.email_corporativo}']
-            elif str(unidade) == 'Camaçari':
-                from_email = unidade.email
-                recipient_list = ['Cristhiane.nascimento@continental.com', 'Elissandra.magalhaes@continental.com',
-                                  'Eloah.jesus@continental.com', 'evelyn.aguiar@continental.com', 'fabio.pinho@continental.com', 'Ila.cerqueira@continental.com',
-                                  'Jorrelrison.tanan@continental.com', 'Leila.tavares@continental.com', 'Lelia.lima@continental.com', 'Olivia.figueiredo@conti.com.br',
-                                  'rayssa.santos@continental.com', 'Tatiane.custodio@continental.com', 'Thaissa.juliao@conti.com', 'liniker.oliveira@continental-corporation.com']
-            elif str(unidade) == 'Ponta Grossa':
-                from_email = unidade.email
-                recipient_list = [
-                    'liniker.oliveira@continental-corporation.com']
-            elif str(unidade) == 'Jundiaí':
-                from_email = unidade.email
-                recipient_list = [
-                    'liniker.oliveira@continental-corporation.com']
-            print("Categoria : ", categoria)
-            print("Email : ", unidade.email)
+            unidade = Unidade.objects.get(id=unidade.id)
+            responsavel_subcategoria = unidade.responsaveis_categoria.filter(
+                subcategoria=subcategoria).first()
+            email_funcionario_responsavel = responsavel_subcategoria.responsavel.email_corporativo
+            from_email = unidade.email
+            recipient_list = [email_funcionario_responsavel]
             send_mail(subject, message, from_email,
                       recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')

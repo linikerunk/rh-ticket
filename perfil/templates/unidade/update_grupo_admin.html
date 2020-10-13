@@ -20,7 +20,7 @@
                     </tr>
                   </thead>
                   <tbody>   
-                  <form method="POST" id="#adiciona_form" enctype="multipart/form-data"
+                  <form method="POST" enctype="multipart/form-data"
                    action="{% url 'perfil:update_grupo_admin' unidade.id %}">
                   {% csrf_token %}
                     <tr>
@@ -42,7 +42,7 @@
                     </form>
 
                   <!-- Remover Grupo ... -->
-                  <form method="POST" id="#adiciona_form" enctype="multipart/form-data"
+                  <form method="POST" enctype="multipart/form-data"
                    action="{% url 'perfil:delete_user_group' unidade.id %}">
                   {% csrf_token %}
                     <tr>

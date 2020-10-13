@@ -313,7 +313,8 @@ def add_responsavel_categoria(request, id):
         responsavel_field = request.POST.get('responsavel')
         subcategoria_field = request.POST.get('subcategoria')
         subcategoria_field = SubCategoria.objects.get(id=subcategoria_field)
-        responsavel_field = Funcionario.objects.get(re_funcionario=responsavel_field)
+        responsavel_field = Funcionario.objects.get(
+            re_funcionario=responsavel_field)
     except Exception as e:
         print(f"Funcionario não encontrado. erro : {e}")
     if request.method == 'POST':
@@ -323,7 +324,7 @@ def add_responsavel_categoria(request, id):
                 responsavel_categoria = ResponsavelCategoria.objects.get(
                     responsavel=responsavel_field,
                     subcategoria=subcategoria_field)
-                unidade.responsaveis_categoria.add(responsavel_categoria) 
+                unidade.responsaveis_categoria.add(responsavel_categoria)
             except Exception as e:
                 print(f"Valor obtido no merge não encontrado. erro : {e}")
             messages.success(request, f'{responsavel_field} está responsável  \
@@ -343,21 +344,29 @@ def add_responsavel_categoria(request, id):
 
 def remove_responsavel_categoria(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
+    subcategoria = SubCategoria.objects.all()
     if request.method == 'POST':
         remove_responsavel = request.POST.get('remove_responsavel')
         remove_subcategoria = request.POST.get('remove_subcategoria')
         try:
-            user = User.objects.get(username=(str(unidade.id) + remove_responsavel))
-            unidade.responsaveis_categoria.remove(user.pk)
+            user = User.objects.get(
+                username=(str(unidade.id) + remove_responsavel))
+            subcategoria_object = SubCategoria.objects.get(
+                id=remove_subcategoria)
+            responsavel_categoria = ResponsavelCategoria.objects.filter(
+                responsavel=user.funcionario,
+                subcategoria=remove_subcategoria)
+            # unidade.responsaveis_categoria.remove(responsavel_categoria.id)
+            responsavel_categoria.delete()
             messages.success(request, f"Usuário ' {user.funcionario.nome} ' \
-                removido do grupo ' {group_query.name}' ")
-            return redirect('perfil:update_unidade_admin', id=unidade.id)
+               foi removida da subcategoria' {subcategoria_object}' ")
+            return redirect('perfil:update_categoria_admin', id=unidade.id)
         except:
             messages.error(request, "Usuário não encontrado tente novamente.")
-            context = {'group': group, 'unidade': unidade}
-            return render(request, 'unidade/update_grupo_admin.html', context)
-    context = {'group': group, 'unidade': unidade}
-    return render(request, 'unidade/update_grupo_admin.html', context)
+            context = {'subcategoria': subcategoria, 'unidade': unidade}
+            return render(request, 'unidade/update_categoria_admin.html', context)
+    context = {'subcategoria': subcategoria, 'unidade': unidade}
+    return render(request, 'unidade/update_categoria_admin.html', context)
 
 
 class Login(auth_views.LoginView):
