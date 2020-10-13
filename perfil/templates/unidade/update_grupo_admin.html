@@ -20,7 +20,8 @@
                     </tr>
                   </thead>
                   <tbody>   
-                  <form method="POST" id="#adiciona_form" enctype="multipart/form-data" action="{% url 'perfil:update_grupo_admin' unidade.id %}">
+                  <form method="POST" id="#adiciona_form" enctype="multipart/form-data"
+                   action="{% url 'perfil:update_grupo_admin' unidade.id %}">
                   {% csrf_token %}
                     <tr>
                       <td style="text-align : left;">
@@ -39,10 +40,13 @@
                       </td>
                     </tr>
                     </form>
+
                   <!-- Remover Grupo ... -->
-                  <form method="POST" id="#adiciona_form" enctype="multipart/form-data" action="{% url 'perfil:delete_user_group' unidade.id %}">
+                  <form method="POST" id="#adiciona_form" enctype="multipart/form-data"
+                   action="{% url 'perfil:delete_user_group' unidade.id %}">
                   {% csrf_token %}
                     <tr>
+
                       <td style="text-align : left;">
                         <select name="grupo" id="grupo_unidade_remove" class="select form-control form-control">
                           <option value="" selected disabled>Selecione o grupo onde o usuário pertence.</option>
@@ -51,14 +55,17 @@
                           {% endfor %}
                         </select>
                       </td>
+
                       <td scope="row" style="text-align : left;">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Digite o RE do Funcionário" name="remover_funcionario" id="adiciona_funcionario" aria-label="Search">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Digite o RE do Funcionário"
+                         name="remover_funcionario" id="adiciona_funcionario" aria-label="Search">
                       </td>
                       <td style="text-align : left;">
                         <button type="submit" class="btn btn-danger pr-5 pl-5 w-100 ">Remover</button>
                       </td>
                     </tr>
                     </form>
+
                   </tbody>
                 </table>
 
