@@ -34,12 +34,12 @@ class TicketAdmin(ImportExportModelAdmin):
 
 @admin.register(Categoria)
 class CategoriaAdmin(ImportExportModelAdmin):
-    fields = ['nome']
+    fields = ['nome', 'subcategoria']
 
 
 @admin.register(SubCategoria)
 class SubCategoriaAdmin(ImportExportModelAdmin):
-    fields = ['nome', 'categoria']
+    fields = ['nome']
 
 
 @admin.register(HistoricoTicket)

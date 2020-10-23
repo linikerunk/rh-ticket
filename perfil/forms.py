@@ -185,19 +185,33 @@ class SetPasswordFormCustom(SetPasswordForm):
 
 
 class VerificaAdmissao(forms.Form):
-    unidade = forms.ModelChoiceField(label="Unidade : ",
-                                     queryset=Unidade.objects.all(), to_field_name="nome")
 
     re_funcionario = forms.CharField(label=("Registro do Funcionário : "),
                                      widget=TextInput(attrs={'class': 'validate', 'name': 'id_username',
                                                              'placeholder': 'Digite o Registro de Funcionário'}))
 
-    login = forms.CharField(widget=TextInput())
+    id_username = forms.CharField(widget=TextInput())
 
     admissao = forms.CharField(label=("Digite sua data da admissão :"),
                                widget=forms.TextInput(
         attrs={'placeholder': 'Digite a data de sua Admissão'})
     )
+
+    class Meta:
+        model = User
+        fields = ['re_funcionario', 'id_username', 'admissao']
+
+    # def clean(self):
+    #     re_funcionario = self.cleaned_data["re_funcionario"]
+    #     try:
+    #         user = Funcionario.objects.get(username=re_funcionario)
+    #         print("Login")
+    #         if self.admissao == user.admissao:
+    #             print("Admissão são iguais!")
+    #         else:
+    #             print("Não confere as admissões...")
+    #     except Exception as e:
+    #         print("funcionário inexistente")
 
 
 class ResetPasswordFormCustom(SetPasswordForm):

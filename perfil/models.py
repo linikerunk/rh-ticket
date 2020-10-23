@@ -34,6 +34,7 @@ class Unidade(models.Model):
     email = models.EmailField(max_length=250, verbose_name="E-mail",
                               blank=True, default="")
     menu = models.ManyToManyField("Menu")
+    categoria = models.ManyToManyField("chamados.Categoria")
     grupo = models.ManyToManyField(Group)
     responsaveis_categoria = models.ManyToManyField(
         "chamados.ResponsavelCategoria")

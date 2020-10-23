@@ -25,17 +25,16 @@ def update_filename(instance, filename):
     return os.path.join(path, filename)
 
 
-class Categoria(models.Model):
-    nome = models.CharField(max_length=50, unique=True)
-
+class SubCategoria(models.Model):
+    nome = models.CharField(max_length=100, unique=True)
+    
     def __str__(self):
         return self.nome
 
 
-class SubCategoria(models.Model):
-    nome = models.CharField(max_length=100, unique=True)
-    categoria = models.ForeignKey(
-        Categoria, related_name='subcategorias', on_delete=models.CASCADE)
+class Categoria(models.Model):
+    nome = models.CharField(max_length=50, unique=True)
+    subcategoria = models.ManyToManyField(SubCategoria)
 
     def __str__(self):
         return self.nome
@@ -50,7 +49,6 @@ class ResponsavelCategoria(models.Model):
     def __str__(self):
         return f'{self.responsavel.nome} / {self.subcategoria}'
  
-
 
 class Ticket(models.Model):
     texto = models.TextField(blank=False, verbose_name="Descrição")

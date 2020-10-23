@@ -8,6 +8,8 @@
 {% block conteudo %}
 
 
+<form action="{% url 'perfil:verifica_admissao' %}" method="POST">
+  {% csrf_token %}
 <div class="row">
   <div class="col-md-8 offset-md-2">
     <h3>Restaurar sua Senha </h3>
@@ -17,35 +19,35 @@
   <div id="tela-verificacao" class="row">
   <div class="form-group col-md-8 offset-md-2">
   
-    <p> Selecione sua Unidade : </p>
+    <label for="unidade">Selecione sua Unidade :</label>
     <select id="unidade" name="unidade" class="select form-control form-control">
-      <option value="" selected="">----------</option>
+      <option value="" selected>----------</option>
       {% for unidade in unidade %}
-      <option value="{{ unidade.id }}"> {{ unidade }}</option>
+      <option value="{{ unidade.pk }}">{{ unidade }}</option>
       {% endfor %}
     </select>
   </div>
 
   <div class="form-group col-md-8 offset-md-2">
-    <p> Digite seu número de registro : </p>
-      <input type="text" id="funcionario-login-reset" name="funcionario-login-reset" class="form-control">
+    <label for="re_funcionario"> Digite seu número de registro : </label>
+      <input type="text" id="funcionario-login-reset" name="re_funcionario" class="form-control">
   </div>
 
   <div class="form-group col-md-8 offset-md-2">
-    <p> Login : </p>
+    <label> Login : </label>
     <input type="text" id="username" name="id_username" class="form-control">
   </div>
 
   <div class="form-group col-md-8 offset-md-2">
-    <p> Qual a data de sua admissão : </p>
+    <label for="admissao"> Qual a data de sua admissão : </label>
     <input type="text" id="admissao" name="admissao" class="form-control" data-mask="00/00/0000" placeholder="DD/MM/AAAA">
   </div>
 
   <div class="form-group col-md-8 offset-md-2">
     <a href="{% url 'chamados:enviar' %}" class="btn btn-warning ml-3 float-right w-25" role="button">Voltar</a>
-    <button type="submit" id="send-answer" class="btn btn-success ml-3 float-right w-25">Enviar</button>
+    <button type="submit" class="btn btn-success ml-3 float-right w-25">Enviar</button>
   </div>
-
+</form>
   </div>
 
 {% endblock %}

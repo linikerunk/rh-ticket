@@ -1,6 +1,7 @@
 import logging
 import json
 from django.shortcuts import render, get_object_or_404, redirect, resolve_url
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
@@ -121,44 +122,34 @@ def meu_logout(request):
     return redirect('login')
 
 
-# class ResetaSenha(FormView):
-#     template_name = 'perfil/modificar_senha.html'
-#     form_class = SetPasswordFormCustom
-#     success_url = '/resetar_senha/'
-
-#     def form_valid(self, form):
-#         # This method is called when valid form data has been POSTED.
-#         # It should return an HttpResponse.
-#         return super().form_valid(form)
-
-#     def post(self, request, *args, **kwargs):
-#         self.object = None
-#         return super().post(request, *args, **kwargs)
-
-
 def verifica_admissao(request):
     unidade = Unidade.objects.all()
     form = VerificaAdmissao()
     if request.method == "POST":
         form = VerificaAdmissao(request.POST or None)
+        try:
+            user_field = request.POST.get('id_username', None)
+            funcionario = Funcionario.objects.get(username=user_field)
+            if form.admissao == funcionario.admissao:
+                user = authenticate(username=user_field)
+                login(request, user)
+                return redirect('perfil:reset_password')
+        except Exception as e:
+            context = {'form': form, 'unidade': unidade,
+                'mensagem': 'usuário inexistente ou campos não preenchidos.'}
+        return render(request, 'perfil/verifica_senha.html', context)
 
-        if form.is_valid():
-            form.save()
-            redirect('reset_password')
-        else:
-            print(form.errors)
-        return render(request, 'perfil/verifica_senha.html', {'form': form,
-                                                              'unidade': unidade})
     return render(request, 'perfil/verifica_senha.html', {'form': form,
                                                           'unidade': unidade})
 
 
+@verificar_funcionario()
 @login_required
 def reset_password(request):
     if request.method == 'POST':
+        print("Estou no Reset de senha. ")
         form = ResetPasswordFormCustom(data=request.POST, user=None)
         if form.is_valid():
-            form.save()
             return redirect('chamados:enviar')
         else:
             print(form.errors)
@@ -263,8 +254,10 @@ def update_categoria_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     categoria = Categoria.objects.all()
     subcategoria = SubCategoria.objects.all()
+    responsavel_categoria = unidade.responsaveis_categoria.all().order_by('subcategoria__id')
     context = {'unidade': unidade, 'categoria': categoria,
-               'subcategoria': subcategoria, 'form': form}
+               'subcategoria': subcategoria, 'form': form,
+               'responsavel_categoria': responsavel_categoria}
     return render(request, 'unidade/update_categoria_admin.html', context)
 
 
@@ -308,12 +301,15 @@ def add_responsavel_categoria(request, id):
     user = request.user
     categoria = Categoria.objects.all()
     subcategoria = SubCategoria.objects.all()
+    responsavel_categoria = unidade.responsaveis_categoria.all().order_by('subcategoria__id')
+
     form = ResponsavelCategoriaForm(user, request.POST or None)
+
     try:
-        responsavel_field = request.POST.get('responsavel')
+        responsavel_field =  request.POST.get('responsavel')
         subcategoria_field = request.POST.get('subcategoria')
         subcategoria_field = SubCategoria.objects.get(id=subcategoria_field)
-        responsavel_field = Funcionario.objects.get(
+        responsavel_field =  Funcionario.objects.get(
             re_funcionario=responsavel_field)
     except Exception as e:
         print(f"Funcionario não encontrado. erro : {e}")
@@ -330,21 +326,23 @@ def add_responsavel_categoria(request, id):
             messages.success(request, f'{responsavel_field} está responsável  \
                 pela subcategoria : {subcategoria_field}')
             context = {'unidade': unidade, 'form': form, 'categoria': categoria,
-                       'subcategoria': subcategoria}
-            print("Responsavel : ", form.data['responsavel'])
+                       'subcategoria': subcategoria, 
+                       'responsavel_categoria': responsavel_categoria}
             return render(request, 'unidade/update_categoria_admin.html',
                           context)
         else:
             messages.error(request, 'Funcionário inexistente, \
             certifique se o regitro está correto.')
     context = {'unidade': unidade, 'form': form, 'categoria': categoria,
-               'subcategoria': subcategoria}
+               'subcategoria': subcategoria,
+               'responsavel_categoria': responsavel_categoria}
     return render(request, 'unidade/update_categoria_admin.html', context)
 
 
 def remove_responsavel_categoria(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     subcategoria = SubCategoria.objects.all()
+    responsavel_categoria = unidade.responsaveis_categoria.all().order_by('subcategoria__id')
     if request.method == 'POST':
         remove_responsavel = request.POST.get('remove_responsavel')
         remove_subcategoria = request.POST.get('remove_subcategoria')
@@ -363,9 +361,11 @@ def remove_responsavel_categoria(request, id):
             return redirect('perfil:update_categoria_admin', id=unidade.id)
         except:
             messages.error(request, "Usuário não encontrado tente novamente.")
-            context = {'subcategoria': subcategoria, 'unidade': unidade}
+            context = {'subcategoria': subcategoria, 'unidade': unidade,
+                       'responsavel_categoria': responsavel_categoria}
             return render(request, 'unidade/update_categoria_admin.html', context)
-    context = {'subcategoria': subcategoria, 'unidade': unidade}
+    context = {'subcategoria': subcategoria, 'unidade': unidade,
+               'responsavel_categoria': responsavel_categoria}
     return render(request, 'unidade/update_categoria_admin.html', context)
 
 

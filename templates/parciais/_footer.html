@@ -160,6 +160,40 @@
       });
   </script>
 
+<script>
+jQuery("#funcionario-login-reset").change(function () {
+  let funcionario_login = jQuery(this).val();
+  console.log("login : ", funcionario_login)
+  let unidade = jQuery("#unidade").val();
+  console.log("unidade : ", unidade)
+  let url = "/verifica_usuario/" + funcionario_login + "/";
+  jQuery.ajax({
+    url: url,
+    type: 'GET',
+    data: {
+      funcionario_login: funcionario_login,
+      unidade: unidade,
+    },
+
+    beforeSend: function (xhr) {
+    },
+
+    success: function (data) {
+    console.log(unidade)
+    concatenar = jQuery("#id_username").val(unidade + funcionario_login)
+    },
+
+    error: function (xhr) {
+      console.log("erro inexperado.")
+      // body... xhr.statusText + xhr.responseText
+    },
+    complete: function () {
+      // body...
+    }
+  })
+});
+</script>
+
 
     <script>
       // Reset da senha, sequeceu sua senha.

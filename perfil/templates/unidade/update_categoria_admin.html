@@ -72,7 +72,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    {% for responsive in unidade.responsaveis_categoria.all %}
+                    {% for responsive in responsavel_categoria %}
                       <tr>
                         <td >{{ responsive.responsavel.re_funcionario }}</td>
                         <td >{{ responsive.responsavel.nome }}</td>
@@ -81,5 +81,8 @@
                     {% endfor %}
                     </tbody>
                   </table>
+                  <div class="col-md-12">
+                    <a href="{% url 'perfil:update_unidade_admin' unidade.id %}" class="btn btn-warning pr-5 pl-5 w-100">Voltar</a>
+                  </div>
                 </div> 
 {% endblock %}

@@ -41,6 +41,15 @@ def funcionario_login_ajax(request, id):
     return JsonResponse(response)
 
 
+def verifica_admissao_ajax(request, id):
+    re_funcionario = request.GET.get('funcionario-login')
+    unidade = request.GET.get('unidade')
+    unidade = Unidade.objects.get(nome=unidade).id()
+    print("unidade : ", unidade)
+    response = {'unidade': unidade}
+    return JsonResponse(response)
+
+
 def verificar_senha_ajax(request, id):
     try:
         campo_usuario = request.GET.get('username')
@@ -114,10 +123,13 @@ RE : {funcionario.re_funcionario}\n\tCDC: {funcionario.centro_de_custo_link}\n\t
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
             unidade = Unidade.objects.get(id=unidade.id)
             responsavel_subcategoria = unidade.responsaveis_categoria.filter(
-                subcategoria=subcategoria).first()
-            email_funcionario_responsavel = responsavel_subcategoria.responsavel.email_corporativo
+                subcategoria=subcategoria)
+            emails_funcionario_responsavel = []
+            for funcionario in responsavel_subcategoria:
+                emails_funcionario_responsavel.append(funcionario.responsavel.email_corporativo)
             from_email = unidade.email
-            recipient_list = [email_funcionario_responsavel]
+            recipient_list = emails_funcionario_responsavel
+            print(recipient_list)
             send_mail(subject, message, from_email,
                       recipient_list, fail_silently=True)
             messages.success(request, 'Ticket enviado com sucesso!')
