@@ -183,3 +183,10 @@ LOGIN_REDIRECT_URL = '/perfil/perfil/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+AUTHENTICATION_BACKENDS = [
+    # Default authentication of Django
+    'django.contrib.auth.backends.ModelBackend',
+    # auth_backend.py implementing Class YourAuth inside yourapp folder
+    'Tickets.auth_backend.PasswordlessAuthBackend',
+]

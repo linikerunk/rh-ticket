@@ -63,7 +63,6 @@ def atualizar_perfil(request, id):
             redirect('perfil:perfil')
         else:
             messages.error(request, 'Erro campos inválidos.')
-            print('erro: ', form.errors)
 
     return render(request, 'perfil/perfil.html', {'form': form,
                                                   'funcionario': funcionario})
@@ -129,35 +128,42 @@ def verifica_admissao(request):
         form = VerificaAdmissao(request.POST or None)
         try:
             user_field = request.POST.get('id_username', None)
-            funcionario = Funcionario.objects.get(username=user_field)
-            if form.admissao == funcionario.admissao:
-                user = authenticate(username=user_field)
-                login(request, user)
+            admissao = request.POST.get('admissao', None)
+            user = User.objects.get(username=user_field)
+            funcionario = Funcionario.objects.get(usuario=user)
+            if admissao == funcionario.admissao:
+                login(request, user,
+                      backend='Tickets.auth_backend.PasswordlessAuthBackend')
                 return redirect('perfil:reset_password')
         except Exception as e:
+            messages.error(
+                request, 'Admissão inválida ou usuário inexistente.')
             context = {'form': form, 'unidade': unidade,
-                'mensagem': 'usuário inexistente ou campos não preenchidos.'}
-        return render(request, 'perfil/verifica_senha.html', context)
-
+                       'mensagem': 'usuário inexistente ou campos não preenchidos.'}
+            return render(request, 'perfil/verifica_senha.html', context)
     return render(request, 'perfil/verifica_senha.html', {'form': form,
                                                           'unidade': unidade})
 
 
-@verificar_funcionario()
-@login_required
+@ verificar_funcionario()
+@ login_required
 def reset_password(request):
     if request.method == 'POST':
-        print("Estou no Reset de senha. ")
         form = ResetPasswordFormCustom(data=request.POST, user=None)
         if form.is_valid():
+            password = request.POST.get('new_password1', None)
+            u = User.objects.get(username__exact=request.user)
+            u.set_password(password)
+            u.save()
+            messages.success(request, 'Senha Alterada com sucesso!')
             return redirect('chamados:enviar')
         else:
-            print(form.errors)
+            messages.error(request, f'{form.errors}')
             return render(request, 'perfil/reset_senha.html', {'form': form})
     return render(request, 'perfil/reset_senha.html', {})
 
 
-@login_required
+@ login_required
 def unidade_admin(request):
     unidade = Unidade.objects.order_by('-id').all()
     paginator = Paginator(unidade, 10)
@@ -167,7 +173,7 @@ def unidade_admin(request):
     return render(request, 'unidade/unidade_admin.html', context)
 
 
-@login_required
+@ login_required
 def create_unidade_admin(request):
     unidade = Unidade.objects.all()
     grupo = Group.objects.all()
@@ -181,18 +187,17 @@ def create_unidade_admin(request):
         else:
             messages.error(request, f'{form.errors}')
     context = {'form': form, 'unidade': unidade, 'grupo': grupo}
-    print(form.errors)
     return render(request, 'unidade/unidade_create.html', context)
 
 
-@login_required
+@ login_required
 def update_unidade_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     context = {'unidade': unidade, }
     return render(request, 'unidade/unidade_update.html', context)
 
 
-@login_required
+@ login_required
 def update_email_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     form = UnidadeEmailForm(request.POST or None, instance=unidade)
@@ -206,7 +211,7 @@ def update_email_admin(request, id):
     return render(request, 'unidade/update_email_admin.html', context)
 
 
-@login_required
+@ login_required
 def update_menu_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     menus = Menu.objects.all()
@@ -218,13 +223,11 @@ def update_menu_admin(request, id):
             return redirect('perfil:update_unidade_admin', id=unidade.id)
         else:
             messages.error(request, 'Erro ao salvar os novos menus')
-            print("form data : ", form.data)
-            print("form errors : ", form.errors)
     context = {'unidade': unidade, 'form': form, 'menus': menus}
     return render(request, 'unidade/update_menu_admin.html', context)
 
 
-@login_required
+@ login_required
 def update_grupo_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     group = Group.objects.all()
@@ -248,7 +251,7 @@ def update_grupo_admin(request, id):
     return render(request, 'unidade/update_grupo_admin.html', context)
 
 
-@login_required
+@ login_required
 def update_categoria_admin(request, id):
     form = ResponsavelCategoriaForm(request.POST or None)
     unidade = get_object_or_404(Unidade, pk=id)
@@ -261,7 +264,7 @@ def update_categoria_admin(request, id):
     return render(request, 'unidade/update_categoria_admin.html', context)
 
 
-@login_required
+@ login_required
 def delete_unidade_admin(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     if request.method == "POST":
@@ -273,7 +276,7 @@ def delete_unidade_admin(request, id):
     return render(request, 'unidade/unidade_delete.html', context)
 
 
-@login_required
+@ login_required
 def delete_user_group(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     group = Group.objects.all()
@@ -295,7 +298,7 @@ def delete_user_group(request, id):
     return render(request, 'unidade/update_grupo_admin.html', context)
 
 
-@login_required
+@ login_required
 def add_responsavel_categoria(request, id):
     unidade = get_object_or_404(Unidade, pk=id)
     user = request.user
@@ -306,10 +309,10 @@ def add_responsavel_categoria(request, id):
     form = ResponsavelCategoriaForm(user, request.POST or None)
 
     try:
-        responsavel_field =  request.POST.get('responsavel')
+        responsavel_field = request.POST.get('responsavel')
         subcategoria_field = request.POST.get('subcategoria')
         subcategoria_field = SubCategoria.objects.get(id=subcategoria_field)
-        responsavel_field =  Funcionario.objects.get(
+        responsavel_field = Funcionario.objects.get(
             re_funcionario=responsavel_field)
     except Exception as e:
         print(f"Funcionario não encontrado. erro : {e}")
@@ -326,7 +329,7 @@ def add_responsavel_categoria(request, id):
             messages.success(request, f'{responsavel_field} está responsável  \
                 pela subcategoria : {subcategoria_field}')
             context = {'unidade': unidade, 'form': form, 'categoria': categoria,
-                       'subcategoria': subcategoria, 
+                       'subcategoria': subcategoria,
                        'responsavel_categoria': responsavel_categoria}
             return render(request, 'unidade/update_categoria_admin.html',
                           context)

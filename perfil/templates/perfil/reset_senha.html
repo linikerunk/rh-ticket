@@ -18,10 +18,11 @@
     <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:reset_password' %}">
       {% csrf_token %}
       <p> Nova Senha: </p>
-      <input type="text" class="form-control" name="new_password1" id="id_new_password1">
+      <input type="password" class="form-control" name="new_password1" id="id_new_password1">
   
       <p> Confirmação de Nova Senha : </p>
-      <input type="text" class="form-control" name="new_password2" id="id_new_password2">
+      <input type="password" class="form-control" name="new_password2" id="id_new_password2">
+     
       <button class="btn btn-success float-right mt-3 w-25" type="submit">Enviar</button>
       <div class="mb-5"></div>
   
