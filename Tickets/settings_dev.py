@@ -9,14 +9,12 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
-import os
-from decouple import config
-from dj_database_url import parse as dburl
-
-from django.contrib.messages import constants
-
 from .email import EMAIL_HOST, EMAIL_USE_TLS, EMAIL_PORT, EMAIL_HOST_USER
+from django.contrib.messages import constants
+from dj_database_url import parse as dburl
+from decouple import config
+import os
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -106,24 +104,24 @@ default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'RHTicket',
-        # 'USER': 'root',
-        # 'PASSWORD': 'Padrao1*',
-        # 'HOST': 'localhost',
-        # 'PORT': '3306',
-        # 'OPTIONS': {
-        #     'init_command': 'SET innodb_strict_mode=1',
-        # }
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'RHTicket',
-        'USER': 'RHTicket',
-        'PASSWORD': 'Vitesco1*',
-        'HOST': '10.218.24.114',
+        'USER': 'root',
+        'PASSWORD': 'Padrao1*',
+        'HOST': 'localhost',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': 'SET innodb_strict_mode=1',
         }
+        # 'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'RHTicket',
+        # 'USER': 'RHTicket',
+        # 'PASSWORD': 'Vitesco1*',
+        # 'HOST': '10.218.24.114',
+        # 'PORT': '3306',
+        # 'OPTIONS': {
+        #     'init_command': 'SET innodb_strict_mode=1',
+        # }
     }
 }
 
