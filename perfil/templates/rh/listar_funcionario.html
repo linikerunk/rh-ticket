@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}  Adicionar Funcionário Novos {% endblock %}
+
+{% block conteudo %}
+<div class="row">
+  <div class="col-12">
+      <h3 class="">Listagem de Funcionários Novos</h3>
+      <hr>
+  
+  <div class="mt-4 mb-5 col-md-12">
+  <a href="{% url 'perfil:adicionar_funcionario' %}" class="btn btn-success float-right  w-100 mb-5">Adicionar novo Funcionário</a>
+  </div>
+
+<div class="row p-2">
+<table class="table table-striped table-responsive border rounded bg-light shadow">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col" style="width: 6%; text-align : center;">RE</th>
+      <th scope="col" style="width: 18%; text-align : center;">Nome</th>
+      <th scope="col" style="width: 8%; text-align : center;">Data de Admissao</th>
+      <th scope="col" style="width: 18%; text-align : center;">Centro de Custo</th>
+      <th scope="col" style="width: 15%; text-align : center;">Telefone</th>
+      <th scope="col" style="width: 2%; text-align : center;">Ramal</th>
+      <th scope="col" style="width: 2%; text-align : center;">Opções</th>
+    </tr>
+  </thead>
+  <tbody>   
+    {% for funcionario in obj %}
+    <tr>
+      <td scope="row" style="text-align : center;">{{ funcionario.re_funcionario }}</td>
+      <td scope="row" style="text-align : center;">{{ funcionario.nome }}</td>
+      <td scope="row" style="text-align : center;">{{ funcionario.admissao }}</td>
+      <td scope="row" style="text-align : center;">{{ funcionario.centro_de_custo_link }}</td>
+      <td scope="row" style="text-align : center;">{{ funcionario.telefone }}</td>
+      <td scope="row" style="text-align : center;">{{ funcionario.ramal }}</td>
+      <td scope="row" style="text-align : center;">
+        <a href="{% url 'perfil:editar_funcionario' funcionario.id %}">Editar</a>
+    </td>
+  </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+<tfoot>
+{% include 'parciais/_pagination.html'%}
+    </tfoot>
+    
+
+</div>
+</div> 
+</div>
+
+{% endblock %}

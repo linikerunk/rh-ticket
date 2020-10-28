@@ -26,11 +26,13 @@ from perfil.forms import (
     UnidadeGrupoForm,
     CustomAuthenticationForm,
     PasswordChangeFormCustom,
-    VerificaAdmissao
+    VerificaAdmissao,
+    FuncionarioCreateForm,
 )
 from chamados.forms import ResponsavelCategoriaForm
 from .models import Funcionario, Unidade, Menu
 from chamados.models import Categoria, SubCategoria, ResponsavelCategoria
+from perfil.models import CentroDeCusto
 from perfil.decorators import verificar_funcionario
 
 
@@ -370,6 +372,49 @@ def remove_responsavel_categoria(request, id):
     context = {'subcategoria': subcategoria, 'unidade': unidade,
                'responsavel_categoria': responsavel_categoria}
     return render(request, 'unidade/update_categoria_admin.html', context)
+
+
+@ verificar_funcionario()
+@ login_required
+def adicionar_funcionario(request):
+    unidade = Unidade.objects.all()
+    centro_de_custo = CentroDeCusto.objects.all()
+    form = FuncionarioCreateForm(request.POST or None)
+    if request.method == "POST":
+        nome = request.POST.get('nome', None)
+        if form.is_valid():
+            messages.success(request, f'Funcionário : {nome} adicionado com sucesso!')
+            form.save()
+            return redirect('perfil:adicionar_funcionario')
+        else:
+            messages.error(request, f"{form.errors}")
+    context = {'unidade': unidade, 'centro_de_custo': centro_de_custo}
+    return render(request, 'rh/adiciona_funcionario.html', context)
+
+
+@ verificar_funcionario()
+@ login_required
+def listar_funcionario(request):
+    obj = Funcionario.objects.filter(unidade="1")
+    context = {'obj': obj}
+    return render(request, 'rh/listar_funcionario.html', context)
+
+
+@ verificar_funcionario()
+@ login_required
+def editar_funcionario(request, id):
+    funcionario = get_object_or_404(Funcionario, pk=id)
+    unidade = Unidade.objects.all()
+    centro_de_custo = CentroDeCusto.objects.all()
+    if request.method == "POST":
+        form = FuncionarioEditForm(request.POST or None, instance=unidade)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Funcionário editado com sucesso!')
+            return redirect('perfil:listar_funcionario')
+    context = {'funcionario': funcionario, 'unidade': unidade,
+               'centro_de_custo': centro_de_custo}
+    return render(request, 'rh/editar_funcionario.html', context)
 
 
 class Login(auth_views.LoginView):

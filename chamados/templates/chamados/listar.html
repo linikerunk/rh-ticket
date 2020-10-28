@@ -4,62 +4,49 @@
 {% block titulo %} Listagem de Tickets {% endblock %}
 
 {% block conteudo %}
-<div class="row">
-  <div class="col-12">
-      <h3 class="">Tickets Enviados</h3>
-      <hr>
-
-<div class="row">
-<!-- <div class="col-md-4 mb-2">
-<input type="text" class="form-control" id="pesquisar" name="pesquisar" value="" placeholder="Digite a categoria ou Nome">
-</div>
-<div class="col-md-2 mb-2">
-<button type="button" class="btn btn-primary">Pesquisar</button>
-</div> -->
-</div>
+<h2 class="mb-4">Listagem de Tickets</h2>
+<hr>
 
 <div class="row p-2">
-<table class="table table-striped table-responsive border rounded bg-light shadow">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col" style="width: 12%; text-align : center;">Data</th>
-      <th scope="col" style="width: 6%; text-align : center;">RE</th>
-      <th scope="col" style="width: 18%; text-align : left;">Nome</th>
-      <th scope="col" style="width: 12%; text-align : left;">Categoria</th>
-      <th scope="col" style="width: 15%; text-align : left;">Subcategoria</th>
-      <th scope="col" style="width: 2%; text-align : center;">Dias</th>
-      <th scope="col" style="width: 5%; text-align : left;">Finalizado</th>
-    </tr>
-  </thead>
-  <tbody>   
-    <tr>
-    {% for ticket in obj %}
-      <td style="text-align : center;">{{ ticket.data|date:"d/m/Y  H:i" }}</td>
-      <td scope="row" style="text-align : center;">{{ ticket.funcionario.re_funcionario }}</th>
-      <td style="text-align : left;"><h6><a href="{% url 'chamados:finalizar_chamado' ticket.id %}"> {{ ticket.funcionario.nome }}</a></h6></td>
-      <td style="text-align : left;">{{ ticket.categoria }}</td>
-      <td style="text-align : left;">{{ ticket.subcategoria }}</td>
-      {% if ticket.finalizado is False %}
-      <td id="ticket-aberto">{{ ticket.tempo_aberto }} </td>
-      {% else %}
-      <td id="ticket-fechado">{{ ticket.tempo_finalizado }}</td>
-      {% endif %}
-      {% if ticket.finalizado is True %}
-      <td style="text-align : center;"><img src="{% static 'assets\icons\tick.png' %}"></td>
-      {% else %}
-      <td style="text-align : center;"><img src="{% static 'assets\icons\cancel.png' %}"></td>
-      {% endif %}
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<tfoot>
-{% include 'parciais/_pagination.html'%}
-    </tfoot>
+    <table class="table table-striped table-responsive border rounded bg-light shadow">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" style="width: 12%; text-align : center;">Data</th>
+          <th scope="col" style="width: 6%; text-align : center;">RE</th>
+          <th scope="col" style="width: 18%; text-align : left;">Nome</th>
+          <th scope="col" style="width: 12%; text-align : left;">Categoria</th>
+          <th scope="col" style="width: 15%; text-align : left;">Subcategoria</th>
+          <th scope="col" style="width: 2%; text-align : center;">Dias</th>
+          <th scope="col" style="width: 5%; text-align : left;">Finalizado</th>
+        </tr>
+      </thead>
+      <tbody>   
+        <tr>
+        {% for ticket in obj %}
+          <td style="text-align : center;">{{ ticket.data|date:"d/m/Y  H:i" }}</td>
+          <td scope="row" style="text-align : center;">{{ ticket.funcionario.re_funcionario }}</th>
+          <td style="text-align : left;"><h6><a href="{% url 'chamados:finalizar_chamado' ticket.id %}"> {{ ticket.funcionario.nome }}</a></h6></td>
+          <td style="text-align : left;">{{ ticket.categoria }}</td>
+          <td style="text-align : left;">{{ ticket.subcategoria }}</td>
+          {% if ticket.finalizado is False %}
+          <td id="ticket-aberto">{{ ticket.tempo_aberto }} </td>
+          {% else %}
+          <td id="ticket-fechado">{{ ticket.tempo_finalizado }}</td>
+          {% endif %}
+          {% if ticket.finalizado is True %}
+          <td style="text-align : center;"><img src="{% static 'assets\icons\tick.png' %}"></td>
+          {% else %}
+          <td style="text-align : center;"><img src="{% static 'assets\icons\cancel.png' %}"></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <tfoot>
+    {% include 'parciais/_pagination.html'%}
+        </tfoot>
+        
     
-
-</div>
-</div> 
-</div>
+    </div>
 
 {% endblock %}

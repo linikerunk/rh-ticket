@@ -34,10 +34,26 @@ class FuncionarioForm(forms.ModelForm):
             'termo_dados': 'Termo de Consentimento',
         }
 
+class FuncionarioCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Funcionario
+        fields = ['re_funcionario', 'nome', 'admissao', 'email', 'email_corporativo',
+                  'telefone', 'ramal', 'unidade', 'centro_de_custo_link',]
+
+
+class FuncionarioEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Funcionario
+        fields = ['re_funcionario', 'nome', 'admissao', 'demissao', 'email',
+         'email_corporativo', 'telefone', 'ramal', 'unidade',
+         'centro_de_custo_link',]
+
 
 class UnidadeForm(forms.ModelForm):
     menu = forms.ModelMultipleChoiceField(
-        queryset=Menu.objects,
+        queryset=Menu.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=True)
 
