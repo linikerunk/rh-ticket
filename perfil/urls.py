@@ -27,6 +27,7 @@ remove_responsavel_categoria,
 adicionar_funcionario,
 listar_funcionario,
 editar_funcionario,
+filtrar_funcionario,
 )
 
 app_name = "perfil"
@@ -71,6 +72,8 @@ urlpatterns = [
     name="listar_funcionario"),
     path("perfil/editar_funcionario/<int:id>/", editar_funcionario,
     name="editar_funcionario"),
+    path("perfil/filtrar_funcionario/", filtrar_funcionario,
+    name="filtrar_funcionario")
 
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

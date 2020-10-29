@@ -14,6 +14,7 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.views import PasswordChangeView
 from django.views.generic.edit import FormView
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.contrib import messages
 from perfil.forms import (
     SetPasswordFormCustom,
@@ -33,7 +34,7 @@ from perfil.forms import (
 from chamados.forms import ResponsavelCategoriaForm
 from .models import Funcionario, Unidade, Menu
 from chamados.models import Categoria, SubCategoria, ResponsavelCategoria
-from perfil.models import CentroDeCusto
+from perfil.models import CentroDeCusto, Funcionario
 from perfil.decorators import verificar_funcionario
 
 
@@ -396,13 +397,26 @@ def adicionar_funcionario(request):
 @ verificar_funcionario()
 @ login_required
 def listar_funcionario(request):
-    obj = Funcionario.objects.filter(unidade="1")
+    obj = Funcionario.objects.filter(unidade="1").order_by('re_funcionario')
     paginator = Paginator(obj, 10)
     page = request.GET.get('page', 1)
     obj = paginator.get_page(page)
     context = {'obj': obj}
     return render(request, 'rh/listar_funcionario.html', context)
 
+
+@ verificar_funcionario()
+@ login_required
+def filtrar_funcionario(request):
+    qs = request.GET.get('term', None)
+    if qs is '':
+        return redirect('perfil:listar_funcionario')
+    obj = Funcionario.objects.filter(
+        Q(nome__icontains=qs)| Q(re_funcionario__icontains=qs))
+    print(obj)
+    context = {'obj': obj}
+    print("Filtrado : ", qs)
+    return render(request, 'rh/listar_funcionario.html', context)
 
 @ verificar_funcionario()
 @ login_required
