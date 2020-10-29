@@ -6,10 +6,10 @@
 {% block conteudo %}
 <h2 class="mb-4"> Editar um novo Funcionário</h2>
 <hr>
-    <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:adicionar_funcionario' %}">
+    <form method="POST" enctype="multipart/form-data" action="{% url 'perfil:editar_funcionario' funcionario.id %}">
     {% csrf_token %}
     <div class="form-row">
-        <div class="form-group  col-md-3">
+        <div class="form-group  col-md-6">
             <label><strong>Numero Registro : </strong></label>
             <input type="text" class="form-control" id="re_funcionario" name="re_funcionario"
              placeholder="Digite o RE do Funcionário" value="{{ funcionario.re_funcionario }}">
@@ -21,10 +21,16 @@
              placeholder="Digite o nome do Funcionário" value="{{ funcionario.nome }}">
         </div>
 
-        <div class="form-group  col-md-3">
+        <div class="form-group  col-md-6">
             <label><strong>Data de Admissão : </strong></label>
             <input type="text" class="form-control" id="admissao" name="admissao"
              placeholder="Digite a data de admissao do Funcionário" value="{{ funcionario.admissao }}">
+        </div>
+
+        <div class="form-group  col-md-6">
+            <label><strong>Data de Demissão : </strong></label>
+            <input type="text" class="form-control" id="demissao" name="demissao"
+             placeholder="Digite a data de demissao do Funcionário" value="{{ funcionario.demissao }}">
         </div>
 
         <div class="form-group  col-md-6">

@@ -28,6 +28,7 @@ from perfil.forms import (
     PasswordChangeFormCustom,
     VerificaAdmissao,
     FuncionarioCreateForm,
+    FuncionarioEditForm,
 )
 from chamados.forms import ResponsavelCategoriaForm
 from .models import Funcionario, Unidade, Menu
@@ -396,6 +397,9 @@ def adicionar_funcionario(request):
 @ login_required
 def listar_funcionario(request):
     obj = Funcionario.objects.filter(unidade="1")
+    paginator = Paginator(obj, 10)
+    page = request.GET.get('page', 1)
+    obj = paginator.get_page(page)
     context = {'obj': obj}
     return render(request, 'rh/listar_funcionario.html', context)
 
@@ -407,7 +411,7 @@ def editar_funcionario(request, id):
     unidade = Unidade.objects.all()
     centro_de_custo = CentroDeCusto.objects.all()
     if request.method == "POST":
-        form = FuncionarioEditForm(request.POST or None, instance=unidade)
+        form = FuncionarioEditForm(request.POST or None, instance=funcionario)
         if form.is_valid():
             form.save()
             messages.success(request, 'Funcionário editado com sucesso!')
